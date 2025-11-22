@@ -1,0 +1,137 @@
+/* 로그아웃 모달 스타일 */
+.logout-modal .modal-container {
+  border-top: 4px solid #f59e0b;
+}
+
+.logout-content {
+  text-align: center;
+}
+
+.logout-icon {
+  margin-bottom: 20px;
+}
+
+.logout-icon i {
+  font-size: 48px;
+  color: #f59e0b;
+  animation: fadeInRotate 0.6s ease-out;
+}
+
+@keyframes fadeInRotate {
+  0% {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.logout-message {
+  margin-bottom: 32px;
+}
+
+.logout-user {
+  font-size: 16px;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.logout-user strong {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+.logout-description {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* 공통 버튼 스타일 */
+.btn-logout-cancel,
+.btn-logout-confirm {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  justify-content: center;
+}
+
+/* 취소 버튼 */
+.btn-logout-cancel {
+  background: #f8fafc;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.btn-logout-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateY(-1px);
+}
+
+.btn-logout-cancel:active {
+  transform: translateY(0);
+}
+
+/* 로그아웃 버튼 */
+.btn-logout-confirm {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-logout-confirm:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+}
+
+.btn-logout-confirm:active {
+  transform: translateY(0);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .logout-icon i {
+    font-size: 40px;
+  }
+  
+  .logout-user {
+    font-size: 15px;
+  }
+  
+  .logout-description {
+    font-size: 13px;
+  }
+  
+  .logout-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-logout-cancel,
+  .btn-logout-confirm {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}

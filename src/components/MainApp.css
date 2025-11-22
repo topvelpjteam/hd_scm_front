@@ -1,0 +1,270 @@
+/* 메인 앱 컨테이너 */
+.main-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: #e0f2fe;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+}
+
+/* 앱 헤더 */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #0284c7;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+/* 앱 제목 */
+.app-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0369a1;
+  margin: 0;
+}
+
+/* 사용자 정보 */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  border: 1px solid #0284c7;
+  transition: all 0.2s ease;
+}
+
+.user-info:hover {
+  background: #e0f2fe;
+  border-color: #0369a1;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0369a1;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #0ea5e9;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* 헤더 버튼 */
+.header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #0284c7;
+  color: #0ea5e9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-button:hover {
+  background: #f0f9ff;
+  color: #0284c7;
+  border-color: #0369a1;
+}
+
+/* 메인 콘텐츠 영역 */
+.app-main {
+  display: flex;
+  flex: 1;
+  background: #e0f2fe;
+  overflow: hidden;
+  margin-top: 64px; /* 헤더 높이만큼 여백 */
+  margin-bottom: 60px; /* 푸터 높이만큼 여백 */
+  width: 100%;
+  height: calc(100vh - 124px); /* 전체 높이에서 헤더(64px)와 푸터(60px) 제외 */
+}
+
+/* 사이드바 */
+.app-sidebar {
+  width: 240px;
+  background: #0284c7;
+  border-right: 1px solid #0369a1;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  height: calc(100vh - 124px); /* 헤더와 푸터 높이를 제외한 높이 */
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  left: 0;
+  top: 64px; /* 헤더 높이만큼 아래로 */
+}
+
+.app-sidebar.collapsed {
+  width: 64px;
+}
+
+/* 메인 콘텐츠 */
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #e0f2fe;
+  height: calc(100vh - 124px); /* 헤더와 푸터 높이를 제외한 높이 */
+  margin-left: 240px; /* 사이드바 너비만큼 여백 */
+  transition: margin-left 0.3s ease;
+}
+
+.app-sidebar.collapsed + .app-content {
+  margin-left: 64px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 16px;
+    height: 56px;
+  }
+  
+  .app-title {
+    font-size: 18px;
+  }
+  
+  .user-info {
+    padding: 6px 12px;
+  }
+  
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .user-name {
+    font-size: 13px;
+  }
+  
+  .user-role {
+    font-size: 11px;
+  }
+  
+  .header-button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .app-main {
+    margin-top: 56px;
+    margin-bottom: 50px;
+    height: calc(100vh - 106px);
+  }
+  
+  .app-sidebar {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    height: calc(100vh - 106px);
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .app-sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .app-content {
+    margin-left: 0;
+    height: calc(100vh - 106px);
+  }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.app-header {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 포커스 스타일 */
+.header-button:focus {
+  outline: 2px solid #0284c7;
+  outline-offset: 2px;
+}
+
+.user-info:focus {
+  outline: 2px solid #0284c7;
+  outline-offset: 2px;
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .app-sidebar,
+  .header-button,
+  .user-info {
+    transition: none;
+  }
+  
+  .app-header {
+    animation: none;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .app-header {
+    border-bottom-width: 2px;
+  }
+  
+  .user-info {
+    border-width: 2px;
+  }
+  
+  .header-button {
+    border-width: 2px;
+  }
+  
+  .app-sidebar {
+    border-right-width: 2px;
+  }
+}

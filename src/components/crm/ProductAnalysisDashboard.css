@@ -1,0 +1,1192 @@
+/* 상품분석 대시보드 - 진짜 대시보드 스타일 */
+.product-dashboard {
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 대시보드 헤더 */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+}
+
+.dashboard-header p {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* 핵심 지표 그리드 */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* 관련 자료 섹션 */
+.related-info-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* 정보 카드 */
+.info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  min-height: 160px;
+}
+
+.info-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-header:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.card-header:hover h3 {
+  color: #1f2937;
+}
+
+/* 인기 상품 순위 */
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.trending-item:hover {
+  background-color: #f8fafc;
+}
+
+.rank {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  min-width: 24px;
+}
+
+.trending-item .product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trending-item .product-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.trending-item .product-revenue {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.growth-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* 재고 상태 */
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inventory-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inventory-item .product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inventory-item .product-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.stock-level {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.stock-indicator {
+  height: 6px;
+  background-color: #f1f5f9;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stock-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.stock-indicator.high .stock-bar {
+  background-color: #10b981;
+}
+
+.stock-indicator.medium .stock-bar {
+  background-color: #f59e0b;
+}
+
+.stock-indicator.low .stock-bar {
+  background-color: #ef4444;
+}
+
+/* 이번 주 트렌드 */
+.trends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.trend-item.positive {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.trend-item.negative {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.trend-item.stable {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+/* 빠른 액션 - 분포도 형태 */
+.actions-distribution {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.action-btn {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  gap: 4px;
+}
+
+/* 위치별 스타일 */
+.action-btn.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  font-size: 12px;
+  z-index: 5;
+}
+
+.action-btn.top {
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65px;
+  height: 65px;
+  font-size: 11px;
+  z-index: 4;
+}
+
+.action-btn.right {
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  font-size: 10px;
+  z-index: 3;
+}
+
+.action-btn.bottom {
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  font-size: 10px;
+  z-index: 3;
+}
+
+.action-btn.left {
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  font-size: 10px;
+  z-index: 3;
+}
+
+/* 색상별 스타일 */
+.action-btn.primary {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: 3px solid #ffffff;
+}
+
+.action-btn.secondary {
+  background: linear-gradient(135deg, #64748b, #475569);
+  color: white;
+  border: 2px solid #ffffff;
+}
+
+.action-btn.success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: 2px solid #ffffff;
+}
+
+.action-btn.warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: 2px solid #ffffff;
+}
+
+.action-btn.info {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: white;
+  border: 2px solid #ffffff;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}
+
+.action-btn.center:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.action-btn.top:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.action-btn.right:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.action-btn.bottom:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.action-btn.left:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.metric-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: auto;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+
+.metric-card.primary::before {
+  background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+}
+
+.metric-card.secondary::before {
+  background: linear-gradient(90deg, #10B981, #059669);
+}
+
+.metric-card.success::before {
+  background: linear-gradient(90deg, #F59E0B, #D97706);
+}
+
+.metric-card.warning::before {
+  background: linear-gradient(90deg, #8B5CF6, #7C3AED);
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card .metric-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  color: white;
+  flex-shrink: 0;
+}
+
+.metric-card.primary .metric-icon {
+  background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+}
+
+.metric-card.secondary .metric-icon {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.metric-card.success .metric-icon {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.metric-card.warning .metric-icon {
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.metric-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-content h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.metric-trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #059669;
+}
+
+/* 상품별 성과 섹션 */
+.products-section {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 32px;
+}
+
+.products-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.product-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.product-info .category {
+  font-size: 12px;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.growth-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.product-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.metric-row .label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-row .value {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* 캠페인 호응도 분석 섹션 */
+.campaign-section {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 32px;
+}
+
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.campaign-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.campaign-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.campaign-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.campaign-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.8) 0%, 
+    rgba(16, 185, 129, 0.8) 50%, 
+    rgba(245, 158, 11, 0.8) 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.campaign-card:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.campaign-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.campaign-card-header .product-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.campaign-card-header .product-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.campaign-card-header .product-details h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.campaign-type {
+  font-size: 12px;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.trend-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.trend-indicator.up {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.trend-indicator.down {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.trend-indicator.stable {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.campaign-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campaign-metrics .metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.campaign-metrics .metric-row .label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.campaign-metrics .metric-row .value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campaign-metrics .response-rate {
+  color: #059669;
+}
+
+.campaign-metrics .conversion-rate {
+  color: #3B82F6;
+}
+
+.campaign-metrics .revenue {
+  color: #1e293b;
+}
+
+.campaign-metrics .orders {
+  color: #64748b;
+}
+
+/* 상품별 매출 어워드 섹션 */
+.awards-section {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 32px;
+}
+
+.awards-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.awards-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.awards-header p {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.award-card {
+  background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.award-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 20px 20px 0 0;
+}
+
+.award-card.gold::before {
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+}
+
+.award-card.silver::before {
+  background: linear-gradient(90deg, #C0C0C0, #A0A0A0);
+}
+
+.award-card.bronze::before {
+  background: linear-gradient(90deg, #CD7F32, #B8860B);
+}
+
+.award-card.special::before {
+  background: linear-gradient(90deg, #8B5CF6, #7C3AED);
+}
+
+.award-card.rising::before {
+  background: linear-gradient(90deg, #06B6D4, #0891B2);
+}
+
+.award-card.potential::before {
+  background: linear-gradient(90deg, #EF4444, #DC2626);
+}
+
+.award-card:hover {
+  background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.award-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.award-card.gold .award-badge {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #1e293b;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.award-card.silver .award-badge {
+  background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+  color: #1e293b;
+  box-shadow: 0 2px 8px rgba(192, 192, 192, 0.3);
+}
+
+.award-card.bronze .award-badge {
+  background: linear-gradient(135deg, #CD7F32, #B8860B);
+  color: white;
+  box-shadow: 0 2px 8px rgba(205, 127, 50, 0.3);
+}
+
+.award-card.special .award-badge {
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  color: white;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.award-card.rising .award-badge {
+  background: linear-gradient(135deg, #06B6D4, #0891B2);
+  color: white;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+}
+
+.award-card.potential .award-badge {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.award-content {
+  margin-top: 8px;
+}
+
+.award-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.award-header .product-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.award-info {
+  flex: 1;
+}
+
+.award-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.category-tag {
+  font-size: 12px;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.award-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.award-metrics .metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.award-metrics .metric-row .label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.award-metrics .metric-row .value {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.award-metrics .metric-row .value.growth {
+  color: #059669;
+}
+
+.award-description {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.award-description p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* 카테고리별 성과 섹션 */
+.category-section {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.category-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+}
+
+.category-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.category-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.category-percentage {
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.category-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease;
+  min-width: 4px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .related-info-section {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-dashboard {
+    padding: 16px;
+  }
+  
+  .related-info-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions-distribution {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .action-btn.center {
+    width: 65px;
+    height: 65px;
+    font-size: 10px;
+  }
+  
+  .action-btn.top {
+    width: 55px;
+    height: 55px;
+    font-size: 9px;
+  }
+  
+  .action-btn.right,
+  .action-btn.bottom,
+  .action-btn.left {
+    width: 50px;
+    height: 50px;
+    font-size: 8px;
+  }
+  
+  .campaign-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .awards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .campaign-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .campaign-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+  
+  .metric-value {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-dashboard {
+    padding: 12px;
+  }
+  
+  .products-section,
+  .category-section,
+  .campaign-section,
+  .awards-section {
+    padding: 20px;
+  }
+  
+  .metric-card {
+    padding: 20px;
+  }
+  
+  .campaign-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px;
+  }
+}

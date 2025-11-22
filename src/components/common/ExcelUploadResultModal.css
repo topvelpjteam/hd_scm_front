@@ -1,0 +1,296 @@
+/* 엑셀 업로드 결과 모달 스타일 */
+.excel-upload-result-modal {
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --bg-light: #f9fafb;
+  --border-light: #e5e7eb;
+}
+
+.upload-result-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+/* 상태 아이콘 */
+.result-icon {
+  margin-bottom: 1.5rem;
+}
+
+.result-icon i {
+  font-size: 4rem;
+  opacity: 0.9;
+}
+
+/* 결과 요약 */
+.result-summary {
+  margin-bottom: 2rem;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--bg-light);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-item.success .stat-value {
+  color: var(--success-color);
+}
+
+.stat-item.fail .stat-value {
+  color: var(--error-color);
+}
+
+.stat-item.total .stat-value {
+  color: var(--text-primary);
+}
+
+/* 성공률 바 */
+.success-rate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rate-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rate-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.rate-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* 결과 메시지 */
+.result-message {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--bg-light);
+  border-radius: 8px;
+  border-left: 4px solid var(--success-color);
+}
+
+.excel-upload-result-modal.warning .result-message {
+  border-left-color: var(--warning-color);
+}
+
+.excel-upload-result-modal.error .result-message {
+  border-left-color: var(--error-color);
+}
+
+.result-message p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* 오류 상세 내역 */
+.error-details {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.error-details h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-details h4::before {
+  content: '\f071';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: var(--error-color);
+  font-size: 1rem;
+}
+
+.error-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.error-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.error-item:last-child {
+  border-bottom: none;
+}
+
+.error-item i {
+  color: var(--error-color);
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
+
+.error-item.more {
+  background-color: var(--bg-light);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.error-item.more i {
+  color: var(--text-secondary);
+}
+
+/* 액션 버튼 */
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.result-actions .btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.result-actions .btn-primary {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.result-actions .btn-primary:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.excel-upload-result-modal.warning .result-actions .btn-primary {
+  background-color: var(--warning-color);
+}
+
+.excel-upload-result-modal.warning .result-actions .btn-primary:hover {
+  background-color: #d97706;
+}
+
+.excel-upload-result-modal.error .result-actions .btn-primary {
+  background-color: var(--error-color);
+}
+
+.excel-upload-result-modal.error .result-actions .btn-primary:hover {
+  background-color: #dc2626;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 640px) {
+  .upload-result-content {
+    padding: 1.5rem;
+  }
+  
+  .summary-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .result-icon i {
+    font-size: 3rem;
+  }
+}
+
+/* 애니메이션 */
+.excel-upload-result-modal .modal-content {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 성공률 바 애니메이션 */
+.rate-fill {
+  animation: fillBar 0.8s ease-out 0.3s both;
+}
+
+@keyframes fillBar {
+  from {
+    width: 0%;
+  }
+}
+
+/* 통계 카운터 애니메이션 */
+.stat-value {
+  animation: countUp 0.6s ease-out 0.2s both;
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

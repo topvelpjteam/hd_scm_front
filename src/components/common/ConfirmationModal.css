@@ -1,0 +1,179 @@
+/* 확인 모달 스타일 */
+.confirmation-modal .modal-container {
+  border-top: 4px solid #6366f1;
+}
+
+.confirmation-modal.confirmation-save .modal-container {
+  border-top-color: #10b981;
+}
+
+.confirmation-modal.confirmation-update .modal-container {
+  border-top-color: #3b82f6;
+}
+
+.confirmation-modal.confirmation-delete .modal-container {
+  border-top-color: #ef4444;
+}
+
+.confirmation-content {
+  text-align: center;
+}
+
+.confirmation-icon {
+  margin-bottom: 20px;
+}
+
+.confirmation-icon i {
+  font-size: 48px;
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.confirmation-message {
+  margin-bottom: 32px;
+}
+
+.confirmation-message p {
+  font-size: 16px;
+  color: #374151;
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* 공통 버튼 스타일 */
+.btn-confirmation-cancel,
+.btn-confirmation-confirm {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  justify-content: center;
+}
+
+/* 취소 버튼 */
+.btn-confirmation-cancel {
+  background: #f8fafc;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.btn-confirmation-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateY(-1px);
+}
+
+.btn-confirmation-cancel:active {
+  transform: translateY(0);
+}
+
+/* 확인 버튼 - 저장 */
+.btn-confirm-save {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-confirm-save:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* 확인 버튼 - 수정 */
+.btn-confirm-update {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-confirm-update:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* 확인 버튼 - 삭제 */
+.btn-confirm-delete {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-confirm-delete:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+/* 확인 버튼 - 커스텀 */
+.btn-confirm-custom {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-confirm-custom:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.btn-confirmation-confirm:active {
+  transform: translateY(0);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .confirmation-icon i {
+    font-size: 40px;
+  }
+  
+  .confirmation-message p {
+    font-size: 15px;
+  }
+  
+  .confirmation-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-confirmation-cancel,
+  .btn-confirmation-confirm {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}

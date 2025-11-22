@@ -1,0 +1,835 @@
+/* 소개인 분석 대시보드 스타일 */
+.referral-analytics-dashboard {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin-left: 44px;
+}
+
+/* 소개 요약 카드 */
+.referral-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.total-referrers .card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.total-referrals .card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.total-revenue .card-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.conversion-rate .card-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.card-change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-change.positive {
+  color: #059669;
+}
+
+.card-change.negative {
+  color: #dc2626;
+}
+
+/* 탑 소개인 랭킹 */
+.top-referrers {
+  margin-bottom: 32px;
+}
+
+.top-referrers h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.referrer-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+}
+
+.referrer-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.referrer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.referrer-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.referrer-rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.rank-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.rank-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.referrer-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.referrer-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.referrer-details {
+  flex: 1;
+}
+
+.referrer-details h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.referrer-tier {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tier-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  background-color: #dcfce7;
+  color: #059669;
+}
+
+.referrer-metrics {
+  margin-bottom: 20px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.referrer-performance {
+  margin-bottom: 16px;
+}
+
+.performance-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-label {
+  width: 60px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bar-container {
+  flex: 1;
+  height: 8px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.bar-value {
+  width: 40px;
+  font-size: 12px;
+  color: #1e293b;
+  font-weight: 600;
+  text-align: right;
+}
+
+.referrer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.join-date,
+.last-activity {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 월별 추이 및 등급별 성과 */
+.trend-and-tier-analysis {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.monthly-trend,
+.tier-performance {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.monthly-trend h3,
+.tier-performance h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.trend-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-color.referrers {
+  background-color: #3B82F6;
+}
+
+.legend-color.referrals {
+  background-color: #10B981;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  height: 200px;
+  padding: 16px 0;
+}
+
+.trend-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-group {
+  display: flex;
+  align-items: end;
+  gap: 2px;
+  height: 100%;
+}
+
+.referrers-bar,
+.referrals-bar {
+  width: 20px;
+  border-radius: 4px 4px 0 0;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+.bar-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bar-values {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.referrers-value,
+.referrals-value {
+  font-size: 10px;
+  color: #1e293b;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* 등급별 성과 */
+.tier-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tier-stat {
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tier-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.tier-info {
+  flex: 1;
+}
+
+.tier-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 2px 0;
+}
+
+.tier-count {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.tier-conversion {
+  text-align: right;
+}
+
+.conversion-rate {
+  font-size: 16px;
+  font-weight: 700;
+  color: #059669;
+}
+
+.tier-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tier-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tier-metric .metric-label {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.tier-metric .metric-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.tier-progress {
+  margin-top: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #f1f5f9;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* 매출 및 수수료 분석 */
+.revenue-quality-analysis {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.revenue-trend,
+.customer-quality-summary {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.revenue-trend h3,
+.customer-quality-summary h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.chart-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chart-header {
+  margin-bottom: 24px;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.legend-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.revenue-color {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+}
+
+.quality-color {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.repeat-color {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+.revenue-chart {
+  display: flex;
+  align-items: end;
+  gap: 20px;
+  height: 280px;
+  padding: 20px 0;
+  justify-content: center;
+}
+
+.chart-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 120px;
+}
+
+.column-header {
+  margin-bottom: 8px;
+}
+
+.month-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  padding: 8px 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.month-label:hover {
+  border-color: #3B82F6;
+  transform: translateY(-1px);
+}
+
+.bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  justify-content: end;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bar-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.bar-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.revenue-bar-fill,
+.quality-bar-fill,
+.repeat-bar-fill {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  min-height: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.revenue-bar-fill::before,
+.quality-bar-fill::before,
+.repeat-bar-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 8px 8px 0 0;
+}
+
+.bar-wrapper:hover .revenue-bar-fill,
+.bar-wrapper:hover .quality-bar-fill,
+.bar-wrapper:hover .repeat-bar-fill {
+  transform: scaleY(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.bar-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.bar-value {
+  font-size: 10px;
+  color: #1e293b;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  background: white;
+  padding: 2px 6px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.bar-values {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/* 고객 품질 요약 */
+.quality-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quality-card {
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.quality-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.quality-content {
+  flex: 1;
+}
+
+.quality-content h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+}
+
+.quality-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.quality-rate {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .referral-analytics-dashboard {
+    padding: 16px;
+  }
+  
+  .referral-summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .referrer-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .trend-and-tier-analysis {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .revenue-commission-analysis {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .chart-bars,
+  .revenue-chart {
+    height: 150px;
+  }
+}

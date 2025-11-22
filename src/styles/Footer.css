@@ -1,0 +1,422 @@
+/* 푸터 컨테이너 */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 50px;
+  background: #ffffff;
+  border-top: 1px solid #7dd3fc;
+  box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+/* 푸터 왼쪽 영역 */
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* 푸터 중앙 영역 */
+.footer-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+}
+
+/* 푸터 오른쪽 영역 */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* 푸터 아이템 */
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0ea5e9;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.footer-item:hover {
+  color: #0284c7;
+  transform: translateY(-1px);
+}
+
+/* 상태 표시기 */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  color: #166534;
+  font-weight: 500;
+  font-size: 11px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.status-indicator:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 상태 점 */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 연결 상태 */
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: #f0f9ff;
+  border: 1px solid #7dd3fc;
+  border-radius: 6px;
+  color: #0369a1;
+  font-weight: 600;
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.connection-status:hover {
+  background: #e0f2fe;
+  border-color: #0ea5e9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 시간 표시 */
+.time-display {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #0ea5e9;
+  background: #f0f9ff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #7dd3fc;
+  transition: all 0.2s ease;
+}
+
+.time-display:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #0369a1;
+}
+
+/* 버전 정보 */
+.version-info {
+  color: #0ea5e9;
+  font-size: 11px;
+  font-weight: 400;
+  background: #f0f9ff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #7dd3fc;
+  transition: all 0.2s ease;
+}
+
+.version-info:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #0369a1;
+}
+
+/* 시스템 정보 */
+.system-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: #f0f9ff;
+  border: 1px solid #7dd3fc;
+  border-radius: 4px;
+  color: #0ea5e9;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.system-info:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #0369a1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .footer {
+    padding: 0 16px;
+  }
+  
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 0 12px;
+    height: 60px;
+  }
+  
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    gap: 6px;
+  }
+  
+  .footer-item {
+    font-size: 13px;
+  }
+  
+  .status-indicator {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+  
+  .time-display,
+  .version-info,
+  .system-info {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .footer-button {
+    padding: 3px 6px;
+    font-size: 10px;
+    min-width: 40px;
+  }
+  
+  .footer-button span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 0 8px;
+  }
+  
+  .footer-center {
+    gap: 4px;
+  }
+  
+  .footer-left,
+  .footer-right {
+    gap: 4px;
+  }
+  
+  .footer-item {
+    font-size: 12px;
+  }
+  
+  .status-indicator {
+    padding: 2px 4px;
+    font-size: 9px;
+  }
+  
+  .time-display,
+  .version-info,
+  .system-info {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+  
+  .footer-button {
+    padding: 2px 4px;
+    font-size: 9px;
+    min-width: 32px;
+  }
+  
+  .footer-button span {
+    display: none;
+  }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.footer {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 포커스 스타일 */
+.footer-item:focus,
+.status-indicator:focus,
+.connection-status:focus,
+.time-display:focus,
+.version-info:focus,
+.system-info:focus,
+.footer-button:focus {
+  outline: 2px solid #0284c7;
+  outline-offset: 2px;
+}
+
+/* 푸터 버튼 스타일 */
+.footer-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  min-width: 50px;
+  justify-content: center;
+}
+
+.footer-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer-button:active {
+  transform: translateY(0);
+}
+
+/* 버튼 타입별 스타일 */
+.footer-button.primary {
+  color: #0ea5e9;
+  border-color: #7dd3fc;
+  background: #f0f9ff;
+}
+
+.footer-button.primary:hover {
+  background: #e0f2fe;
+  border-color: #0ea5e9;
+  color: #0284c7;
+}
+
+.footer-button.success {
+  color: #059669;
+  border-color: #6ee7b7;
+  background: #f0fdf4;
+}
+
+.footer-button.success:hover {
+  background: #dcfce7;
+  border-color: #059669;
+  color: #047857;
+}
+
+.footer-button.danger {
+  color: #dc2626;
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.footer-button.danger:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+  color: #b91c1c;
+}
+
+.footer-button.info {
+  color: #7c3aed;
+  border-color: #c4b5fd;
+  background: #faf5ff;
+}
+
+.footer-button.info:hover {
+  background: #f3e8ff;
+  border-color: #7c3aed;
+  color: #6d28d9;
+}
+
+.footer-button.secondary {
+  color: #6b7280;
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.footer-button.secondary:hover {
+  background: #f3f4f6;
+  border-color: #6b7280;
+  color: #4b5563;
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .footer-item,
+  .status-indicator,
+  .connection-status,
+  .time-display,
+  .version-info,
+  .system-info,
+  .footer-button {
+    transition: none;
+  }
+  
+  .status-dot {
+    animation: none;
+  }
+  
+  .footer {
+    animation: none;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .footer {
+    border-top-width: 2px;
+  }
+  
+  .status-indicator,
+  .connection-status,
+  .time-display,
+  .version-info,
+  .system-info,
+  .footer-button {
+    border-width: 2px;
+  }
+}

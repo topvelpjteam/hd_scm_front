@@ -1,0 +1,313 @@
+/* 공통 AgGrid 스타일 */
+.common-ag-grid-container {
+  width: 100%;
+  height: 100%;
+}
+
+.common-ag-grid {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 9px;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* AgGrid 폰트 크기 조정 */
+.common-ag-grid .ag-theme-alpine {
+  font-size: 9px;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.common-ag-grid .ag-theme-alpine .ag-header-cell-label {
+  font-size: 9px;
+  font-weight: 500;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.common-ag-grid .ag-theme-alpine .ag-cell {
+  font-size: 9px;
+  line-height: 1.1;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 로우 간격 제거 */
+.common-ag-grid .ag-theme-alpine .ag-row {
+  border-bottom: none;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* AgGrid 기본 구조 요소들 강제 표시 */
+.common-ag-grid .ag-theme-alpine .ag-header,
+.common-ag-grid .ag-theme-alpine .ag-body,
+.common-ag-grid .ag-theme-alpine .ag-center-cols-container,
+.common-ag-grid .ag-theme-alpine .ag-header-row,
+.common-ag-grid .ag-theme-alpine .ag-row {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.common-ag-grid .ag-theme-alpine .ag-row-even {
+  background-color: #ffffff;
+}
+
+.common-ag-grid .ag-theme-alpine .ag-row-odd {
+  background-color: #f8f9fa;
+}
+
+.common-ag-grid .ag-theme-alpine .ag-row:hover {
+  background-color: #e3f2fd;
+}
+
+/* 공통 체크박스 스타일 */
+.common-checkbox {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+}
+
+.common-checkbox:hover {
+  border-color: #0056b3;
+  background: #f8f9fa;
+}
+
+.common-checkbox.checked {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.common-checkbox.indeterminate {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.common-checkbox .checkmark {
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: bold;
+  line-height: 1;
+  user-select: none;
+}
+
+/* 헤더 체크박스 */
+.common-checkbox.header-checkbox {
+  margin: 0 auto;
+}
+
+/* AgGrid 기본 체크박스만 숨기기 */
+.common-ag-grid .ag-checkbox,
+.common-ag-grid .ag-checkbox-input-wrapper,
+.common-ag-grid .ag-checkbox-input,
+.common-ag-grid .ag-header-checkbox,
+.common-ag-grid .ag-header-checkbox-input-wrapper,
+.common-ag-grid .ag-header-checkbox-input,
+.common-ag-grid .ag-checkbox-input-wrapper::before,
+.common-ag-grid .ag-checkbox-input-wrapper::after,
+.common-ag-grid .ag-header-checkbox-input-wrapper::before,
+.common-ag-grid .ag-header-checkbox-input-wrapper::after {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  content: none !important;
+  pointer-events: none !important;
+}
+
+/* AgGrid 체크박스 관련 특정 요소만 숨기기 */
+.common-ag-grid .ag-checkbox,
+.common-ag-grid .ag-header-checkbox,
+.common-ag-grid .ag-checkbox-input-wrapper,
+.common-ag-grid .ag-header-checkbox-input-wrapper {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  pointer-events: none !important;
+}
+
+/* AgGrid 아이콘 강력하게 숨기기 */
+.common-ag-grid .ag-icon,
+.common-ag-grid .ag-icon-check,
+.common-ag-grid .ag-icon-unchecked,
+.common-ag-grid .ag-icon-checkbox-checked,
+.common-ag-grid .ag-icon-checkbox-unchecked,
+.common-ag-grid .ag-icon-checkbox-indeterminate,
+.common-ag-grid .ag-icon-indeterminate,
+.common-ag-grid .ag-icon-close,
+.common-ag-grid .ag-icon-cancel,
+.common-ag-grid .ag-icon-cross,
+.common-ag-grid .ag-icon-times,
+.common-ag-grid .ag-icon-x,
+.common-ag-grid [class*="ag-icon"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 그리드 기본 스타일 개선 */
+.common-ag-grid .ag-header {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.common-ag-grid .ag-header-cell {
+  border-right: 1px solid #e2e8f0;
+  padding: 0 8px;
+}
+
+.common-ag-grid .ag-header-cell-label {
+  font-weight: 600;
+  color: #000000;
+  font-size: 13px;
+}
+
+.common-ag-grid .ag-row {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.common-ag-grid .ag-row:hover {
+  background: #f8fafc;
+}
+
+/* 선택된 행 스타일 (커스텀 체크박스용) - 글씨색상만 변경 */
+.common-ag-grid .ag-row.row-selected .ag-cell {
+  color: #2196f3 !important;
+  font-weight: 600 !important;
+}
+
+.common-ag-grid .ag-cell {
+  border-right: 1px solid #f1f5f9;
+  padding: 0 8px;
+  font-size: 13px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+
+/* 숫자 컬럼 우측 정렬 */
+.common-ag-grid .ag-cell[col-id*="quantity"],
+.common-ag-grid .ag-cell[col-id*="price"],
+.common-ag-grid .ag-cell[col-id*="amount"],
+.common-ag-grid .ag-cell[col-id*="Price"],
+.common-ag-grid .ag-cell[col-id*="Amount"],
+.common-ag-grid .ag-cell[col-id*="Quantity"] {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+/* 텍스트 컬럼 좌측 정렬 */
+.common-ag-grid .ag-cell[col-id*="name"],
+.common-ag-grid .ag-cell[col-id*="code"],
+.common-ag-grid .ag-cell[col-id*="supplier"],
+.common-ag-grid .ag-cell[col-id*="brand"],
+.common-ag-grid .ag-cell[col-id*="memo"],
+.common-ag-grid .ag-cell[col-id*="Name"],
+.common-ag-grid .ag-cell[col-id*="Code"],
+.common-ag-grid .ag-cell[col-id*="Supplier"],
+.common-ag-grid .ag-cell[col-id*="Brand"] {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+/* 헤더 정렬 */
+.common-ag-grid .ag-header-cell[col-id*="quantity"],
+.common-ag-grid .ag-header-cell[col-id*="price"],
+.common-ag-grid .ag-header-cell[col-id*="amount"],
+.common-ag-grid .ag-header-cell[col-id*="Price"],
+.common-ag-grid .ag-header-cell[col-id*="Amount"],
+.common-ag-grid .ag-header-cell[col-id*="Quantity"] {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.common-ag-grid .ag-header-cell[col-id*="name"],
+.common-ag-grid .ag-header-cell[col-id*="code"],
+.common-ag-grid .ag-header-cell[col-id*="supplier"],
+.common-ag-grid .ag-header-cell[col-id*="brand"],
+.common-ag-grid .ag-header-cell[col-id*="memo"],
+.common-ag-grid .ag-header-cell[col-id*="Name"],
+.common-ag-grid .ag-header-cell[col-id*="Code"],
+.common-ag-grid .ag-header-cell[col-id*="Supplier"],
+.common-ag-grid .ag-header-cell[col-id*="Brand"] {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+/* 드롭다운 스타일 */
+.common-ag-grid .ag-select-list,
+.common-ag-grid .ag-select-list-item,
+.common-ag-grid .ag-popup .ag-select-list,
+.common-ag-grid .ag-cell-editor .ag-select-list {
+  font-size: 12px !important;
+  padding: 4px 8px !important;
+  line-height: 1.4 !important;
+}
+
+.common-ag-grid .ag-select-list-item {
+  padding: 6px 8px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.common-ag-grid .ag-select-list-item:hover {
+  background: #f8fafc !important;
+}
+
+/* 스크롤바 스타일 */
+.common-ag-grid .ag-body-viewport::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.common-ag-grid .ag-body-viewport::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.common-ag-grid .ag-body-viewport::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.common-ag-grid .ag-body-viewport::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -1,0 +1,1292 @@
+/* 고객 충성도 대시보드 스타일 */
+.customer-loyalty-dashboard {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.loyalty-dashboard-header {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #10B981;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.customer-loyalty-dashboard .loyalty-dashboard-header .header-title h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151 !important;
+  margin: 0;
+}
+
+.customer-loyalty-dashboard .loyalty-dashboard-header .header-subtitle {
+  font-size: 14px;
+  color: #6b7280 !important;
+  margin-left: 44px;
+}
+
+/* 충성도 요약 카드 */
+.loyalty-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.total-members .card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.active-members .card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.average-points .card-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.lifetime-value .card-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.card-change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-change.positive {
+  color: #059669;
+}
+
+.card-change.negative {
+  color: #dc2626;
+}
+
+/* 등급별 분포 */
+.tier-distribution {
+  margin-bottom: 32px;
+}
+
+.tier-distribution h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.tier-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.tier-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.tier-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--tier-color, #e2e8f0);
+}
+
+.tier-card[data-tier="BRONZE"]::before {
+  background: #CD7F32;
+}
+
+.tier-card[data-tier="SILVER"]::before {
+  background: #C0C0C0;
+}
+
+.tier-card[data-tier="GOLD"]::before {
+  background: #FFD700;
+}
+
+.tier-card[data-tier="PLATINUM"] {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 2px solid #1a1a1a;
+  box-shadow: 
+    0 8px 32px rgba(26, 26, 26, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.tier-card[data-tier="PLATINUM"] .tier-info h3 {
+  color: #1a1a1a;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tier-card[data-tier="PLATINUM"] .tier-info p {
+  color: #404040;
+  font-weight: 600;
+}
+
+.tier-card[data-tier="PLATINUM"] .percentage-value {
+  color: #1a1a1a;
+  font-weight: 800;
+}
+
+.tier-card[data-tier="PLATINUM"] .metric-value {
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.tier-card[data-tier="PLATINUM"] .tier-benefits h4 {
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.tier-card[data-tier="PLATINUM"]::before {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.8),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  height: 6px;
+}
+
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tier-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tier-info {
+  flex: 1;
+}
+
+.tier-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.tier-info p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.tier-percentage {
+  text-align: right;
+}
+
+.percentage-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.percentage-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.tier-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.tier-benefits {
+  margin-bottom: 20px;
+}
+
+.tier-benefits h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.tier-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tier-benefits li {
+  font-size: 14px;
+  color: #64748b;
+  padding: 8px 12px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  position: relative;
+  padding-left: 32px;
+}
+
+.tier-benefits li::before {
+  content: '✓';
+  position: absolute;
+  left: 12px;
+  color: #059669;
+  font-weight: bold;
+}
+
+.tier-progress {
+  margin-top: 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* 등급별 혜택 비교표 */
+.benefit-comparison {
+  margin-bottom: 32px;
+}
+
+.benefit-comparison h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 32px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.benefit-comparison h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+.comparison-table {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.comparison-table::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  margin-bottom: 16px;
+  border-radius: 2px;
+}
+
+.comparison-header {
+  display: grid;
+  grid-template-columns: 150px repeat(6, 1fr);
+  gap: 16px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(30, 58, 138, 0.4),
+    0 4px 16px rgba(124, 58, 237, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  align-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 150px repeat(6, 1fr);
+  gap: 16px;
+  padding: 20px 28px;
+  border-bottom: 2px solid #cbd5e1;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e2e8f0;
+}
+
+.comparison-row:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.18),
+    0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  border-color: #94a3b8;
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.tier-column.header {
+  font-weight: 800;
+  color: white;
+  font-size: 18px;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+}
+
+.benefit-column.header {
+  font-weight: 700;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tier-column {
+  display: flex;
+  align-items: center;
+}
+
+.benefit-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 24px;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tier-badge:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.tier-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-name {
+  font-weight: 700;
+}
+
+.benefit-item {
+  text-align: center;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.benefit-item:hover::before {
+  left: 100%;
+}
+
+.benefit-item.available {
+  background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+  color: #14532d;
+  border: 3px solid #16a34a;
+  font-weight: 800;
+  box-shadow: 
+    0 8px 20px rgba(22, 163, 74, 0.5),
+    0 4px 12px rgba(22, 163, 74, 0.3);
+  transform: scale(1.02);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-item.unavailable {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  color: #991b1b;
+  border: 3px solid #dc2626;
+  font-weight: 800;
+  box-shadow: 
+    0 8px 20px rgba(220, 38, 38, 0.5),
+    0 4px 12px rgba(220, 38, 38, 0.3);
+  transform: scale(0.98);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-item:hover {
+  transform: scale(1.08);
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.3),
+    0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 고객 이탈율 분석 */
+.churn-analysis {
+  margin-bottom: 32px;
+}
+
+.churn-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.churn-overview {
+  margin-bottom: 32px;
+}
+
+.churn-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.churn-metric {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.churn-metric:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.metric-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.metric-icon.churn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.metric-icon.retention {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.metric-icon.lifetime {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.metric-content {
+  flex: 1;
+}
+
+.metric-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.metric-change.positive {
+  color: #059669;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.churn-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.churn-by-tier,
+.churn-trend {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.churn-by-tier h3,
+.churn-trend h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+.tier-churn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tier-churn-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.tier-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tier-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.tier-count {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.churn-rate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.rate-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.rate-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rate-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.trend-chart {
+  margin-top: 20px;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  height: 200px;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.chart-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+}
+
+.bar-container {
+  display: flex;
+  align-items: end;
+  gap: 2px;
+  height: 160px;
+}
+
+.churn-bar,
+.retention-bar {
+  width: 20px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.churn-bar {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.retention-bar {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.bar-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.bar-values {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.churn-value {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.retention-value {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-color.churn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.legend-color.retention {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+/* 포인트 활동 추이 */
+.point-activity {
+  margin-bottom: 32px;
+}
+
+.point-activity h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.activity-chart {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.chart-header {
+  margin-bottom: 24px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-color.earned {
+  background-color: #10B981;
+}
+
+.legend-color.redeemed {
+  background-color: #3B82F6;
+}
+
+.legend-color.expired {
+  background-color: #EF4444;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  height: 200px;
+  padding: 16px 0;
+}
+
+.activity-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-group {
+  display: flex;
+  align-items: end;
+  gap: 2px;
+  height: 100%;
+}
+
+.earned-bar,
+.redeemed-bar,
+.expired-bar {
+  width: 20px;
+  border-radius: 4px 4px 0 0;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+.bar-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bar-net {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.net-label {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.net-value {
+  font-size: 12px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* 성과 지표 */
+.loyalty-performance {
+  margin-bottom: 32px;
+}
+
+.loyalty-performance h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.performance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.performance-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.performance-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.performance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.performance-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+}
+
+.performance-trend {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.performance-trend.up {
+  background-color: #dcfce7;
+  color: #059669;
+}
+
+.performance-trend.down {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.performance-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.performance-value .unit {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.performance-change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.change-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.change-value.up {
+  color: #059669;
+}
+
+.change-value.down {
+  color: #dc2626;
+}
+
+.change-period {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* 혜택 비교 테이블 */
+.benefits-comparison {
+  margin-bottom: 32px;
+}
+
+.benefits-comparison h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.benefits-table {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 200px repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.header-cell {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+}
+
+.benefit-name {
+  text-align: left;
+}
+
+.tier-header {
+  display: flex;
+  justify-content: center;
+}
+
+.tier-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 200px repeat(4, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.row-cell {
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-cell.benefit-name {
+  text-align: left;
+  font-weight: 500;
+}
+
+.check-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #dcfce7;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.no-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .customer-loyalty-dashboard {
+    padding: 16px;
+  }
+  
+  .loyalty-summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .tier-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .performance-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .chart-bars {
+    height: 150px;
+  }
+  
+  .table-header,
+  .table-row {
+    grid-template-columns: 150px repeat(4, 1fr);
+    gap: 8px;
+  }
+  
+  .benefits-table {
+    padding: 16px;
+  }
+  
+  /* 혜택 비교표 반응형 */
+  .comparison-header,
+  .comparison-row {
+    grid-template-columns: 120px repeat(6, 1fr);
+    gap: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+  
+  .tier-badge {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .benefit-item {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .comparison-header,
+  .comparison-row {
+    grid-template-columns: 100px repeat(6, 1fr);
+    gap: 4px;
+    font-size: 11px;
+  }
+  
+  .tier-badge {
+    padding: 4px 6px;
+    font-size: 11px;
+  }
+  
+  .benefit-item {
+    padding: 4px;
+    font-size: 11px;
+  }
+  
+  .benefit-column.header {
+    font-size: 10px;
+  }
+  
+  /* 이탈율 분석 반응형 */
+  .churn-metrics {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .churn-details {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .chart-bars {
+    height: 150px;
+    padding: 0 10px;
+  }
+  
+  .churn-bar,
+  .retention-bar {
+    width: 16px;
+  }
+  
+  .bar-values {
+    font-size: 10px;
+  }
+}

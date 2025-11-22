@@ -1,0 +1,786 @@
+/* 채널별 매출 분석 대시보드 스타일 */
+.channel-analytics-dashboard {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin-left: 44px;
+}
+
+/* 채널 요약 카드 */
+.channel-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.total-channels .card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.total-revenue .card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.total-orders .card-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.total-customers .card-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.card-change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-change.positive {
+  color: #059669;
+}
+
+.card-change.negative {
+  color: #dc2626;
+}
+
+/* 채널 상세 분석 */
+.channel-details {
+  margin-bottom: 32px;
+}
+
+.channel-details h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.channel-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+}
+
+.channel-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.channel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.channel-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.channel-info {
+  flex: 1;
+}
+
+.channel-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.channel-info p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 8px 0;
+}
+
+.channel-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-indicator.active {
+  background-color: #10B981;
+}
+
+.status-indicator.inactive {
+  background-color: #EF4444;
+}
+
+.status-indicator.maintenance {
+  background-color: #F59E0B;
+}
+
+.channel-growth {
+  text-align: right;
+}
+
+.growth-rate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.growth-rate.positive {
+  color: #059669;
+}
+
+.growth-rate.negative {
+  color: #dc2626;
+}
+
+.channel-metrics {
+  margin-bottom: 20px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.channel-performance {
+  margin-bottom: 16px;
+}
+
+.performance-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-label {
+  width: 80px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bar-container {
+  flex: 1;
+  height: 8px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.bar-value {
+  width: 40px;
+  font-size: 12px;
+  color: #1e293b;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* 월별 채널 성과 */
+.monthly-channel-performance {
+  margin-bottom: 32px;
+}
+
+.monthly-channel-performance h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.performance-chart {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.legend-color {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.legend-color:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.legend-color.direct-store {
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+}
+
+.legend-color.franchise {
+  background: linear-gradient(135deg, #059669, #10B981);
+}
+
+.legend-color.own-mall {
+  background: linear-gradient(135deg, #D97706, #F59E0B);
+}
+
+.legend-color.external-mall {
+  background: linear-gradient(135deg, #DC2626, #EF4444);
+}
+
+.legend-color.mobile-app {
+  background: linear-gradient(135deg, #7C3AED, #8B5CF6);
+}
+
+.chart-bars {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  height: 250px;
+  padding: 16px 0;
+}
+
+.monthly-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-group {
+  display: flex;
+  align-items: end;
+  gap: 1px;
+  height: 100%;
+}
+
+.direct-store-bar,
+.franchise-bar,
+.own-mall-bar,
+.external-mall-bar,
+.mobile-app-bar {
+  width: 16px;
+  border-radius: 2px 2px 0 0;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+.bar-label {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bar-total {
+  font-size: 8px;
+  color: #1e293b;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* 채널별 상세 비교 */
+.channel-comparison {
+  margin-bottom: 32px;
+}
+
+.channel-comparison h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.comparison-table {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 150px repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.header-cell {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+}
+
+.channel-name {
+  text-align: left;
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 150px repeat(6, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.row-cell {
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-cell.channel-name {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.channel-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 12px;
+}
+
+.satisfaction-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.satisfaction-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 12px;
+  color: #d1d5db;
+}
+
+.star.filled {
+  color: #fbbf24;
+}
+
+.return-rate {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.return-rate.high {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.return-rate.medium {
+  background-color: #fffbeb;
+  color: #d97706;
+}
+
+.return-rate.low {
+  background-color: #f0fdf4;
+  color: #059669;
+}
+
+/* 채널별 매출 분포 */
+.channel-distribution {
+  margin-bottom: 32px;
+}
+
+.channel-distribution h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.distribution-chart {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.pie-chart-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  flex: 1;
+}
+
+.pie-chart {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pie-chart-svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 4px rgba(255, 255, 255, 0.1),
+    inset 0 2px 8px rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.pie-chart-svg:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    0 0 0 6px rgba(255, 255, 255, 0.15),
+    inset 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.pie-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.total-revenue {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.total-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pie-legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.legend-item:hover {
+  background: #f1f5f9;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.legend-color:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    0 3px 8px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.legend-label {
+  flex: 1;
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.legend-value {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 700;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .channel-analytics-dashboard {
+    padding: 16px;
+  }
+  
+  .channel-summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .channel-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .chart-bars {
+    height: 200px;
+  }
+  
+  .table-header,
+  .table-row {
+    grid-template-columns: 120px repeat(6, 1fr);
+    gap: 8px;
+  }
+  
+  .distribution-chart {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .pie-legend {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .chart-legend {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .channel-analytics-dashboard {
+    padding: 12px;
+  }
+  
+  .pie-legend {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 12px;
+  }
+  
+  .legend-item {
+    padding: 6px 10px;
+  }
+  
+  .legend-label {
+    font-size: 13px;
+  }
+  
+  .legend-value {
+    font-size: 13px;
+    min-width: 45px;
+  }
+}

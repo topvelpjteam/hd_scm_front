@@ -1,0 +1,514 @@
+/* 기간설정달력 컴포넌트 스타일 */
+.date-range-picker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.date-range-picker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* 간격 더 줄임 */
+  padding: 3px 6px; /* 패딩 더 줄임 */
+  border: 1px solid #d1d5db; /* 선명한 보더 */
+  border-radius: 4px; /* 더 작은 둥근 모서리 */
+  background: #ffffff; /* 단순한 배경 */
+  cursor: pointer;
+  transition: all 0.2s ease; /* 빠른 애니메이션 */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 선명한 그림자 */
+  min-height: 28px; /* 높이 더 줄임: 32px → 28px */
+}
+
+.date-range-picker-trigger:hover {
+  border-color: #3b82f6; /* 선명한 파란색 */
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15); /* 선명한 호버 그림자 */
+}
+
+.date-range-picker-trigger.disabled {
+  background-color: #f8f9fa;
+  color: #000000;
+  cursor: not-allowed;
+  border-color: #adb5bd;
+}
+
+.date-range-picker-text {
+  flex: 1;
+  font-size: 10px; /* 폰트 크기 더 줄임: 11px → 10px */
+  font-weight: 500;
+  color: #000000; /* 선명한 텍스트 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date-range-picker-arrow {
+  transition: transform 0.2s ease; /* 빠른 애니메이션 */
+  color: #000000; /* 선명한 회색 */
+  font-weight: bold;
+}
+
+.date-range-picker-arrow.open {
+  transform: rotate(90deg);
+}
+
+.date-range-picker-dropdown {
+  position: fixed !important;
+  z-index: 999999999 !important; /* 최고 z-index로 설정 */
+  background: #ffffff !important;
+  border: 2px solid #007bff !important; /* 싱글달력과 동일한 파란색 테두리 */
+  border-radius: 8px !important; /* 싱글달력과 동일한 둥근 모서리 */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important; /* 싱글달력과 동일한 그림자 */
+  margin-top: 2px !important; /* 싱글달력과 동일한 간격 */
+  min-width: 360px !important; /* 크기 늘림: 320px → 360px (우측 잘림 방지) */
+  max-width: 380px !important; /* 크기 늘림: 340px → 380px */
+  backdrop-filter: blur(8px) !important; /* 싱글달력과 동일한 블러 효과 */
+  overflow: hidden !important;
+  isolation: isolate !important; /* 새로운 stacking context 생성 */
+  transform: translateZ(0) !important; /* GPU 가속 활성화 */
+  will-change: transform !important; /* 브라우저 최적화 힌트 */
+  pointer-events: auto !important; /* 클릭 이벤트 보장 */
+  visibility: visible !important; /* 가시성 보장 */
+  opacity: 1 !important; /* 투명도 보장 */
+}
+
+.date-range-picker-dropdown.position-left {
+  /* left 위치는 인라인 스타일로 동적 설정 */
+}
+
+.date-range-picker-dropdown.position-right {
+  /* left 위치는 인라인 스타일로 동적 설정 */
+}
+
+/* 알림창 스타일 */
+.date-range-picker-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  color: #856404;
+  font-size: 12px;
+  font-weight: 500;
+  animation: slideDown 0.3s ease-out;
+}
+
+.date-range-picker-alert svg {
+  color: #f39c12;
+  flex-shrink: 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.date-range-picker-today-info {
+  text-align: center;
+  padding: 8px 16px; /* 패딩 증가 */
+  font-size: 12px; /* 폰트 크기 증가 */
+  color: #667eea; /* 브랜드 컬러 */
+  background: linear-gradient(135deg, #f8f9ff 0%, #e6f0ff 100%); /* 그라데이션 배경 */
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1); /* 모던한 보더 */
+  border-radius: 16px 16px 0 0;
+  font-weight: 600;
+}
+
+.date-range-picker-calendars {
+  display: flex;
+  gap: 8px; /* 간격 줄임: 12px → 8px */
+  padding: 8px; /* 패딩 줄임: 12px → 8px */
+}
+
+.date-range-picker-calendar-container {
+  flex: 1;
+  min-width: 160px; /* 최소 너비 줄임: 180px → 160px */
+}
+
+.date-range-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px; /* 패딩 더 줄임 */
+  border-bottom: 1px solid #e5e7eb; /* 선명한 보더 */
+  background: #f8fafc; /* 선명한 배경 */
+  border-radius: 6px 6px 0 0;
+  color: #000000; /* 선명한 텍스트 */
+}
+
+.date-range-picker-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* 크기 더 줄임: 28px → 24px */
+  height: 24px;
+  border: 1px solid #d1d5db; /* 선명한 보더 */
+  background: #ffffff; /* 선명한 배경 */
+  color: #000000; /* 선명한 텍스트 */
+  cursor: pointer;
+  border-radius: 3px; /* 더 작은 둥근 모서리 */
+  transition: all 0.2s ease; /* 빠른 애니메이션 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* 선명한 그림자 */
+  font-weight: bold;
+  z-index: 5;
+  position: relative;
+}
+
+.date-range-picker-nav-btn:hover {
+  background: #f3f4f6; /* 선명한 호버 배경 */
+  color: #000000;
+  border-color: #9ca3af;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-range-picker-arrow-text {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  color: inherit;
+  z-index: 10;
+  position: relative;
+}
+
+.date-range-picker-month {
+  font-size: 12px; /* 폰트 크기 더 줄임: 14px → 12px */
+  font-weight: 600;
+  color: #000000; /* 선명한 텍스트 */
+}
+
+.date-range-picker-today-btn-container {
+  display: flex;
+  justify-content: center;
+  padding: 2px; /* 패딩 대폭 줄임: 4px → 2px */
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.date-range-picker-today-btn {
+  padding: 3px 6px; /* 패딩 대폭 줄임: 6px 12px → 3px 6px */
+  font-size: 9px; /* 폰트 크기 대폭 줄임: 11px → 9px */
+  font-weight: 500; /* 굵기 줄임: 600 → 500 */
+  color: #667eea;
+  background: #ffffff; /* 단순한 배경 */
+  border: 1px solid #667eea;
+  border-radius: 3px; /* 더 작은 모서리 */
+  cursor: pointer;
+  transition: all 0.2s ease; /* 빠른 애니메이션 */
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.date-range-picker-today-btn:hover {
+  background: #667eea; /* 단순한 호버 배경 */
+  color: white;
+}
+
+.date-range-picker-calendar {
+  padding: 6px; /* 패딩 더 줄임 */
+  background: #ffffff; /* 단순한 배경 */
+  border: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.date-range-picker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  margin-bottom: 6px;
+}
+
+.date-range-picker-weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px; /* 높이 더 줄임: 24px → 20px */
+  font-size: 9px; /* 폰트 크기 더 줄임: 10px → 9px */
+  font-weight: 600;
+  color: #000000; /* 선명한 회색 */
+  text-align: center;
+  background: #f9fafb; /* 선명한 배경 */
+  border-radius: 3px; /* 더 작은 둥근 모서리 */
+  margin: 1px; /* 간격 줄임 */
+}
+
+.date-range-picker-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.date-range-picker-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px; /* 높이 더 줄임: 28px → 24px */
+  font-size: 11px; /* 폰트 크기 더 줄임: 12px → 11px */
+  font-weight: 500;
+  color: #000000; /* 선명한 텍스트 */
+  cursor: pointer;
+  border-radius: 3px; /* 더 작은 둥근 모서리 */
+  transition: all 0.2s ease; /* 빠른 애니메이션 */
+  position: relative;
+  margin: 1px; /* 간격 줄임 */
+}
+
+.date-range-picker-day:hover {
+  background: #e5e7eb; /* 선명한 호버 배경 */
+  color: #000000;
+}
+
+.date-range-picker-day.today {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.date-range-picker-day.selected {
+  background: #3b82f6; /* 선명한 파란색 */
+  color: white;
+  font-weight: 600;
+  border: 1px solid #2563eb;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3); /* 선명한 그림자 */
+  z-index: 2;
+  position: relative;
+}
+
+.date-range-picker-day.in-range {
+  background: #dbeafe; /* 선명한 파란색 배경 */
+  color: #1e40af;
+  font-weight: 500;
+  position: relative;
+  border-radius: 0;
+}
+
+.date-range-picker-day.in-range:hover {
+  background: #bfdbfe; /* 선명한 호버 배경 */
+  color: #1e40af;
+}
+
+/* 시작 날짜와 종료 날짜 사이의 날짜들에 대한 특별한 스타일 */
+.date-range-picker-day.in-range:not(.selected) {
+  background: linear-gradient(90deg, 
+    rgba(102, 126, 234, 0.1) 0%, 
+    rgba(102, 126, 234, 0.2) 50%, 
+    rgba(102, 126, 234, 0.1) 100%
+  );
+}
+
+/* 시작 날짜 (왼쪽 끝) */
+.date-range-picker-day.selected:first-of-type,
+.date-range-picker-day.selected.start-date {
+  border-radius: 4px 0 0 4px;
+}
+
+/* 종료 날짜 (오른쪽 끝) */
+.date-range-picker-day.selected:last-of-type,
+.date-range-picker-day.selected.end-date {
+  border-radius: 0 4px 4px 0;
+}
+
+/* 시작과 종료가 같은 날짜인 경우 */
+.date-range-picker-day.selected.same-date {
+  border-radius: 4px;
+}
+
+.date-range-picker-day.empty {
+  cursor: default;
+}
+
+.date-range-picker-day.empty:hover {
+  background-color: transparent;
+}
+
+.date-range-picker-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* 간격 대폭 줄임: 8px → 4px */
+  padding: 4px 8px; /* 패딩 대폭 줄임: 8px 12px → 4px 8px */
+  border-top: 1px solid #e5e7eb; /* 선명한 보더 */
+  background: #f9fafb; /* 선명한 배경 */
+  border-radius: 0 0 6px 6px;
+}
+
+.date-range-picker-selection-info {
+  text-align: center;
+  padding: 4px 8px; /* 패딩 대폭 줄임: 12px 16px → 4px 8px */
+  background: #ffffff; /* 단순한 배경 */
+  border: 1px solid #e5e7eb; /* 선명한 보더 */
+  border-radius: 4px; /* 더 작은 모서리 */
+  min-height: 16px; /* 높이 대폭 줄임: 24px → 16px */
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.date-range-picker-selection-text {
+  font-size: 10px; /* 폰트 크기 대폭 줄임: 13px → 10px */
+  font-weight: 500; /* 굵기 줄임: 600 → 500 */
+  color: #000000; /* 더 연한 텍스트 색상 */
+}
+
+.date-range-picker-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px; /* 간격 줄임: 8px → 4px */
+}
+
+.date-range-picker-btn {
+  padding: 4px 8px; /* 패딩 대폭 줄임: 6px 12px → 4px 8px */
+  border: 1px solid #d1d5db; /* 선명한 보더 */
+  border-radius: 3px; /* 더 작은 둥근 모서리 */
+  font-size: 10px; /* 폰트 크기 더 줄임: 11px → 10px */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease; /* 빠른 애니메이션 */
+  background: #ffffff; /* 단순한 배경 */
+  color: #000000; /* 선명한 텍스트 */
+  min-width: 40px; /* 최소 너비 대폭 줄임: 50px → 40px */
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.date-range-picker-btn:hover {
+  background: #f3f4f6; /* 선명한 호버 배경 */
+  border-color: #9ca3af;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 선명한 호버 그림자 */
+}
+
+.date-range-picker-btn-apply {
+  background: #3b82f6; /* 선명한 파란색 */
+  border-color: #3b82f6;
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3); /* 선명한 그림자 */
+}
+
+.date-range-picker-btn-apply:hover {
+  background: #2563eb; /* 선명한 호버 색상 */
+  border-color: #2563eb;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4); /* 선명한 호버 그림자 */
+}
+
+.date-range-picker-btn-cancel {
+  background-color: #ffffff;
+  border-color: #adb5bd;
+  color: #000000;
+}
+
+.date-range-picker-btn-cancel:hover {
+  background-color: #f8f9fa;
+  border-color: #6c757d;
+  color: #000000;
+}
+
+.date-range-picker-btn-clear {
+  background-color: #ffffff;
+  border-color: #adb5bd;
+  color: #000000;
+}
+
+.date-range-picker-btn-clear:hover {
+  background-color: #f8f9fa;
+  border-color: #6c757d;
+  color: #000000;
+}
+
+.date-range-picker-btn:disabled {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  color: #000000;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+.date-range-picker-btn:disabled:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  color: #000000;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .date-range-picker-dropdown {
+    min-width: 320px;
+    max-width: 90vw;
+  }
+  
+  .date-range-picker-dropdown.position-right {
+    right: -20px; /* 태블릿에서 더 왼쪽으로 이동 */
+  }
+  
+  .date-range-picker-today-info {
+    padding: 6px 16px;
+    font-size: 11px;
+  }
+  
+  .date-range-picker-calendars {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .date-range-picker-calendar-container {
+    min-width: auto;
+  }
+  
+  .date-range-picker-calendar {
+    padding: 8px;
+  }
+  
+  .date-range-picker-day {
+    height: 24px;
+    font-size: 11px;
+  }
+  
+  .date-range-picker-weekday {
+    height: 24px;
+    font-size: 10px;
+  }
+  
+  .date-range-picker-header {
+    padding: 8px 4px;
+  }
+  
+  .date-range-picker-month {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .date-range-picker-dropdown {
+    min-width: 280px;
+    max-width: 95vw;
+  }
+  
+  .date-range-picker-dropdown.position-right {
+    right: -30px; /* 모바일에서 더 왼쪽으로 이동 */
+  }
+  
+  .date-range-picker-today-info {
+    padding: 4px 12px;
+    font-size: 10px;
+  }
+  
+  .date-range-picker-calendars {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .date-range-picker-day {
+    height: 20px;
+    font-size: 10px;
+  }
+  
+  .date-range-picker-weekday {
+    height: 20px;
+    font-size: 9px;
+  }
+}

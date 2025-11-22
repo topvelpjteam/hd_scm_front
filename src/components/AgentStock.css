@@ -1,0 +1,255 @@
+@charset "UTF-8";
+
+.agent-stock-page .search-item input[type='month'] {
+  height: 28px;
+  padding: 4px 8px;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #495057;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  flex: 1;
+  width: 100%;
+}
+
+.agent-stock-page .search-item input[type='month']:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.agent-stock-page .search-item.textarea-item {
+  align-items: flex-start;
+}
+
+.agent-stock-page .textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+
+.agent-stock-page .textarea-wrapper textarea {
+  min-height: 60px;
+  padding: 6px 10px;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #495057;
+  background-color: #ffffff;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.agent-stock-page .textarea-wrapper textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.agent-stock-page .textarea-wrapper textarea::placeholder {
+  color: #adb5bd;
+}
+
+.agent-stock-page .search-hint {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.agent-stock-page .olm-error-banner {
+  margin: 8px 12px;
+}
+
+.agent-stock-page .agent-stock-main {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.agent-stock-page .agent-stock-table-container {
+  flex: 1;
+  padding: 0 12px 72px;
+  overflow: auto;
+}
+
+.agent-stock-page .agent-stock-table-wrapper {
+  min-height: 0;
+}
+
+.agent-stock-page .agent-stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: #343a40;
+}
+
+.agent-stock-page .agent-stock-table thead th {
+  padding: 8px 10px;
+  background-color: #f1f3f5;
+  color: #343a40;
+  font-weight: 700;
+  border: 1px solid #dee2e6;
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.agent-stock-page .agent-stock-table tbody td {
+  padding: 8px 10px;
+  border: 1px solid #edf2f7;
+  background-color: #ffffff;
+}
+
+.agent-stock-page .agent-stock-table thead th.is-text {
+  text-align: left;
+}
+
+.agent-stock-page .agent-stock-table thead th.is-numeric {
+  text-align: right;
+}
+
+.agent-stock-page .agent-stock-table td.is-text {
+  text-align: left;
+}
+
+.agent-stock-page .agent-stock-table td.is-numeric {
+  text-align: right;
+}
+
+.agent-stock-page .agent-stock-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.agent-stock-page .agent-stock-table tbody tr:hover {
+  background-color: #eef2ff;
+}
+
+/* 합계 컬럼과 총계 행 배경색 강조 */
+.agent-stock-page .agent-stock-table thead th.is-total {
+  background-color: #fde7cf;
+  color: #9a3412;
+}
+
+.agent-stock-page .agent-stock-table td.is-total-column {
+  background-color: #fff0d5;
+  color: #9a3412;
+  font-weight: 600;
+}
+
+.agent-stock-page .agent-stock-table tbody tr.grand-total-row {
+  background-color: #e2e8f0;
+  font-weight: 700;
+}
+
+.agent-stock-page .agent-stock-table td.is-grand-total-cell {
+  background-color: #e2e8f0;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.agent-stock-pagination {
+  margin: 16px 12px 0;
+}
+
+.agent-stock-page .no-data-message {
+  text-align: center;
+  padding: 48px 16px;
+  color: #6c757d;
+}
+
+.agent-stock-page .no-data-message i {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: #cbd5e0;
+}
+
+.agent-stock-page .product-selector-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agent-stock-page .selected-goods {
+  margin-top: 6px;
+}
+
+.agent-stock-page .selected-goods-scroll {
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 4px;
+  padding-bottom: 4px;
+}
+
+.agent-stock-page .selected-goods-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 0 2px;
+}
+
+.agent-stock-page .selected-goods-count {
+  font-size: 12px;
+  color: #334155;
+  font-weight: 600;
+}
+
+.agent-stock-page .selected-goods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+}
+
+.agent-stock-page .selected-goods-empty {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.agent-stock-page .selected-good-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid #cbd5f5;
+  background: #eef2ff;
+  color: #1f2a5c;
+  font-size: 12px;
+  min-height: 24px;
+}
+
+.agent-stock-page .selected-good-chip strong {
+  font-weight: 600;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.agent-stock-page .selected-good-chip .selected-good-code {
+  font-size: 11px;
+  color: #4b5563;
+}
+
+.agent-stock-page .selected-good-chip button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.agent-stock-page .selected-good-chip button:hover {
+  color: #dc3545;
+}
+
+

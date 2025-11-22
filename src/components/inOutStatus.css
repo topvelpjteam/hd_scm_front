@@ -1,0 +1,595 @@
+/* InOutStatus.css - OrderListManagement와 동일한 톤앤매너 적용 */
+
+/* ============================================
+   1. 컨테이너 레이아웃
+   ============================================ */
+.ios-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 150px);
+  gap: 4px;
+  background-color: #f8f9fa;
+  padding: 4px;
+}
+
+/* ============================================
+   2. 상단 섹션
+   ============================================ */
+.ios-top-section {
+  background-color: #ffffff;
+  padding: 4px 8px;
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.ios-page-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 4px 0;
+  padding-left: 8px;
+  border-left: 4px solid #667eea;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ios-page-title i {
+  color: #667eea;
+}
+
+/* ============================================
+   3. 검색 조건 영역
+   ============================================ */
+.ios-search-conditions {
+  margin-bottom: 2px;
+}
+
+.ios-search-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 4px;
+  align-items: center;
+}
+
+.ios-search-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.ios-search-item label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #495057;
+  white-space: nowrap;
+  min-width: 60px;
+  text-align: right;
+}
+
+.ios-field-control {
+  flex: 1;
+  display: flex;
+}
+
+/* ============================================
+   4. 폼 컨트롤
+   ============================================ */
+.ios-form-control,
+select.ios-form-control,
+textarea.ios-form-control {
+  height: 28px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #495057;
+  background-color: #ffffff;
+  border: 1px solid #adb5bd;
+  border-radius: 3px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  flex: 1;
+}
+
+textarea.ios-form-control {
+  height: auto;
+  resize: vertical;
+}
+
+.ios-form-control:focus,
+select.ios-form-control:focus,
+textarea.ios-form-control:focus {
+  border-color: #667eea;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.ios-multi-select {
+  flex: 1;
+}
+
+.ios-date-range-picker {
+  flex: 1;
+}
+
+/* ============================================
+   5. 버튼 스타일
+   ============================================ */
+.ios-action-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.ios-right-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.ios-btn {
+  height: 28px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.ios-btn i {
+  font-size: 11px;
+}
+
+.ios-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border-color: #667eea;
+}
+
+.ios-btn-primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #633a8c 100%);
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.ios-btn-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
+  border-color: #6c757d;
+}
+
+.ios-btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+.ios-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   6. 메인 섹션
+   ============================================ */
+.ios-main-section {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 4px 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.ios-main-section h3 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 6px 10px;
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ios-main-section h3 i {
+  font-size: 11px;
+}
+
+/* ============================================
+   7. 그리드 요약 정보
+   ============================================ */
+.ios-grid-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #f8f9fa;
+  border-radius: 3px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  color: #495057;
+  gap: 8px;
+}
+
+.ios-grid-summary span {
+  font-weight: 500;
+}
+
+/* ============================================
+   8. 에러 배너
+   ============================================ */
+.ios-error-banner {
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 3px;
+  color: #721c24;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.ios-error-banner i {
+  font-size: 14px;
+}
+
+/* ============================================
+   9. 테이블 컨테이너
+   ============================================ */
+.ios-table-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: white;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.ios-table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ios-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.ios-table-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.ios-table-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* ============================================
+   10. 데이터 없음 메시지
+   ============================================ */
+.ios-no-data-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d;
+}
+
+.ios-no-data-message i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.ios-no-data-message p {
+  font-size: 13px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* ============================================
+   11. 테이블 스타일
+   ============================================ */
+.ios-table-wrapper {
+  overflow-x: auto;
+}
+
+.ios-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ios-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.ios-table th {
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #5568d3;
+}
+
+.ios-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s;
+}
+
+.ios-table tbody tr:nth-child(4n+1),
+.ios-table tbody tr:nth-child(4n+2) {
+  background-color: #fffbf0;
+}
+
+.ios-table tbody tr:nth-child(4n+3),
+.ios-table tbody tr:nth-child(4n+4) {
+  background-color: #f0f8ff;
+}
+
+.ios-table tbody tr:hover {
+  background-color: #e3f2fd;
+}
+
+.ios-table tbody tr.ios-row-expandable {
+  cursor: pointer;
+}
+
+.ios-table tbody tr.ios-row-expandable.ios-is-expanded {
+  background-color: #fff9c4;
+}
+
+.ios-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+/* ============================================
+   12. 셀 그룹 (2줄 표시)
+   ============================================ */
+.ios-cell-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ios-cell-primary {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.ios-cell-secondary {
+  font-size: 10px;
+  color: #6c757d;
+}
+
+.ios-numeric-cell {
+  text-align: right;
+  font-weight: 600;
+  color: #28a745;
+}
+
+/* ============================================
+   13. 상태 배지
+   ============================================ */
+.ios-status-badge {
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.ios-status-inbound {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.ios-status-outbound {
+  background-color: #cce5ff;
+  color: #004085;
+  border: 1px solid #b8daff;
+}
+
+.ios-status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.ios-status-completed {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.ios-status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.ios-status-default {
+  background-color: #e9ecef;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+/* ============================================
+   14. 상세 행 (Detail Row)
+   ============================================ */
+.ios-detail-row td {
+  padding: 0;
+  background-color: rgba(248, 249, 250, 0.5);
+}
+
+.ios-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 12px 16px;
+  border-top: 1px solid #dee2e6;
+}
+
+.ios-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ios-detail-section h4 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ios-detail-section h4 i {
+  font-size: 10px;
+  color: #667eea;
+}
+
+.ios-detail-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ios-detail-section li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #6c757d;
+  padding: 2px 0;
+}
+
+.ios-detail-section li strong {
+  color: #495057;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* ============================================
+   15. 상세 품목 섹션
+   ============================================ */
+.ios-detail-items-section {
+  padding: 12px 16px;
+  border-top: 1px solid #dee2e6;
+}
+
+.ios-detail-items-section h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ios-detail-items-placeholder,
+.ios-detail-items-error {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.ios-detail-items-placeholder i,
+.ios-detail-items-error i {
+  font-size: 24px;
+  color: #adb5bd;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.ios-detail-items-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 3px;
+}
+
+.ios-detail-items-error i {
+  color: #721c24;
+}
+
+.ios-detail-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.ios-detail-items-table thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.ios-detail-items-table th {
+  padding: 6px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #495057;
+}
+
+.ios-detail-items-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.ios-detail-items-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.ios-detail-items-table td {
+  padding: 6px 8px;
+  vertical-align: middle;
+}
+
+.ios-detail-items-table .ios-numeric-cell {
+  text-align: right;
+  font-weight: 500;
+}
+
+/* ============================================
+   16. 페이지네이션
+   ============================================ */
+.ios-pagination {
+  margin-top: 8px;
+  padding: 8px 0;
+  border-top: 1px solid #dee2e6;
+}

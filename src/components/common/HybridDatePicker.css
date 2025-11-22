@@ -1,0 +1,301 @@
+/* 하이브리드 날짜 선택기 컴포넌트 스타일 */
+.hybrid-date-picker {
+  position: relative;
+  display: inline-block;
+  width: 60%;
+}
+
+.hybrid-date-picker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-height: 30px;
+}
+
+.hybrid-date-picker-trigger:hover {
+  border-color: #667eea;
+}
+
+.hybrid-date-picker-trigger.disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  border-color: #adb5bd;
+}
+
+.hybrid-date-picker-trigger.disabled:hover {
+  border-color: #adb5bd;
+}
+
+/* 필수입력 스타일 */
+.hybrid-date-picker-trigger.required {
+  border-color: #667eea;
+  background-color: #f8f9ff;
+}
+
+.hybrid-date-picker-trigger.required:hover {
+  border-color: #667eea;
+  background-color: #f0f2ff;
+}
+
+.hybrid-date-picker-trigger.required:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+/* 유효하지 않은 입력 스타일 */
+.hybrid-date-picker-trigger.invalid {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.hybrid-date-picker-trigger.invalid:hover {
+  border-color: #dc3545;
+}
+
+.hybrid-date-picker-trigger.invalid:focus-within {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}
+
+.hybrid-date-picker-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.hybrid-date-picker-input::placeholder {
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.hybrid-date-picker-input:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.hybrid-date-picker-calendar-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  transition: color 0.2s ease;
+  border-radius: 2px;
+}
+
+.hybrid-date-picker-calendar-btn:hover:not(:disabled) {
+  color: #667eea;
+  background-color: #f8f9fa;
+}
+
+.hybrid-date-picker-calendar-btn:disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.hybrid-date-picker-dropdown {
+  position: fixed !important;
+  background: #ffffff !important;
+  border: 2px solid #007bff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
+  z-index: 9999999999 !important;
+  backdrop-filter: blur(8px) !important;
+  min-width: 240px !important;
+  margin-top: 2px !important;
+  isolation: isolate !important;
+  transform: translateZ(0) !important;
+  will-change: transform !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  padding: 8px;
+}
+
+.hybrid-date-picker-today-info {
+  font-size: 10px;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.hybrid-date-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.hybrid-date-picker-nav-btn {
+  background: #ffffff !important;
+  border: 1px solid #adb5bd !important;
+  border-radius: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10000000 !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.hybrid-date-picker-nav-btn:hover {
+  background-color: #f8f9fa !important;
+  border-color: #667eea !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+.hybrid-date-picker-nav-btn:active {
+  background-color: #e9ecef !important;
+  transform: scale(0.95) !important;
+}
+
+.hybrid-date-picker-arrow-text {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+  z-index: 10;
+  position: relative;
+}
+
+.hybrid-date-picker-month-year {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.hybrid-date-picker-today-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.hybrid-date-picker-today-btn {
+  background: #667eea !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10000000 !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.hybrid-date-picker-today-btn:hover {
+  background: #5a6fd8 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3) !important;
+}
+
+.hybrid-date-picker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  margin-bottom: 4px;
+}
+
+.hybrid-date-picker-weekday {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #000000;
+  padding: 4px 2px;
+}
+
+.hybrid-date-picker-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.hybrid-date-picker-day {
+  background: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  color: #000000 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 0 auto !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10000000 !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.hybrid-date-picker-day:hover {
+  background-color: #f8f9fa !important;
+  border-color: #667eea !important;
+  color: #667eea !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.hybrid-date-picker-day.today {
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+  font-weight: 700 !important;
+  border: 2px solid #1976d2 !important;
+}
+
+.hybrid-date-picker-day.selected {
+  background-color: #667eea !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border: 2px solid #ffffff !important;
+}
+
+.hybrid-date-picker-day.empty {
+  background: transparent !important;
+  border: none !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+.hybrid-date-picker-day.empty:hover {
+  background: transparent !important;
+  border: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}

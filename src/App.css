@@ -1,0 +1,52 @@
+/* 전체 앱 컨테이너 */
+.App {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* 로딩 화면 */
+.loading-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.loading-spinner {
+  margin-bottom: 24px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-screen p {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* 기존 스타일 제거 (MainApp에서 처리) */
+.main-layout {
+  display: none;
+}
+
+.content-area {
+  display: none;
+}

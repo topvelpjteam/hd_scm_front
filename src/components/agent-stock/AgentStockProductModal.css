@@ -1,0 +1,160 @@
+.agent-stock-product-modal.modal-container {
+  max-width: 880px;
+  width: 90vw;
+}
+
+.agent-stock-product-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background-color: #f8f9fc;
+}
+
+.product-modal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.product-modal-toolbar .toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.product-modal-toolbar .toolbar-left input[type='text'] {
+  flex: 1;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  background-color: #ffffff;
+  color: #343a40;
+}
+
+.product-modal-toolbar .toolbar-left input[type='text']:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.product-modal-toolbar .toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-modal-toolbar .selection-counter {
+  font-size: 12px;
+  color: #495057;
+}
+
+.product-modal-error {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.product-modal-results {
+  flex: 1;
+  min-height: 200px;
+}
+
+.product-modal-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 220px;
+  color: #6c757d;
+  background: #ffffff;
+  border: 1px dashed #ced4da;
+  border-radius: 6px;
+}
+
+.product-modal-empty i {
+  font-size: 20px;
+  color: #a0aec0;
+}
+
+.product-modal-table-wrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  max-height: 360px;
+  position: relative;
+}
+
+.product-modal-table-scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.product-modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: #343a40;
+}
+
+.product-modal-table thead th {
+  background: #f1f3f5;
+  padding: 8px 10px;
+  border-bottom: 1px solid #dee2e6;
+  text-align: left;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.product-modal-table thead th:first-child {
+  text-align: center;
+  width: 48px;
+}
+
+.product-modal-table tbody td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f1f3f5;
+  vertical-align: middle;
+}
+
+.product-modal-table tbody tr:last-of-type td {
+  border-bottom: none;
+}
+
+.product-modal-table tbody tr:hover {
+  background: #eef2ff;
+}
+
+.product-modal-table tbody tr.is-selected {
+  background: #e8f0ff;
+}
+
+.product-modal-table tbody tr.is-selected td {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.product-modal-table input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.product-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+

@@ -1,0 +1,1689 @@
+/* ========================================
+   판매 등록 (Sales Registration) 스타일
+   ======================================== */
+
+.sales-registration {
+  width: 100%;
+  height: calc(100vh - 142px);
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  overflow: hidden;
+}
+
+/* ========== 헤더 영역 ========== */
+.sales-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sales-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sales-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.sales-icon svg {
+  color: white;
+  width: 20px;
+  height: 20px;
+}
+
+.sales-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
+
+.sales-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sales-date-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.sales-customer-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.mileage-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background-color: rgba(255, 193, 7, 0.3);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffc107;
+}
+
+/* ========== 탭 네비게이션 (책 인덱스 스타일) ========== */
+.sales-tabs-container {
+  background-color: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 18px; /* 25% compact */
+  overflow-x: auto;
+}
+
+.sales-tabs {
+  display: flex;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.sales-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* compact */
+  padding: 9px 12px; /* compact */
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 10px; /* compact */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  border-left: 3px solid transparent;
+  position: relative;
+}
+
+.sales-tab:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.sales-tab.active {
+  color: #1e293b;
+  font-weight: 600;
+  background-color: #f8fafc;
+  border-bottom-color: currentColor;
+}
+
+.sales-tab.active::before {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: inherit;
+}
+
+/* ========== 컨텐츠 영역 ========== */
+.sales-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 통합 레이아웃 */
+.sales-unified-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 8px;
+  height: 100%;
+}
+
+.sales-pane-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 320px;
+  height: 100%;
+}
+
+/* 구역별 시각적 구분 스타일 */
+.sales-section-customer {
+  border: 2px solid #667eea;
+  border-radius: 10px;
+  padding: 12px;
+  background: linear-gradient(to bottom, #f8f9ff 0%, #ffffff 100%);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.sales-section-purchase {
+  border: 2px solid #10b981;
+  border-radius: 10px;
+  background: linear-gradient(to bottom, #f0fdf9 0%, #ffffff 100%);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+}
+
+.sales-section-sales {
+  border: 2px solid #ec4899;
+  border-radius: 10px;
+  background: linear-gradient(to bottom, #fdf2f8 0%, #ffffff 100%);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
+}
+
+.sales-pane-right {
+  display: grid;
+  grid-template-rows: 0.3fr 0.7fr; /* 구매이력 30% / 판매등록 70% */
+  gap: 8px;
+  min-height: 0; /* allow proper shrinking inside container */
+}
+
+.sales-pane-top, .sales-pane-bottom {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  min-height: 0; /* prevent overflow when container has fixed height */
+}
+
+/* Ensure bottom pane stacks content tightly */
+.sales-pane-bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Let the 판매등록 그리드 take remaining height */
+.sales-pane-bottom .sales-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sales-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sales-section-header .title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+/* Section-specific accent bars (referencing custRegistration style) */
+.sales-section-header.customer .title {
+  border-left: 4px solid #667eea;
+  padding-left: 8px;
+}
+.sales-section-header.purchase .title {
+  border-left: 4px solid #10b981;
+  padding-left: 8px;
+}
+.sales-section-header.sales .title {
+  border-left: 4px solid #ec4899;
+  padding-left: 8px;
+}
+
+.sales-section-header .actions button {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+/* 소제목 타이틀 바 (기본정보, 연락/멤버십) */
+.sales-subsection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sales-subsection-header .title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  padding-left: 8px;
+  border-left: 3px solid #64748b; /* 기본색 (회색) */
+}
+
+.sales-subsection-header.basic .title {
+  border-left-color: #3b82f6; /* 파랑: 기본정보 */
+}
+
+.sales-subsection-header.contact .title {
+  border-left-color: #f59e0b; /* 주황: 연락/멤버십 */
+}
+
+.sales-subsection-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 고객 아바타 스타일 */
+.customer-avatar-row {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.customer-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.customer-avatar:hover {
+  transform: scale(1.05);
+}
+
+.sales-customer-detail.compact {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+}
+
+.sales-barcode-section.compact {
+  padding: 8px 0;
+}
+
+.sales-summary-panel.compact {
+  padding: 10px;
+}
+
+/* 고객 상세 5:5 하단 레이아웃 */
+.sales-customer-details-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* stack vertically (위/아래) */
+  gap: 8px;
+}
+
+.sales-customer-card {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+}
+
+/* Push details section to bottom within the left pane */
+.sales-pane-left .sales-customer-details-grid {
+  margin-top: auto;
+}
+
+/* Allow grid area to grow so bottom cards stay attached to bottom */
+.sales-pane-left .sales-grid-container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sales-customer-card h4 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: #334155;
+}
+
+.sales-customer-card .info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s ease;
+}
+
+.sales-customer-card .info-row:last-child {
+  border-bottom: none;
+}
+
+.sales-customer-card .info-row:hover {
+  background-color: #f8fafc;
+}
+
+.sales-customer-card .info-row span:first-child {
+  color: #64748b;
+  font-weight: 600;
+  min-width: 80px;
+  padding-right: 12px;
+  border-right: 2px solid #e2e8f0;
+  margin-right: 12px;
+}
+
+.sales-customer-card .info-row span:last-child {
+  color: #1e293b;
+  font-weight: 500;
+  flex: 1;
+  text-align: right;
+}
+
+.sales-date-input {
+  height: 28px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #111827;
+}
+.sales-date-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* 통합 레이아웃 - 컨트롤 컴팩트 사이징 */
+.sales-unified-layout .sales-search-input,
+.sales-unified-layout .sales-qty-input,
+.sales-unified-layout .sales-discount-input,
+.sales-unified-layout .sales-barcode-input,
+.sales-unified-layout select {
+  height: 26px;
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.sales-unified-layout .sales-search-btn,
+.sales-unified-layout .sales-cancel-btn,
+.sales-unified-layout .sales-payment-btn,
+.sales-unified-layout .sales-refresh-btn,
+.sales-unified-layout .sales-product-search-btn {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sales-unified-layout .sales-summary-panel.compact .sales-summary-row {
+  font-size: 12px;
+}
+
+.sales-unified-layout .sales-search-bar {
+  gap: 6px;
+  align-items: center;
+}
+
+/* AG Grid 컴팩트 설정 */
+.sales-unified-layout .ag-theme-alpine {
+  --ag-font-size: 11px;
+  --ag-list-item-height: 20px;
+  --ag-row-height: 26px;
+  --ag-grid-size: 4px;
+}
+
+/* AG Grid footer/paging compact */
+.sales-unified-layout .ag-theme-alpine .ag-paging-panel {
+  font-size: 9px;
+  padding: 2px 6px;
+  min-height: 20px;
+  gap: 2px; /* 버튼 사이 간격 축소 */
+}
+.sales-registration .ag-theme-alpine .ag-paging-row-summary-panel {
+  display: none !important; /* 행 요약(숫자 범위) 숨김 */
+}
+.sales-registration .ag-theme-alpine .ag-status-bar {
+  display: none; /* 상태바는 이 화면에서 숨김 */
+}
+.sales-unified-layout .ag-theme-alpine .ag-paging-button {
+  min-width: 16px;
+  height: 18px;
+  padding: 0 2px;
+  font-size: 9px;
+  margin: 0 1px; /* 버튼 간격 최소화 */
+}
+.sales-unified-layout .ag-theme-alpine .ag-status-bar {
+  font-size: 9px;
+  padding: 2px 6px;
+}
+
+/* 전체 페이지네이션 텍스트 및 버튼 크기 축소 */
+.sales-registration .ag-theme-alpine .ag-paging-panel {
+  font-size: 9px;
+  padding: 2px 6px;
+  min-height: 20px;
+  gap: 2px; /* 버튼 사이 간격 축소 */
+}
+.sales-registration .ag-theme-alpine .ag-paging-button {
+  min-width: 16px;
+  height: 18px;
+  padding: 0 2px;
+  font-size: 9px;
+  margin: 0 1px; /* 버튼 간격 최소화 */
+}
+.sales-registration .ag-theme-alpine .ag-paging-page-summary-panel {
+  font-size: 9px;
+  white-space: nowrap; /* 페이지 정보 텍스트 줄바꿈 방지 */
+  overflow: visible; /* 텍스트 잘림 방지 */
+}
+
+/* 좌측 검색/그리드 간격 최적화 */
+.sales-pane-left .sales-search-bar {
+  margin-bottom: 6px;
+}
+.sales-pane-left .sales-grid-container {
+  margin-top: 6px;
+}
+
+.sales-tab-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  min-height: 0; /* fill available area from parent flex container */
+}
+
+/* ========== 검색 바 ========== */
+.sales-search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sales-search-input {
+  flex: 1;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.sales-search-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.sales-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  height: 36px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sales-search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ========== 그리드 컨테이너 ========== */
+.sales-grid-container {
+  margin-top: 16px;
+}
+
+.sales-grid {
+  width: 100%;
+  font-size: 12px;
+}
+
+.sales-grid .ag-header-cell-label {
+  font-weight: 600;
+}
+
+.sales-grid .ag-row {
+  cursor: pointer;
+}
+
+.sales-grid .ag-row:hover {
+  background-color: #f8fafc !important;
+}
+
+/* ========== 빈 상태 ========== */
+.sales-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+  gap: 16px;
+}
+
+.sales-empty-state svg {
+  color: #cbd5e1;
+}
+
+.sales-empty-state p {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ========== 고객 상세 정보 ========== */
+.sales-customer-detail {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.sales-customer-detail h3 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sales-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.sales-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sales-detail-item label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.sales-detail-item span {
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.phone-text,
+.email-text,
+.mileage-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #667eea !important;
+}
+
+/* ========== 이력 헤더 ========== */
+.sales-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sales-history-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sales-history-count {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sales-add-consultation-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sales-add-consultation-btn:hover {
+  background-color: #059669;
+}
+
+/* ========== 상담 카드 ========== */
+.sales-consultation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sales-consultation-card {
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.consultation-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.consultation-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.consultation-type {
+  padding: 4px 8px;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.consultation-staff {
+  font-size: 12px;
+  color: #64748b;
+  margin-left: auto;
+}
+
+.consultation-content {
+  margin-bottom: 12px;
+}
+
+.consultation-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.consultation-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.result-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.result-value {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* ========== 판매 등록 메인 ========== */
+.sales-tab-content.sales-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sales-barcode-section {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 2px dashed #cbd5e1;
+}
+
+.sales-barcode-input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sales-barcode-input-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.sales-barcode-input {
+  height: 40px;
+  padding: 0 12px;
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.sales-barcode-input:focus {
+  border-color: #764ba2;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.sales-quick-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.sales-quick-input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sales-quick-input-item label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.sales-qty-input,
+.sales-discount-input {
+  width: 80px;
+  height: 40px;
+  padding: 0 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+}
+
+.sales-qty-input:focus,
+.sales-discount-input:focus {
+  border-color: #667eea;
+}
+
+/* ========== 판매 항목 그리드 ========== */
+.sales-items-grid-container {
+  flex: 1;
+  min-height: 300px;
+}
+
+.sales-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sales-delete-btn:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* ========== 합계 패널 ========== */
+.sales-summary-panel {
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  border-radius: 8px;
+  border: 1px solid #c7d2fe;
+}
+
+.sales-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.sales-summary-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sales-summary-value {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.sales-summary-row.discount .sales-summary-value {
+  color: #ef4444;
+}
+
+.sales-summary-row.mileage .sales-summary-label {
+  color: #8b5cf6;
+}
+
+.sales-summary-row.mileage .sales-summary-value {
+  color: #8b5cf6;
+}
+
+.sales-summary-divider {
+  height: 1px;
+  background-color: #cbd5e1;
+  margin: 8px 0;
+}
+
+.sales-summary-row.total {
+  padding: 12px 0;
+  border-top: 2px solid #667eea;
+}
+
+.sales-summary-row.total .sales-summary-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.total-amount {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #667eea !important;
+}
+
+/* ========== 액션 버튼 ========== */
+.sales-action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.sales-cancel-btn,
+.sales-payment-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sales-cancel-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.sales-cancel-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.sales-cancel-btn:active {
+  transform: translateY(0);
+}
+
+.sales-payment-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.sales-payment-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+}
+
+.sales-payment-btn:disabled {
+  background: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* ========== 마일리지 카드 ========== */
+.sales-mileage-summary {
+  margin-bottom: 20px;
+}
+
+.mileage-card {
+  padding: 24px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.mileage-card h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.mileage-amount {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+/* ========== 당일 판매 현황 ========== */
+.sales-daily-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sales-daily-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sales-refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+}
+
+.sales-refresh-btn:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.sales-refresh-btn:active {
+  transform: translateY(0);
+}
+
+.sales-daily-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.card-value {
+  font-size: 18px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* ========== 결제 모달 ========== */
+.sales-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.sales-payment-modal {
+  width: 500px;
+  max-width: 90vw;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.payment-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.payment-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.payment-modal-content {
+  padding: 24px;
+}
+
+.payment-summary {
+  padding: 20px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.payment-row span:first-child {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.payment-row span:last-child {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.payment-row.total {
+  padding: 16px 0 0 0;
+  margin-top: 12px;
+  border-top: 2px solid #cbd5e1;
+}
+
+.payment-row.total span:first-child {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.final-amount {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #667eea !important;
+}
+
+.payment-mileage-section {
+  padding: 16px 0;
+  margin: 16px 0;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.payment-mileage-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.mileage-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mileage-input {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  outline: none;
+}
+
+.mileage-input:focus {
+  border-color: #667eea;
+}
+
+.mileage-available {
+  font-size: 12px;
+  color: #8b5cf6;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.payment-method-section label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.payment-method-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-method-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.payment-method-btn.active {
+  background-color: #ede9fe;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.payment-method-btn span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.payment-modal-actions {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.payment-cancel-btn,
+.payment-confirm-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-cancel-btn {
+  background-color: #e2e8f0;
+  color: #64748b;
+}
+
+.payment-cancel-btn:hover {
+  background-color: #cbd5e1;
+  color: #475569;
+}
+
+.payment-confirm-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.payment-confirm-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* ========== 힌트 메시지 ========== */
+.sales-hint {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #fef3c7;
+  border-left: 3px solid #f59e0b;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+/* ========== 반응형 ========== */
+@media (max-width: 768px) {
+  .sales-tabs {
+    flex-wrap: nowrap;
+  }
+
+  .sales-tab {
+    flex-shrink: 0;
+  }
+
+  .sales-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sales-daily-summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sales-barcode-section {
+    flex-direction: column;
+  }
+
+  .sales-quick-inputs {
+    width: 100%;
+  }
+
+  .sales-quick-input-item {
+    flex: 1;
+  }
+
+  .payment-methods {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== 스크롤바 커스터마이징 ========== */
+.sales-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sales-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.sales-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.sales-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ========== 애니메이션 ========== */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sales-tab-content {
+  animation: slideInRight 0.3s ease;
+}
+
+/* ========== 상품검색 모달 ========== */
+.sales-product-search-modal {
+  position: fixed;
+  width: 800px;
+  max-width: 90vw;
+  max-height: 85vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sales-product-search-modal.dragging {
+  cursor: move;
+  user-select: none;
+}
+
+.sales-product-search-modal-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sales-product-search-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: move;
+}
+
+.sales-product-search-modal-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sales-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.sales-modal-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sales-product-search-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  flex: 1;
+  overflow: auto;
+}
+
+.sales-product-search-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.sales-product-search-input-group {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.sales-product-search-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.sales-product-search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.sales-product-search-btn-modal {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.sales-product-search-btn-modal:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.sales-product-search-btn-modal:active {
+  transform: translateY(0);
+}
+
+.sales-product-search-grid-wrapper {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.sales-product-search-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.selected-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.sales-add-products-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sales-add-products-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.sales-add-products-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sales-add-products-btn:disabled {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.sales-product-search-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.sales-product-search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+}
+
+.sales-product-search-btn:active {
+  transform: translateY(0);
+}
+
+/* ========= Inline Sales Summary (under grid) ========= */
+.sales-summary-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  margin-top: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+/* When inline summary is inside the sales pane, blend into the panel */
+.sales-pane-bottom .sales-summary-inline {
+  background: transparent;
+  border: 0;
+  padding: 6px 0 0;
+  margin-top: 6px;
+}
+
+.sales-summary-inline .sales-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sales-summary-inline .sales-summary-item .label {
+  color: #6b7280;
+}
+
+.sales-summary-inline .sales-summary-item .value {
+  font-weight: 600;
+}
+
+.sales-summary-inline .sales-summary-item.discount .value {
+  color: #ef4444;
+}
+
+.sales-summary-inline .sales-summary-item.mileage .value {
+  color: #10b981;
+}
+
+.sales-summary-inline .sales-summary-item.total .total-amount,
+.sales-summary-inline .sales-summary-item.total .value.total-amount {
+  font-weight: 700;
+  font-size: 14px;
+  color: #111827;
+}
+
+.sales-summary-sep {
+  flex: 0 0 1px;
+  height: 18px;
+  background: #e5e7eb;
+  margin: 0 2px;
+}
+
+.sales-summary-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Compact payment button when inline */
+.sales-summary-inline .sales-payment-btn {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}

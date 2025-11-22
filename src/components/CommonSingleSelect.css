@@ -1,0 +1,174 @@
+.common-single-select-container {
+  position: relative;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.select-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}
+
+.required-mark {
+  color: #ef4444;
+  margin-left: 4px;
+}
+
+.select-display {
+  position: relative;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.select-display:hover {
+  border-color: #9ca3af;
+}
+
+.select-display.active {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.select-display.disabled {
+  background-color: #f9fafb;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.selected-value {
+  flex: 1;
+  color: #111827;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-value.placeholder {
+  color: #9ca3af;
+}
+
+.chevron-icon {
+  width: 16px;
+  height: 16px;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.search-container {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.options-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.option-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  color: #374151;
+}
+
+.option-item:hover {
+  background-color: #f3f4f6;
+}
+
+.option-item.selected {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+
+.no-options {
+  padding: 16px 12px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* 스크롤바 스타일링 */
+.options-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.options-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.options-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.options-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .select-display {
+    padding: 8px 10px;
+    min-height: 38px;
+  }
+  
+  .dropdown-menu {
+    max-height: 250px;
+  }
+  
+  .option-item {
+    padding: 8px 10px;
+  }
+}

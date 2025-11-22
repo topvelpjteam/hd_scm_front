@@ -1,0 +1,637 @@
+/* 탭 컨테이너 */
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* 탭 헤더 */
+.tab-header {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #0284c7;
+  padding: 0 8px;
+  height: 28px;
+  gap: 2px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 탭 리스트 */
+.tab-list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* 탭 아이템 */
+.tab-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px 4px 8px; /* 더 작은 패딩 */
+  background: #f0f9ff;
+  border: 1px solid #0284c7;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0; /* 더 작은 둥근 모서리 */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px; /* 더 작은 최소 너비 */
+  max-width: 150px; /* 더 작은 최대 너비 */
+  position: relative;
+  color: #0369a1;
+  margin-right: 1px;
+  font-size: 11px; /* 더 작은 폰트 크기 */
+}
+
+.tab-item:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  transform: translateY(-1px);
+}
+
+.tab-item.active {
+  background: #ffffff;
+  border-color: #0284c7;
+  color: #0284c7;
+  font-weight: 600;
+  box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0284c7;
+}
+
+/* 탭 아이콘 */
+.tab-icon {
+  width: 12px;
+  height: 12px;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.tab-item:hover .tab-icon,
+.tab-item.active .tab-icon {
+  opacity: 1;
+}
+
+/* 탭 제목 */
+.tab-title {
+  flex: 1;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  margin-right: 12px; /* 닫기 버튼과의 간격 확대 */
+  transition: margin-right 0.2s ease;
+}
+
+/* 탭 닫기 버튼 */
+.tab-close-btn {
+  position: absolute;
+  top: 50%;
+  right: 4px; /* 오른쪽 여백 증가 */
+  transform: translateY(-50%); /* scale 제거하여 텍스트 크기 유지 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px; /* 너비 축소 */
+  height: 14px;
+  border-radius: 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0; /* 기본적으로 숨김 */
+  transition: all 0.2s ease;
+  color: #374151;
+  font-size: 12px; /* 텍스트 크기 유지 */
+  font-weight: bold;
+  z-index: 2;
+  line-height: 1;
+  visibility: hidden; /* 완전히 숨김 */
+}
+
+/* 닫기 아이콘 이미지 */
+.tab-close-btn .close-icon {
+  width: 8px;
+  height: 8px;
+  object-fit: contain;
+  transition: all 0.2s ease;
+}
+
+.tab-item:hover .tab-close-btn {
+  opacity: 1;
+  visibility: visible; /* 호버 시에만 보이게 함 */
+  background: transparent;
+  transform: translateY(-50%); /* scale 제거하여 텍스트 크기 유지 */
+}
+
+.tab-close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%); /* scale 제거하여 텍스트 크기 유지 */
+}
+
+/* 새 탭 버튼 */
+.new-tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  background: #f0f9ff;
+  border: 1px solid #0284c7;
+  color: #0369a1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.new-tab-btn:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #0369a1;
+  transform: translateY(-1px);
+}
+
+/* 탭 리스트 컨테이너 */
+.tab-list-container {
+  position: relative;
+  margin-left: auto; /* 오른쪽 끝으로 이동 */
+}
+
+/* 탭 리스트 버튼 */
+.tab-list-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-list-btn:hover {
+  background: #e2e8f0;
+  color: #475569;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 탭 리스트 팝업 */
+.tab-list-popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #0284c7;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  min-width: 250px;
+  max-width: 350px;
+  z-index: 10000;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease-out;
+  /* 화면 밖으로 나가지 않도록 조정 */
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 탭 리스트 헤더 */
+.tab-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f0f9ff;
+}
+
+.tab-list-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0369a1;
+}
+
+.tab-list-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  color: #0369a1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-list-close:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+/* 탭 리스트 콘텐츠 */
+.tab-list-content {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.tab-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  color: #0369a1;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f1f5f9;
+  font-weight: 500;
+}
+
+.tab-list-item:hover {
+  background: #f0f9ff;
+  color: #0284c7;
+}
+
+.tab-list-item.active {
+  background: #e0f2fe;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+.tab-list-item:last-child {
+  border-bottom: none;
+}
+
+/* 탭 리스트 아이콘 */
+.tab-list-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tab-list-item:hover .tab-list-icon,
+.tab-list-item.active .tab-list-icon {
+  opacity: 1;
+}
+
+.tab-list-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 8px;
+}
+
+.tab-list-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: transparent;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0; /* 기본적으로 숨김 */
+  visibility: hidden; /* 완전히 숨김 */
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* 탭 리스트 닫기 아이콘 이미지 */
+.tab-list-close-btn .close-icon {
+  width: 10px;
+  height: 10px;
+  object-fit: contain;
+  transition: all 0.2s ease;
+}
+
+.tab-list-item:hover .tab-list-close-btn {
+  opacity: 1;
+  visibility: visible; /* 호버 시 보이게 함 */
+  background: transparent;
+}
+
+.tab-list-close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 탭 리스트 푸터 */
+.tab-list-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #f1f5f9;
+  background: #f0f9ff;
+}
+
+.tab-list-footer .new-tab-btn {
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #0284c7;
+  color: #0369a1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tab-list-footer .new-tab-btn:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #0369a1;
+}
+
+/* 전체 닫기 버튼 */
+.close-all-tabs-btn {
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.close-all-tabs-btn:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+/* 스크롤바 스타일링 */
+.tab-list-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tab-list-content::-webkit-scrollbar-track {
+  background: #f0f9ff;
+}
+
+.tab-list-content::-webkit-scrollbar-thumb {
+  background: #0ea5e9;
+  border-radius: 3px;
+}
+
+.tab-list-content::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}
+
+/* 탭 콘텐츠 영역 */
+.tab-content {
+  flex: 1;
+  background: #ffffff;
+  overflow: hidden;
+  /* 깜빡거림 방지 */
+  will-change: auto;
+  transform: translateZ(0); /* GPU 가속 활성화 */
+}
+
+/* 컴포넌트 래퍼 */
+.component-wrapper {
+  height: 100%;
+  background: #ffffff;
+  overflow: auto;
+  padding: 0px;
+  /* 깜빡거림 방지 */
+  will-change: auto;
+  transform: translateZ(0); /* GPU 가속 활성화 */
+}
+
+/* 탭이 선택되지 않았을 때 */
+.no-tab-selected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: #ffffff;
+  color: #0369a1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* 환영 메시지 */
+.welcome-message {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 48px;
+  margin: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  border: 1px solid #0284c7;
+}
+
+.welcome-message h1 {
+  color: #0369a1;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+}
+
+.welcome-message p {
+  color: #0ea5e9;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+/* 대시보드 컴포넌트 */
+.dashboard-component {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  margin: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #0284c7;
+}
+
+.dashboard-component h1 {
+  color: #0369a1;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+}
+
+.dashboard-component p {
+  color: #0ea5e9;
+  line-height: 1.6;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* 콘텐츠 플레이스홀더 */
+.content-placeholder {
+  background: #f0f9ff;
+  border: 2px dashed #0ea5e9;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.content-placeholder p {
+  color: #0284c7;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .tab-container {
+    margin: 0;
+  }
+  
+  .tab-header {
+    padding: 0 12px;
+    height: 40px;
+  }
+  
+  .tab-item {
+    padding: 6px 20px 6px 12px; /* 모바일에서도 닫기 버튼 공간 확보 */
+    min-width: 100px;
+    max-width: 150px;
+  }
+  
+  .tab-title {
+    font-size: 13px;
+  }
+  
+  .welcome-message,
+  .dashboard-component {
+    margin: 16px;
+    padding: 24px;
+  }
+  
+  .component-wrapper {
+    padding: 16px;
+  }
+
+  .tab-list-popup {
+    right: -50px;
+    min-width: 200px;
+  }
+  
+  .tab-list-header,
+  .tab-list-footer {
+    padding: 10px 12px;
+  }
+  
+  .tab-list-item {
+    padding: 6px 12px;
+  }
+  
+  .tab-list-title {
+    font-size: 13px;
+  }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tab-content {
+  /* 애니메이션 제거하여 깜빡거림 방지 */
+  animation: none !important;
+}
+
+/* 포커스 스타일 */
+.tab-item:focus {
+  outline: 2px solid #0284c7;
+  outline-offset: -2px;
+}
+
+.new-tab-btn:focus {
+  outline: 2px solid #0284c7;
+  outline-offset: 2px;
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .tab-item,
+  .new-tab-btn,
+  .tab-close-btn {
+    transition: none;
+  }
+  
+  .tab-content {
+    animation: none;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .tab-item {
+    border-width: 2px;
+  }
+  
+  .tab-item.active {
+    border-width: 3px;
+  }
+  
+  .new-tab-btn {
+    border-width: 2px;
+  }
+}

@@ -1,0 +1,704 @@
+/* 고객 통합 대시보드 스타일 */
+.customer-integration-dashboard {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin-left: 44px;
+}
+
+/* 요약 카드 */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.total-customers .card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.integration-rate .card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.duplicate-removal .card-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.data-quality .card-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.card-change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-change.positive {
+  color: #059669;
+}
+
+.card-change.negative {
+  color: #dc2626;
+}
+
+/* 채널 분석 */
+.channel-analysis {
+  margin-bottom: 32px;
+}
+
+.channel-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.channel-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.channel-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.channel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.channel-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.channel-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.channel-growth {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.growth-rate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.channel-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* 추이 및 품질 */
+.trend-and-quality {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.quality-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.trend-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.trend-section h3,
+.quality-section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+/* 트렌드 섹션 레이아웃 */
+.trend-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.trend-chart-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trend-chart-visual {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  min-height: 160px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 120px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.chart-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  max-width: 60px;
+  height: 100%;
+}
+
+.chart-bar {
+  width: 80%;
+  min-height: 8px;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.chart-bar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chart-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+  border-radius: 4px 4px 0 0;
+}
+
+.chart-bar-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+}
+
+.chart-bar-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trend-data-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.trend-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.trend-item:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trend-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.trend-progress {
+  flex: 1;
+  height: 16px;
+  background-color: #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.trend-progress-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.6s ease;
+  min-width: 6px;
+  position: relative;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+}
+
+.trend-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.trend-value {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 700;
+  min-width: 80px;
+  text-align: right;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.quality-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quality-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  min-height: 60px;
+}
+
+.quality-item:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quality-label {
+  font-size: 16px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.quality-progress {
+  width: 100%;
+  height: 12px;
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.quality-progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.quality-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+.quality-value {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: right;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 매출 비교 */
+.revenue-comparison {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.revenue-comparison h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.revenue-table {
+  overflow-x: auto;
+}
+
+.channel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.channel-table th {
+  background-color: #f8fafc;
+  color: #374151;
+  font-weight: 600;
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+  font-size: 13px;
+}
+
+.channel-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.channel-row:hover {
+  background-color: #f9fafb;
+}
+
+.channel-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.channel-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.channel-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.channel-customers,
+.channel-new {
+  color: #374151;
+  font-weight: 500;
+}
+
+.growth-rate {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.growth-rate.positive {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.growth-rate.negative {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.channel-conversion {
+  color: #374151;
+  font-weight: 600;
+}
+
+.channel-revenue {
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.channel-percentage {
+  min-width: 120px;
+}
+
+.percentage-bar {
+  position: relative;
+  background-color: #f3f4f6;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.percentage-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  min-width: 4px;
+}
+
+.percentage-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: #374151;
+  z-index: 1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .customer-integration-dashboard {
+    padding: 16px;
+  }
+  
+  .summary-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .channel-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .trend-and-quality {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .trend-section {
+    gap: 20px;
+  }
+  
+  .trend-chart-visual {
+    min-height: 150px;
+    padding: 16px;
+  }
+  
+  .chart-bars {
+    height: 120px;
+    gap: 12px;
+  }
+  
+  .chart-bar-item {
+    max-width: 50px;
+  }
+  
+  .trend-data-list {
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .trend-item {
+    gap: 16px;
+    padding: 12px 16px;
+    min-height: 50px;
+  }
+  
+  .trend-label {
+    min-width: 60px;
+    font-size: 15px;
+  }
+  
+  .trend-progress {
+    height: 18px;
+  }
+  
+  .trend-value {
+    min-width: 80px;
+    font-size: 15px;
+  }
+  
+  .channel-table {
+    font-size: 12px;
+  }
+  
+  .channel-table th,
+  .channel-table td {
+    padding: 8px 4px;
+  }
+  
+  .channel-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .percentage-bar {
+    height: 16px;
+  }
+  
+  .channel-metrics {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

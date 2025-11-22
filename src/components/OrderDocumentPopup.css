@@ -1,0 +1,898 @@
+/* 발주서 팝업 스타일 - odp (Order Document Popup) 접두어 사용 */
+
+/* 오버레이 */
+.odp-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* 팝업 컨테이너 */
+.odp-popup {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: odp-slideIn 0.3s ease-out;
+}
+
+@keyframes odp-slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 헤더 */
+.odp-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.odp-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.odp-title i {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.odp-title h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.odp-close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.odp-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* 콘텐츠 */
+.odp-content {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.4;
+  max-height: calc(85vh - 120px); /* 헤더와 푸터 공간 제외 */
+  min-height: 0; /* flex 아이템이 축소될 수 있도록 */
+}
+
+/* 스크롤바 스타일링 */
+.odp-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.odp-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.odp-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.odp-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 발주 정보 헤더 */
+.odp-order-header {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.odp-order-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.odp-order-main .odp-label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 12px;
+}
+
+.odp-order-main .odp-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.odp-separator {
+  color: #6c757d;
+  font-weight: 300;
+  margin: 0 4px;
+}
+
+.odp-status-badge {
+  margin-left: 20px;
+}
+
+.odp-status {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.odp-status.pending {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.odp-status.in-progress {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.odp-status.completed {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* 상품 리스트 */
+.odp-product-list {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.odp-product-list h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 6px;
+}
+
+.odp-product-table {
+  overflow-x: auto;
+}
+
+.odp-product-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.odp-product-table th {
+  background: #e9ecef;
+  color: #495057;
+  font-weight: 600;
+  padding: 6px 8px;
+  text-align: left;
+  border: 1px solid #dee2e6;
+  font-size: 10px;
+}
+
+.odp-product-table td {
+  padding: 4px 8px;
+  border: 1px solid #dee2e6;
+  font-size: 11px;
+}
+
+.odp-product-table .text-right {
+  text-align: right;
+}
+
+.odp-product-table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.odp-product-table tbody tr:hover {
+  background: #e3f2fd;
+}
+
+.odp-product-table .negative {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.odp-total-row {
+  background: #e9ecef !important;
+  font-weight: 700;
+}
+
+.odp-total-row td {
+  border-top: 2px solid #495057;
+  font-size: 12px;
+}
+
+.odp-no-products {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.odp-no-products p {
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+/* 회사 정보 */
+.odp-company-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.odp-vendor-info,
+.odp-store-info {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.odp-vendor-info h3,
+.odp-store-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 6px;
+}
+
+.odp-vendor-info h3 {
+  color: #2563eb;
+}
+
+.odp-store-info h3 {
+  color: #059669;
+}
+
+.odp-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.odp-info-item {
+  display: flex;
+  align-items: center;
+}
+
+.odp-info-item .odp-label {
+  font-weight: 500;
+  color: #6c757d;
+  margin-right: 8px;
+  min-width: 60px;
+  font-size: 10px;
+}
+
+.odp-info-item .odp-value {
+  font-weight: 600;
+  color: #212529;
+  font-size: 11px;
+}
+
+/* 발주 요약 */
+.odp-summary {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.odp-summary h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 6px;
+}
+
+.odp-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.odp-summary-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.odp-summary-item .odp-label {
+  font-weight: 500;
+  color: #6c757d;
+  font-size: 10px;
+}
+
+.odp-summary-item .odp-value {
+  font-weight: 700;
+  color: #212529;
+  font-size: 12px;
+}
+
+/* 이메일 정보 */
+.odp-email-info {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.odp-email-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 6px;
+}
+
+.odp-email-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.odp-email-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.odp-email-item .odp-label {
+  font-weight: 500;
+  color: #6c757d;
+  font-size: 10px;
+}
+
+.odp-email-item .odp-value {
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.odp-email-item .odp-value.sent {
+  color: #28a745;
+}
+
+.odp-email-item .odp-value.not-sent {
+  color: #dc3545;
+}
+
+.odp-email-item .odp-value.error {
+  color: #dc3545;
+}
+
+/* 비고 */
+.odp-remarks {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.odp-remarks h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 6px;
+}
+
+.odp-remarks-content {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 10px;
+  font-style: italic;
+  color: #6c757d;
+  line-height: 1.4;
+  font-size: 11px;
+}
+
+/* 확인란 스타일 */
+.odp-signature-section {
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 12px;
+  margin-top: 15px;
+}
+
+.odp-signature-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 4px;
+}
+
+.odp-signature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.odp-signature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.odp-signature-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.odp-signature-line {
+  width: 80px;
+  height: 1px;
+  border-bottom: 1px solid #000;
+  margin: 3px 0;
+}
+
+.odp-signature-name {
+  font-size: 9px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.odp-signature-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.odp-signature-date .odp-signature-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.odp-signature-date .odp-signature-line {
+  width: 80px;
+  height: 1px;
+  border-bottom: 1px solid #000;
+}
+
+/* 푸터 */
+.odp-footer {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid #e9ecef;
+}
+
+.odp-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  font-size: 12px;
+}
+
+.odp-btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.odp-btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.odp-btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.odp-btn-primary:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* 인쇄 스타일 */
+@media print {
+  .odp-overlay {
+    position: static;
+    background: none;
+    padding: 0;
+  }
+  
+  .odp-popup {
+    max-width: none;
+    max-height: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    border: 2px solid #000 !important;
+  }
+  
+  .odp-header {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .odp-close-btn {
+    display: none !important;
+  }
+  
+  .odp-footer {
+    display: none !important;
+  }
+  
+  .odp-content {
+    padding: 10px;
+    font-size: 12px;
+    overflow: visible !important;
+    max-height: none !important;
+  }
+  
+  .odp-order-header,
+  .odp-company-info,
+  .odp-summary,
+  .odp-product-list,
+  .odp-email-info,
+  .odp-remarks {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #000 !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .odp-order-header {
+    background: #f0f0f0 !important;
+    border: 2px solid #000 !important;
+  }
+  
+  .odp-vendor-info,
+  .odp-store-info {
+    border: 1px solid #000 !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .odp-vendor-info h3,
+  .odp-store-info h3 {
+    border-bottom: 1px solid #000 !important;
+    background: #e0e0e0 !important;
+    margin: 0 !important;
+    padding: 5px !important;
+  }
+  
+  .odp-info-item {
+    border-bottom: 1px dotted #666 !important;
+    padding: 2px 0 !important;
+  }
+  
+  .odp-summary-item {
+    border: 1px solid #000 !important;
+    margin-bottom: 3px !important;
+  }
+  
+  .odp-product-table {
+    overflow: visible;
+    border: 2px solid #000 !important;
+  }
+  
+  .odp-product-table table {
+    font-size: 10px;
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+  
+  .odp-product-table th {
+    border: 1px solid #000 !important;
+    background: #e0e0e0 !important;
+    padding: 4px 6px !important;
+    font-weight: bold !important;
+  }
+  
+  .odp-product-table td {
+    border: 1px solid #000 !important;
+    padding: 4px 6px !important;
+  }
+  
+  .odp-total-row {
+    border-top: 2px solid #000 !important;
+    background: #f0f0f0 !important;
+  }
+  
+  .odp-email-item {
+    border: 1px solid #000 !important;
+    margin-bottom: 3px !important;
+  }
+  
+  .odp-remarks-content {
+    border: 1px solid #000 !important;
+  }
+  
+  /* 확인란 스타일 */
+  .odp-signature-section {
+    border: 1px solid #000 !important;
+    margin-top: 15px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .odp-signature-section h3 {
+    border-bottom: 1px solid #000 !important;
+    background: #e0e0e0 !important;
+    margin: 0 !important;
+    padding: 3px !important;
+    font-size: 11px !important;
+  }
+  
+  .odp-signature-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 15px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .odp-signature-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+  
+  .odp-signature-label {
+    font-size: 9px !important;
+    font-weight: bold !important;
+  }
+  
+  .odp-signature-line {
+    width: 80px !important;
+    height: 1px !important;
+    border-bottom: 1px solid #000 !important;
+    margin: 3px 0 !important;
+  }
+  
+  .odp-signature-name {
+    font-size: 8px !important;
+    font-style: italic !important;
+  }
+  
+  .odp-signature-date {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+  }
+  
+  .odp-signature-date .odp-signature-line {
+    width: 80px !important;
+    height: 1px !important;
+    border-bottom: 1px solid #000 !important;
+  }
+  
+  /* URL 숨기기 */
+  a[href]:after {
+    content: none !important;
+  }
+  
+  /* 페이지 나누기 및 헤더 반복 */
+  .odp-product-list {
+    page-break-before: auto;
+  }
+  
+  /* 발주서 헤더 정보가 각 페이지마다 반복되도록 설정 */
+  .odp-order-header {
+    page-break-after: avoid !important;
+  }
+  
+  .odp-company-info {
+    page-break-after: avoid !important;
+  }
+  
+  .odp-summary {
+    page-break-after: avoid !important;
+  }
+  
+  /* 상품 리스트 제목과 테이블 헤더를 함께 유지 */
+  .odp-product-list h3 {
+    page-break-after: avoid !important;
+  }
+  
+  /* 테이블 헤더가 각 페이지마다 반복되도록 설정 */
+  .odp-product-table thead {
+    display: table-header-group !important;
+  }
+  
+  .odp-product-table tbody {
+    display: table-row-group !important;
+  }
+  
+  /* 페이지 나누기 시 행이 분리되지 않도록 */
+  .odp-product-table tbody tr {
+    page-break-inside: avoid !important;
+  }
+  
+  /* 첫 번째 행이 페이지 하단에 혼자 남지 않도록 */
+  .odp-product-table tbody tr:first-child {
+    page-break-before: avoid !important;
+  }
+  
+  /* 확인란은 마지막 페이지에만 표시 */
+  .odp-signature-section {
+    page-break-before: avoid !important;
+  }
+  
+  /* 합계 행은 마지막 페이지에만 표시 */
+  .odp-total-row {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+  
+  /* 테이블의 마지막 행이 페이지를 넘어가지 않도록 */
+  .odp-product-table tbody tr:last-child {
+    page-break-after: avoid !important;
+  }
+  
+  /* 합계 행 앞의 행들도 페이지를 넘어가지 않도록 */
+  .odp-product-table tbody tr:nth-last-child(2) {
+    page-break-after: avoid !important;
+  }
+  
+  /* 페이지 나누기 시 헤더 정보가 함께 이동하도록 설정 */
+  .odp-order-header,
+  .odp-company-info,
+  .odp-summary {
+    page-break-inside: avoid !important;
+  }
+  
+  /* 모든 페이지에 발주 헤더 반복 표시 */
+  .odp-order-header {
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* 페이지 헤더 반복 설정 */
+  @page {
+    margin-top: 40px;
+    @top-right {
+      content: "발주번호: " attr(data-order-no) " | 벤더: " attr(data-vendor-name);
+      font-size: 10px;
+      font-weight: bold;
+      color: #666;
+    }
+  }
+  
+  /* 발주 헤더가 각 페이지마다 반복되도록 설정 */
+  .odp-order-header {
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* 상품 테이블이 페이지를 넘어갈 때 적절한 위치에서 나누기 */
+  .odp-product-table {
+    page-break-inside: auto !important;
+  }
+  
+  /* 상품 리스트 섹션 전체가 페이지를 넘어갈 때 */
+  .odp-product-list {
+    page-break-inside: auto !important;
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .odp-overlay {
+    padding: 10px;
+  }
+  
+  .odp-popup {
+    max-height: 95vh;
+  }
+  
+  .odp-content {
+    padding: 16px;
+  }
+  
+  .odp-company-info {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .odp-summary-grid,
+  .odp-email-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .odp-footer {
+    flex-direction: column;
+  }
+  
+  .odp-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,11 @@
+@import './orderOutStatus.css';
+
+.order-in-status-page .page-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-in-status-page .page-title i {
+  color: #1f3c88;
+}

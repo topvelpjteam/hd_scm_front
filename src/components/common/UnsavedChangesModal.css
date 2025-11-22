@@ -1,0 +1,148 @@
+/* 미저장 변경사항 모달 스타일 */
+.unsaved-changes-modal .modal-container {
+  border-top: 4px solid #f59e0b;
+}
+
+.unsaved-changes-content {
+  text-align: center;
+}
+
+.unsaved-changes-icon {
+  margin-bottom: 20px;
+}
+
+.unsaved-changes-icon i {
+  font-size: 48px;
+  color: #f59e0b;
+  animation: shake 0.8s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+.unsaved-changes-message {
+  margin-bottom: 32px;
+}
+
+.unsaved-changes-message p {
+  font-size: 16px;
+  color: #374151;
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.unsaved-changes-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 공통 버튼 스타일 */
+.btn-unsaved-cancel,
+.btn-unsaved-save,
+.btn-unsaved-discard {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* 계속 작업 버튼 */
+.btn-unsaved-cancel {
+  background: #f8fafc;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+}
+
+.btn-unsaved-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateY(-1px);
+}
+
+/* 저장 후 계속 버튼 */
+.btn-unsaved-save {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-unsaved-save:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* 저장하지 않고 계속 버튼 */
+.btn-unsaved-discard {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-unsaved-discard:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.btn-unsaved-save:active,
+.btn-unsaved-discard:active,
+.btn-unsaved-cancel:active {
+  transform: translateY(0);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .unsaved-changes-icon i {
+    font-size: 40px;
+  }
+  
+  .unsaved-changes-message p {
+    font-size: 15px;
+  }
+  
+  .unsaved-changes-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-unsaved-cancel,
+  .btn-unsaved-save,
+  .btn-unsaved-discard {
+    width: 100%;
+    min-width: auto;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-unsaved-cancel,
+  .btn-unsaved-save,
+  .btn-unsaved-discard {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}

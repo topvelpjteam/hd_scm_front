@@ -1,0 +1,819 @@
+/*  성장률 분석 대시보드 스타일 */
+.advanced-growth-analytics-dashboard {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin-bottom: 24px;
+  margin-left: 44px;
+}
+
+.header-controls {
+  display: flex;
+  gap: 24px;
+  align-items: end;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.period-selector,
+.metric-selector {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  color: #374151;
+  min-width: 150px;
+}
+
+.period-selector:focus,
+.metric-selector:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 성장 요약 카드 */
+.growth-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.total-growth .card-icon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.revenue-growth .card-icon {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.customer-growth .card-icon {
+  background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+}
+
+.market-share .card-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.card-change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-change.positive {
+  color: #059669;
+}
+
+/* 기간별 성장 분석 */
+.period-growth-analysis {
+  margin-bottom: 32px;
+}
+
+.period-growth-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.growth-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.period-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.period-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.period-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+}
+
+.period-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.period-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.confidence-badge {
+  background-color: #f0fdf4;
+  color: #059669;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.period-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.period-metrics .metric-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.metric-value.growth {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 채널별 성장 분석 */
+.channel-growth-analysis {
+  margin-bottom: 32px;
+}
+
+.channel-growth-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.channel-growth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.channel-growth-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.channel-growth-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.channel-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.channel-info {
+  flex: 1;
+}
+
+.channel-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.market-share {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.growth-rate {
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.channel-metrics {
+  margin-bottom: 16px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.metric-item .metric-label {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.metric-item .metric-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.growth-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chart-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.chart-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* 지역별 성장 분석 */
+.regional-growth-analysis {
+  margin-bottom: 32px;
+}
+
+.regional-growth-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.regional-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+.regional-map {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.map-container {
+  position: relative;
+  height: 400px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1;
+}
+
+.region-marker {
+  position: absolute;
+  width: 80px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.region-marker:hover {
+  transform: scale(1.1);
+}
+
+.marker-label {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.marker-growth {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+.regional-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.region-stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.region-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.region-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.region-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  flex: 1;
+}
+
+.region-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.region-metrics .metric-row {
+  padding: 4px 0;
+}
+
+.region-metrics .metric-label {
+  font-size: 12px;
+}
+
+.region-metrics .metric-value {
+  font-size: 14px;
+}
+
+/* 인구통계별 성장 분석 */
+.demographic-growth-analysis {
+  margin-bottom: 32px;
+}
+
+.demographic-growth-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.demographic-sections {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+.age-group-analysis,
+.gender-analysis {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.age-group-analysis h3,
+.gender-analysis h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.age-group-chart {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  height: 200px;
+  padding: 16px 0;
+}
+
+.age-group-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-group {
+  display: flex;
+  align-items: end;
+  gap: 2px;
+  height: 100%;
+}
+
+.current-bar,
+.previous-bar {
+  width: 16px;
+  border-radius: 2px 2px 0 0;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+.bar-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bar-growth {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gender-growth-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gender-growth-card {
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.gender-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.gender-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.gender-info {
+  flex: 1;
+}
+
+.gender-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.gender-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 성장률 분포 분석 */
+.growth-distribution-analysis {
+  margin-bottom: 32px;
+}
+
+.growth-distribution-analysis h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.distribution-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.growth-histogram,
+.growth-correlation {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.growth-histogram h3,
+.growth-correlation h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.histogram-chart {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  height: 150px;
+  padding: 16px 0;
+}
+
+.histogram-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-fill {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  transition: all 0.3s ease;
+}
+
+.bar-label {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.correlation-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.matrix-header {
+  display: grid;
+  grid-template-columns: 60px repeat(4, 1fr);
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: 60px repeat(4, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.row-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.correlation-cell {
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.correlation-cell.high {
+  background-color: #dcfce7;
+  color: #059669;
+}
+
+.correlation-cell.medium {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.correlation-cell.low {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .regional-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .demographic-sections {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .distribution-charts {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .advanced-growth-analytics-dashboard {
+    padding: 16px;
+  }
+  
+  .growth-summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .growth-timeline {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .channel-growth-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .header-controls {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .age-group-chart {
+    height: 150px;
+  }
+  
+  .histogram-chart {
+    height: 120px;
+  }
+}
