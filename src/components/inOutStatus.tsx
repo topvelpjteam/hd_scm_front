@@ -21,7 +21,10 @@ import {
   searchInOutStatus,
 } from '../services/inOutStatusService';
 import { getMenuIcon } from '../utils/menuUtils';
+import { exportInOutStatusToExcel } from '../utils/exportInOutStatusExcel';
 import './inOutStatus.css';
+import './OrderListManagement.css';
+import './orderOutStatus.css';
 
 // ✅ 검색 폼 상태 타입 정의
 type SearchFormState = {
@@ -365,6 +368,32 @@ const InOutStatus: React.FC = () => {
     });
   }, [computeInitialForm]);
 
+  // ✅ 엑셀 다운로드 핸들러
+  const handleExportExcel = useCallback(() => {
+    if (result.items.length === 0) {
+      window.alert('엑셀로 내보낼 데이터가 없습니다.');
+      return;
+    }
+
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+    const fileName = `입출고현황_${dateStr}.xlsx`;
+
+    try {
+      exportInOutStatusToExcel({
+        items: result.items,
+        dateFrom: searchForm.dateFrom,
+        dateTo: searchForm.dateTo,
+        generatedAt: today,
+        totalCount: result.totalCount,
+        fileName,
+      });
+    } catch (error) {
+      console.error('입출고 현황 엑셀 내보내기 실패:', error);
+      window.alert('엑셀 파일 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    }
+  }, [result.items, result.totalCount, searchForm.dateFrom, searchForm.dateTo]);
+
   // ✅ 행 고유 키 생성
   const getRowKey = useCallback(
     (item: InOutStatusItem, index?: number) => {
@@ -496,18 +525,18 @@ const InOutStatus: React.FC = () => {
   const { totalOutQty, totalInQty, totalPendingQty, averageProgress } = summary;
 
   return (
-    <div className="ios-container">
-      <div className="ios-top-section">
-        <h1 className="ios-page-title">
+    <div className="olm-container order-out-status-page ios-page">
+      <div className="top-section">
+        <h1 className="page-title">
           {currentTab?.menuIcon
             ? React.createElement(getMenuIcon(currentTab.menuIcon), { size: 14 })
             : <i className="fas fa-exchange-alt"></i>}
           입출고 현황
         </h1>
 
-        <form className="ios-search-conditions" onSubmit={handleSubmit}>
-          <div className="ios-search-row">
-            <div className="ios-search-item">
+        <form className="search-conditions" onSubmit={handleSubmit}>
+          <div className="search-row">
+            <div className="search-item">
               <label htmlFor="dateRange">날짜 범위</label>
               <DateRangePicker
                 startDate={searchForm.dateFrom}
@@ -519,11 +548,11 @@ const InOutStatus: React.FC = () => {
                   handleInputChange('dateTo', value)
                 }
                 placeholder="조회 날짜를 선택하세요"
-                className="ios-date-range-picker"
+                className="olm-date-range-picker"
               />
             </div>
 
-            <div className="ios-search-item">
+            <div className="search-item">
               <label htmlFor="statusTypeSelector">입출고 상태</label>
               <CommonMultiSelect
                 options={STATUS_TYPE_OPTIONS}
@@ -532,12 +561,12 @@ const InOutStatus: React.FC = () => {
                   handleInputChange('statusType', values)
                 }
                 placeholder="입출고 상태를 선택하세요"
-                className="ios-multi-select"
+                className="olm-multi-select"
                 showLoading={false}
               />
             </div>
 
-            <div className="ios-search-item">
+            <div className="search-item">
               <label htmlFor="agentSelector">매장</label>
               <CommonMultiSelect
                 commonCodeType="stores"
@@ -546,11 +575,11 @@ const InOutStatus: React.FC = () => {
                   handleInputChange('agentIds', values)
                 }
                 placeholder="매장을 선택하세요"
-                className="ios-multi-select"
+                className="olm-multi-select"
               />
             </div>
 
-            <div className="ios-search-item">
+            <div className="search-item">
               <label htmlFor="vendorSelector">납품업체</label>
               <CommonMultiSelect
                 commonCodeType="vendors"
@@ -559,13 +588,13 @@ const InOutStatus: React.FC = () => {
                   handleInputChange('vendorIds', values)
                 }
                 placeholder="납품업체를 선택하세요"
-                className="ios-multi-select"
+                className="olm-multi-select"
               />
             </div>
           </div>
 
-          <div className="ios-search-row">
-            <div className="ios-search-item">
+          <div className="search-row">
+            <div className="search-item">
               <label htmlFor="brandSelector">브랜드</label>
               <CommonMultiSelect
                 commonCodeType="brands"
@@ -574,17 +603,17 @@ const InOutStatus: React.FC = () => {
                   handleInputChange('brandIds', values)
                 }
                 placeholder="브랜드를 선택하세요"
-                className="ios-multi-select"
+                className="olm-multi-select"
               />
             </div>
 
-            <div className="ios-search-item">
+            <div className="search-item">
               <label htmlFor="searchText">검색어</label>
-              <div className="ios-field-control">
+              <div className="field-control">
                 <input
                   id="searchText"
                   type="text"
-                  className="ios-form-control"
+                  className="olm-form-control"
                   value={searchForm.searchText}
                   onChange={(event) =>
                     handleInputChange('searchText', event.target.value)
@@ -593,38 +622,51 @@ const InOutStatus: React.FC = () => {
                 />
               </div>
             </div>
+
+
           </div>
 
-          <div className="ios-action-buttons">
-            <div className="ios-right-buttons">
-              <button
-                type="button"
-                className="ios-btn ios-btn-secondary"
-                onClick={handleReset}
-              >
-                <i className="fas fa-undo"></i>
-                초기화
-              </button>
-              <button
-                type="submit"
-                className="ios-btn ios-btn-primary"
-                disabled={isLoading}
-              >
-                <i className="fas fa-search"></i>
-                {isLoading ? '조회 중...' : '조회'}
-              </button>
+            <div className="action-buttons">
+              <div className="right-buttons">
+                <button
+                  type="button"
+                  className="olm-btn olm-btn-secondary"
+                  onClick={handleReset}
+                >
+                  <i className="fas fa-undo"></i>
+                  초기화
+                </button>
+                <button
+                  type="button"
+                  className="olm-btn olm-btn-excel"
+                  onClick={handleExportExcel}
+                  disabled={isLoading || result.items.length === 0}
+                >
+                  <i className="fas fa-file-excel"></i>
+                  엑셀다운로드
+                </button>                
+                <button
+                  type="submit"
+                  className="olm-btn olm-btn-primary"
+                  disabled={isLoading}
+                >
+                  <i className="fas fa-search"></i>
+                  {isLoading ? '조회 중...' : '조회'}
+                </button>
+              </div>
             </div>
-          </div>
+
+
         </form>
       </div>
 
-      <div className="ios-main-section">
+      <div className="olm-main-section ios-main-section">
         <h3>
           <i className="fas fa-exchange-alt"></i>
           입출고 현황 목록 ({formatNumber(result.totalCount)}건)
         </h3>
 
-        <div className="ios-grid-summary">
+        <div className="olm-grid-summary">
           <span>총 건수: <strong>{formatNumber(result.totalCount)}</strong>건</span>
           <span>출고 수량: <strong>{formatNumber(totalOutQty)}</strong>개</span>
           <span>입고 수량: <strong>{formatNumber(totalInQty)}</strong>개</span>

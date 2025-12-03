@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
 import { removeTab, setActiveTab, clearAllTabs } from '../store/tabSlice';
 import { resetAllTabStates } from '../store/tabStateSlice';
-import { X, List } from 'lucide-react';
+import { X, List, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getMenuIcon } from '../utils/menuUtils';
 import TabContent from './TabContent';
 import '../styles/TabContainer.css';
@@ -13,6 +13,41 @@ const TabContainer: React.FC = React.memo(() => {
   const { tabs, activeTabId } = useSelector((state: RootState) => state.tabs);
   const [showTabList, setShowTabList] = useState(false);
   const tabListRef = useRef<HTMLDivElement>(null);
+  const tabScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // 스크롤 가능 여부 체크
+  const checkScrollability = useCallback(() => {
+    if (tabScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = tabScrollRef.current;
+      const canScroll = scrollWidth > clientWidth;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(canScroll && scrollLeft < scrollWidth - clientWidth - 5);
+    }
+  }, []);
+
+  // 탭 변경 시 스크롤 체크
+  useEffect(() => {
+    checkScrollability();
+    // ResizeObserver로 크기 변화 감지
+    const resizeObserver = new ResizeObserver(checkScrollability);
+    if (tabScrollRef.current) {
+      resizeObserver.observe(tabScrollRef.current);
+    }
+    return () => resizeObserver.disconnect();
+  }, [tabs, checkScrollability]);
+
+  // 좌우 스크롤 함수
+  const scrollTabs = (direction: 'left' | 'right') => {
+    if (tabScrollRef.current) {
+      const scrollAmount = 150;
+      tabScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   // 탭 컴포넌트에 따른 아이콘 매핑 (데이터베이스 아이콘 사용)
   const getTabIcon = (component: string, menuIcon?: string) => {
@@ -145,40 +180,70 @@ const TabContainer: React.FC = React.memo(() => {
     <div className="tab-container">
       {/* 탭 헤더 */}
       <div className="tab-header">
-        {tabs.map((tab) => (
-          <div
-            key={tab.id}
-            className={`tab-item ${activeTabId === tab.id ? 'active' : ''}`}
-            onClick={() => handleTabClick(tab.id)}
+        {/* 왼쪽 스크롤 버튼 */}
+        {canScrollLeft && (
+          <button 
+            className="tab-scroll-btn tab-scroll-left" 
+            onClick={() => scrollTabs('left')}
+            title="◀ 이전 탭"
           >
-            <div className="tab-icon">
-              {getTabIcon(tab.component, tab.menuIcon)}
+            <ChevronLeft size={16} />
+          </button>
+        )}
+        
+        {/* 스크롤 가능한 탭 영역 */}
+        <div 
+          className="tab-scroll-area" 
+          ref={tabScrollRef}
+          onScroll={checkScrollability}
+        >
+          {tabs.map((tab) => (
+            <div
+              key={tab.id}
+              className={`tab-item ${activeTabId === tab.id ? 'active' : ''}`}
+              onClick={() => handleTabClick(tab.id)}
+              title={tab.title}
+            >
+              <div className="tab-icon">
+                {getTabIcon(tab.component, tab.menuIcon)}
+              </div>
+              <span className="tab-title">{tab.title}</span>
+              {tab.closable && (
+                <button
+                  className="tab-close-btn"
+                  onClick={(e) => handleCloseTab(tab.id, e)}
+                  title="탭 닫기"
+                >
+                  <img 
+                    src="/images/icons/close-bk2.png" 
+                    alt="닫기" 
+                    className="close-icon"
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 X 아이콘으로 대체
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const fallback = document.createElement('span');
+                      fallback.textContent = '×';
+                      fallback.style.cssText = 'font-size: 14px; font-weight: bold; color: #374151;';
+                      target.parentNode?.appendChild(fallback);
+                    }}
+                  />
+                </button>
+              )}
             </div>
-            <span className="tab-title">{tab.title}</span>
-                         {tab.closable && (
-               <button
-                 className="tab-close-btn"
-                 onClick={(e) => handleCloseTab(tab.id, e)}
-                 title="탭 닫기"
-               >
-                 <img 
-                   src="/images/icons/close-bk2.png" 
-                   alt="닫기" 
-                   className="close-icon"
-                   onError={(e) => {
-                     // 이미지 로드 실패 시 X 아이콘으로 대체
-                     const target = e.target as HTMLImageElement;
-                     target.style.display = 'none';
-                     const fallback = document.createElement('span');
-                     fallback.textContent = '×';
-                     fallback.style.cssText = 'font-size: 14px; font-weight: bold; color: #374151;';
-                     target.parentNode?.appendChild(fallback);
-                   }}
-                 />
-               </button>
-             )}
-          </div>
-        ))}
+          ))}
+        </div>
+        
+        {/* 오른쪽 스크롤 버튼 */}
+        {canScrollRight && (
+          <button 
+            className="tab-scroll-btn tab-scroll-right" 
+            onClick={() => scrollTabs('right')}
+            title="다음 탭 ▶"
+          >
+            <ChevronRight size={16} />
+          </button>
+        )}
         
         {/* 탭 리스트 버튼 */}
         <div className="tab-list-container" ref={tabListRef}>

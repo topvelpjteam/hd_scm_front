@@ -1,0 +1,455 @@
+/* ============================================
+   휴면고객분석 (DormantCustomerAnalysis.css)
+   고객판매일보 스타일 상속 (olm-container 기반)
+   ============================================ */
+
+/* ============================================
+   1. 페이지 전용 스타일 (olm-container 상속)
+   ============================================ */
+.dormant-page .page-title svg {
+  color: #ffb8b8;
+}
+
+/* select 스타일 */
+.dormant-page .olm-select {
+  min-width: 100px;
+}
+
+/* ============================================
+   2. 요약 카드
+   ============================================ */
+.dormant-summary-cards {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  margin: 4px 0;
+}
+
+.dormant-summary-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #a8d4ff;
+}
+
+.dormant-summary-card.total { border-left-color: #a8d4ff; }
+.dormant-summary-card.active { border-left-color: #b8e6c1; }
+.dormant-summary-card.dormant { border-left-color: #ffb8b8; }
+.dormant-summary-card.rate { border-left-color: #ffd4a8; }
+
+.dormant-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+}
+
+.dormant-summary-card.total .dormant-card-icon { background: #e8f4ff; color: #5a9bd4; }
+.dormant-summary-card.active .dormant-card-icon { background: #e8f8eb; color: #6ec99e; }
+.dormant-summary-card.dormant .dormant-card-icon { background: #ffe8e8; color: #e88a8a; }
+.dormant-summary-card.rate .dormant-card-icon { background: #fff4e8; color: #e8a85a; }
+
+.dormant-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.dormant-card-label {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.dormant-card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #343a40;
+}
+
+/* ============================================
+   5. 탭
+   ============================================ */
+.dormant-tabs {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.dormant-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dormant-tab-btn:hover {
+  background: #e9ecef;
+}
+
+.dormant-tab-btn.active {
+  background: linear-gradient(135deg, #a8d4ff, #d4b8ff);
+  color: #495057;
+  border-color: transparent;
+}
+
+/* ============================================
+   6. 분석 컨텐츠
+   ============================================ */
+.dormant-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: auto;
+}
+
+.dormant-chart-row {
+  display: flex;
+  gap: 8px;
+}
+
+.dormant-chart-card {
+  flex: 1;
+  background: white;
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.dormant-chart-card.small {
+  flex: 0.8;
+}
+
+.dormant-chart-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 8px;
+  border-left: 3px solid #a8d4ff;
+}
+
+.dormant-chart-title svg {
+  color: #5a9bd4;
+}
+
+/* ============================================
+   7. 막대 차트
+   ============================================ */
+.dormant-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dormant-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dormant-bar-label {
+  min-width: 90px;
+  font-size: 11px;
+  color: #495057;
+}
+
+.dormant-bar-track {
+  flex: 1;
+  height: 18px;
+  background-color: #f1f3f4;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.dormant-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.dormant-bar-value {
+  min-width: 50px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #495057;
+  text-align: right;
+}
+
+.dormant-bar-ratio {
+  min-width: 40px;
+  font-size: 10px;
+  color: #6c757d;
+  text-align: right;
+}
+
+/* ============================================
+   8. 범례
+   ============================================ */
+.dormant-pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dormant-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dormant-legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.dormant-legend-label {
+  flex: 1;
+  font-size: 11px;
+  color: #495057;
+}
+
+.dormant-legend-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #343a40;
+  min-width: 50px;
+  text-align: right;
+}
+
+.dormant-legend-ratio {
+  font-size: 10px;
+  color: #6c757d;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ============================================
+   9. 마케팅 대상
+   ============================================ */
+.dormant-marketing-grid {
+  display: flex;
+  gap: 12px;
+}
+
+.dormant-marketing-item {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.dormant-marketing-item .channel-icon {
+  margin-bottom: 6px;
+}
+
+.dormant-marketing-item.sms .channel-icon { color: #6ec99e; }
+.dormant-marketing-item.email .channel-icon { color: #7eb8e8; }
+.dormant-marketing-item.call .channel-icon { color: #b8a0e8; }
+
+.dormant-marketing-item .channel-name {
+  font-size: 11px;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.dormant-marketing-item .target-cnt {
+  font-size: 16px;
+  font-weight: 700;
+  color: #343a40;
+}
+
+/* ============================================
+   10. 목록 탭
+   ============================================ */
+.dormant-list-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dormant-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e9ecef;
+  flex-shrink: 0;
+}
+
+.dormant-list-count {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.dormant-list-count strong {
+  color: #343a40;
+}
+
+.dormant-btn-refresh.olm-btn {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 11px;
+  min-width: auto;
+}
+
+.dormant-table-wrapper {
+  flex: 1;
+  overflow: auto;
+}
+
+.dormant-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.dormant-table th {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  padding: 8px 6px;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dormant-table td {
+  padding: 6px;
+  border-bottom: 1px solid #f1f3f4;
+  text-align: center;
+  color: #495057;
+}
+
+.dormant-table tr:hover td {
+  background: #f8f9fa;
+}
+
+.dormant-table .text-left { text-align: left; }
+.dormant-table .text-right { text-align: right; }
+.dormant-table .text-center { text-align: center; }
+
+.dormant-days {
+  font-weight: 600;
+}
+
+.dormant-days.warning {
+  color: #e8a85a;
+}
+
+.dormant-days.danger {
+  color: #e88a8a;
+}
+
+.chk-cell.yes {
+  color: #6ec99e;
+  font-weight: 600;
+}
+
+.chk-cell.no {
+  color: #94a3b8;
+}
+
+.dormant-no-data {
+  text-align: center;
+  padding: 40px !important;
+  color: #94a3b8;
+}
+
+/* ============================================
+   11. 로딩 & 에러
+   ============================================ */
+.dormant-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #6c757d;
+  font-size: 13px;
+}
+
+.dormant-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e9ecef;
+  border-top-color: #a8d4ff;
+  border-radius: 50%;
+  animation: dormant-spin 0.8s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes dormant-spin {
+  to { transform: rotate(360deg); }
+}
+
+.dormant-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #dc3545;
+  font-size: 13px;
+  gap: 8px;
+}
+
+/* ============================================
+   12. 반응형
+   ============================================ */
+@media (max-width: 1200px) {
+  .dormant-chart-row {
+    flex-wrap: wrap;
+  }
+  
+  .dormant-chart-card {
+    min-width: calc(50% - 8px);
+  }
+  
+  .dormant-chart-card.small {
+    flex: 1;
+    min-width: calc(33% - 8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .dormant-search-bar {
+    flex-wrap: wrap;
+  }
+  
+  .dormant-summary-cards {
+    flex-wrap: wrap;
+  }
+  
+  .dormant-summary-card {
+    min-width: calc(50% - 8px);
+  }
+}

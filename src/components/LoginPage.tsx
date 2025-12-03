@@ -90,6 +90,55 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-container">
+      {/* 🦌 브라우저 테두리를 따라 뛰는 귀여운 꽃사슴 - 임시 주석처리
+      <div className="rudolph-track">
+        <div className="rudolph">
+          <div className="deer-character">
+            <div className="santa-hat">
+              <div className="hat-base"></div>
+              <div className="hat-tip"></div>
+              <div className="hat-ball"></div>
+              <div className="hat-fur"></div>
+            </div>
+            <div className="deer-head">
+              <div className="ear left-ear"></div>
+              <div className="ear right-ear"></div>
+              <div className="inner-ear left-inner"></div>
+              <div className="inner-ear right-inner"></div>
+              <div className="face">
+                <div className="eye left-eye">
+                  <div className="pupil"></div>
+                  <div className="eye-shine"></div>
+                </div>
+                <div className="eye right-eye">
+                  <div className="pupil"></div>
+                  <div className="eye-shine"></div>
+                </div>
+                <div className="blush left-blush"></div>
+                <div className="blush right-blush"></div>
+                <div className="nose"></div>
+                <div className="mouth"></div>
+              </div>
+              <div className="spot spot1"></div>
+              <div className="spot spot2"></div>
+            </div>
+            <div className="deer-body">
+              <div className="body-spot spot3"></div>
+              <div className="body-spot spot4"></div>
+              <div className="body-spot spot5"></div>
+            </div>
+            <div className="deer-tail"></div>
+            <div className="legs-container">
+              <div className="deer-leg front-left"></div>
+              <div className="deer-leg front-right"></div>
+              <div className="deer-leg back-left"></div>
+              <div className="deer-leg back-right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      */}
+      
       <div className="login-form">
         {/* 로고 및 제목 */}
         <div className="login-header">
@@ -216,7 +265,7 @@ const LoginPage: React.FC = () => {
         </div> */}
 
         {/* 테스트 계정 정보 */}
-        <div className="test-accounts">
+        {/* <div className="test-accounts">
           <h3>테스트 계정</h3>
           <div className="account-list">
             <div className="account-item">
@@ -233,7 +282,7 @@ const LoginPage: React.FC = () => {
             </div>
 
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

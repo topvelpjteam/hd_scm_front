@@ -1,0 +1,256 @@
+@import './orderOutStatus.css';
+
+/* ========================================
+   판매사원 AUS-IPT 전용 스타일
+   파스텔톤 색상 적용
+   ======================================== */
+
+.sales-person-ausipt-page .page-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sales-person-ausipt-page .page-title i {
+  color: #6366f1;
+}
+
+/* 넓은 검색 항목 */
+.sales-person-ausipt-page .search-item-wide {
+  flex: 2;
+}
+
+/* 테이블 래퍼 */
+.sales-person-ausipt-page .sales-person-ausipt-table-wrapper {
+  overflow-x: auto;
+}
+
+/* 테이블 스타일 - 브랜드 제거로 너비 줄임 */
+.sales-person-ausipt-page .sales-person-ausipt-table {
+  min-width: 2000px;
+  font-size: 12px;
+}
+
+.sales-person-ausipt-page .sales-person-ausipt-table th,
+.sales-person-ausipt-page .sales-person-ausipt-table td {
+  white-space: nowrap;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+/* 테이블 데이터 셀 - 검은색 글씨 */
+.sales-person-ausipt-page .sales-person-ausipt-table tbody td {
+  color: #1f2937;
+}
+
+/* 그룹 헤더 스타일 - 연한 파스텔톤 */
+.sales-person-ausipt-page .sales-person-ausipt-table thead tr.header-group th {
+  background-color: #e0e7ff;
+  color: #374151;
+  font-weight: 600;
+  border-bottom: 2px solid #c7d2fe;
+}
+
+.sales-person-ausipt-page .sales-person-ausipt-table thead tr.header-detail th {
+  background-color: #ddd6fe;
+  color: #374151;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+/* 신규고객 헤더 - 연한 파란색 파스텔 */
+.sales-person-ausipt-page .header-new {
+  background-color: #bfdbfe !important;
+  color: #1e40af !important;
+}
+
+/* 재방문고객 헤더 - 연한 초록색 파스텔 */
+.sales-person-ausipt-page .header-revisit {
+  background-color: #a7f3d0 !important;
+  color: #065f46 !important;
+}
+
+/* 프리고객 헤더 - 연한 노란색 파스텔 */
+.sales-person-ausipt-page .header-free {
+  background-color: #fde68a !important;
+  color: #92400e !important;
+}
+
+/* TOTAL 헤더 - 연한 보라색 파스텔 */
+.sales-person-ausipt-page .header-total {
+  background-color: #ddd6fe !important;
+  color: #5b21b6 !important;
+}
+
+/* 고정 컬럼 스타일 - 브랜드 제거됨 */
+.sales-person-ausipt-page .col-store,
+.sales-person-ausipt-page .col-staff {
+  position: sticky;
+  background-color: #f8fafc;
+  z-index: 1;
+}
+
+.sales-person-ausipt-page .col-store {
+  left: 0;
+  min-width: 120px;
+}
+
+.sales-person-ausipt-page .col-staff {
+  left: 120px;
+  min-width: 80px;
+}
+
+.sales-person-ausipt-page .col-nopur {
+  min-width: 70px;
+  background-color: #fef3c7;
+}
+
+/* 데이터 셀 */
+.sales-person-ausipt-page .sales-person-ausipt-table td.numeric-cell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 행 유형별 스타일 */
+.sales-person-ausipt-page .row-detail {
+  background-color: #ffffff;
+}
+
+.sales-person-ausipt-page .row-store-subtotal {
+  background-color: #e0f2fe;
+  font-weight: 600;
+}
+
+.sales-person-ausipt-page .row-total {
+  background-color: #d1fae5;
+  font-weight: 700;
+  border-top: 2px solid #065f46;
+}
+
+.sales-person-ausipt-page .row-store-subtotal td,
+.sales-person-ausipt-page .row-total td {
+  font-weight: inherit;
+}
+
+/* AUS, IPT 하이라이트 - 검은색 (굵은 글씨로 구분) */
+.sales-person-ausipt-page .aus-value {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.sales-person-ausipt-page .ipt-value {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* 비율 표시 */
+.sales-person-ausipt-page .ratio-cell {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* 금액 셀 */
+.sales-person-ausipt-page .amount-cell {
+  color: #1f2937;
+}
+
+/* 테이블 호버 효과 */
+.sales-person-ausipt-page .sales-person-ausipt-table tbody tr.row-detail:hover {
+  background-color: #f0f9ff;
+}
+
+/* 그리드 요약 */
+.sales-person-ausipt-page .olm-grid-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.sales-person-ausipt-page .olm-grid-summary .summary-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* 가입후미구매 그룹 - 진한 빨간색 */
+.sales-person-ausipt-page .olm-grid-summary .summary-group.nopur-group {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+/* 신규고객 그룹 - 진한 파란색 */
+.sales-person-ausipt-page .olm-grid-summary .summary-group.new-group {
+  background-color: #bfdbfe;
+  color: #1e3a8a;
+}
+
+/* 재방문 그룹 - 진한 초록색 */
+.sales-person-ausipt-page .olm-grid-summary .summary-group.revisit-group {
+  background-color: #a7f3d0;
+  color: #064e3b;
+}
+
+/* 프리 그룹 - 진한 노란색/주황색 */
+.sales-person-ausipt-page .olm-grid-summary .summary-group.free-group {
+  background-color: #fde68a;
+  color: #78350f;
+}
+
+/* TOTAL 그룹 - 진한 보라색 */
+.sales-person-ausipt-page .olm-grid-summary .summary-group.total-group {
+  background-color: #ddd6fe;
+  color: #4c1d95;
+}
+
+.sales-person-ausipt-page .summary-label {
+  font-weight: 600;
+}
+
+/* 명(인원수) - 각 그룹 색상 유지 */
+.sales-person-ausipt-page .summary-value {
+  font-weight: 700;
+}
+
+/* 금액(원) - 검은색으로 표시 */
+.sales-person-ausipt-page .summary-value.amt {
+  color: #1f2937 !important;
+}
+
+/* 반응형 조정 */
+@media (max-width: 1400px) {
+  .sales-person-ausipt-page .search-row {
+    flex-wrap: wrap;
+  }
+  
+  .sales-person-ausipt-page .search-item {
+    min-width: 200px;
+    flex: 1 1 calc(50% - 8px);
+  }
+  
+  .sales-person-ausipt-page .search-item-wide {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sales-person-ausipt-page .search-item {
+    flex: 1 1 100%;
+  }
+  
+  .sales-person-ausipt-page .olm-grid-summary {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .sales-person-ausipt-page .olm-grid-summary .summary-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

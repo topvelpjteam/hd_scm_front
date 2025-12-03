@@ -1,0 +1,322 @@
+/* ============================================
+   매입처별 발주/입고내역 - 고객판매일보 스타일 상속 (olm-container 기반)
+   접두어: oiv- (orderInByVendor)
+   ============================================ */
+
+/* ============================================
+   1. 페이지 전용 스타일 (olm-container 상속)
+   ============================================ */
+.oiv-page .page-title i {
+  color: #7c9ed9;
+}
+
+/* date input 스타일 */
+.oiv-page .olm-form-control[type="date"] {
+  min-width: 140px;
+}
+
+/* select 스타일 */
+.oiv-page .olm-select {
+  min-width: 100px;
+}
+
+/* 본문 스크롤 영역 */
+.oiv-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+}
+
+/* 에러 메시지 */
+.oiv-error {
+  background: #fff5f5;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #c53030;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* ============================================
+   2. 요약 카드
+   ============================================ */
+.oiv-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.oiv-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.oiv-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.oiv-card-icon i {
+  font-size: 14px;
+  color: #555;
+}
+
+.oiv-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.oiv-card-label {
+  font-size: 11px;
+  color: #777;
+  margin-bottom: 2px;
+}
+
+.oiv-card-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ============================================
+   3. 정보 표시줄
+   ============================================ */
+.oiv-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.oiv-count {
+  font-weight: 600;
+}
+
+.oiv-count strong {
+  color: #1976d2;
+}
+
+.oiv-period {
+  color: #999;
+}
+
+/* ============================================
+   4. 테이블 스타일
+   ============================================ */
+.oiv-table-container {
+  flex: 1;
+  overflow: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+/* 하단 고정 스크롤바를 위한 래퍼 */
+.oiv-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 스크롤 영역 - 세로 스크롤 */
+.oiv-table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+/* 가로 스크롤바 고정 영역 */
+.oiv-horizontal-scroll {
+  display: none;
+}
+
+.oiv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.oiv-table thead {
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.oiv-table th {
+  padding: 10px 8px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+}
+
+.oiv-table th:last-child {
+  border-right: none;
+}
+
+.oiv-table td {
+  padding: 8px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #555;
+}
+
+.oiv-table td.center {
+  text-align: center;
+}
+
+.oiv-table td.right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.oiv-table td.empty {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.oiv-table td.highlight {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.oiv-table td.negative {
+  color: #d32f2f;
+}
+
+.oiv-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.oiv-table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.oiv-table tbody tr:nth-child(even):hover {
+  background: #f1f5f9;
+}
+
+/* 합계 행 */
+.oiv-table tfoot .total-row {
+  background: #e3f2fd;
+  font-weight: 600;
+}
+
+.oiv-table tfoot .total-row td {
+  border-top: 2px solid #1976d2;
+  color: #1565c0;
+}
+
+/* 소계 행 (매입처별 중간계) */
+.oiv-table tbody .subtotal-row {
+  background: #fff8e1;
+  font-weight: 600;
+}
+
+.oiv-table tbody .subtotal-row td {
+  border-top: 1px solid #ffc107;
+  border-bottom: 2px solid #ffc107;
+  color: #f57c00;
+}
+
+.oiv-table tbody .subtotal-row td.highlight {
+  color: #e65100;
+}
+
+/* ============================================
+   5. 푸터
+   ============================================ */
+.oiv-footer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: #777;
+}
+
+/* ============================================
+   6. 버튼 추가 스타일
+   ============================================ */
+.oiv-page .olm-btn-success {
+  background: #4caf50;
+  color: white;
+}
+
+.oiv-page .olm-btn-success:hover {
+  background: #43a047;
+}
+
+/* ============================================
+   7. 반응형
+   ============================================ */
+@media (max-width: 1200px) {
+  .oiv-summary {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .oiv-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .oiv-card {
+    padding: 10px;
+  }
+
+  .oiv-card-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .oiv-card-icon i {
+    font-size: 12px;
+  }
+
+  .oiv-card-value {
+    font-size: 12px;
+  }
+
+  .oiv-table {
+    font-size: 11px;
+  }
+
+  .oiv-table th,
+  .oiv-table td {
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .oiv-summary {
+    grid-template-columns: 1fr;
+  }
+}

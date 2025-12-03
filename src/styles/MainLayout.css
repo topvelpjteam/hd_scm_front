@@ -23,7 +23,7 @@
 }
 
 .main-content.sidebar-collapsed {
-  margin-left: 70px; /* 접힌 사이드바 너비 */
+  margin-left: 0; /* 사이드바 완전히 숨김 */
 }
 
 /* 반응형 디자인 */

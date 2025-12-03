@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
-import { Search, User, LogOut, ChevronDown, List, Store, Building2 } from 'lucide-react';
+import { Search, User, LogOut, ChevronDown, ChevronRight, List, Store, Building2, Menu } from 'lucide-react';
 import { logout } from '../store/authSlice';
 import { addTab, setActiveTab } from '../store/tabSlice';
 import { fetchUserMenus } from '../store/menuSlice';
 import { useBrowserHistory } from '../hooks/useBrowserHistory';
+import { useAllMenuPermissions } from '../hooks/usePermissions';
+import { getMenuIcon, buildMenuHierarchy } from '../utils/menuUtils';
 import LogoutModal from './LogoutModal';
 import { getAvatarImagePath, getUserInitials } from '../utils/avatarUtils';
 import '../styles/Header.css';
@@ -29,14 +31,26 @@ const Header: React.FC<HeaderProps> = ({ user, onSidebarToggle, sidebarCollapsed
   const [showSearchResults, setShowSearchResults] = useState(false);
   const { addTabWithHistory } = useBrowserHistory();
   const [showRecentTabs, setShowRecentTabs] = useState(false);
+  const [showFullMenu, setShowFullMenu] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const recentTabsRef = useRef<HTMLDivElement>(null);
+  const fullMenuRef = useRef<HTMLDivElement>(null);
+  const dropdownContentRef = useRef<HTMLDivElement>(null);
   
   // Redux 상태 가져오기
   const { menus } = useSelector((state: RootState) => state.menu);
   const { user: authUser } = useSelector((state: RootState) => state.auth);
-  const { tabs, closedTabHistory } = useSelector((state: RootState) => state.tabs);
+  const { tabs, closedTabHistory, activeTabId } = useSelector((state: RootState) => state.tabs);
+  
+  // 모든 메뉴 권한 조회
+  const { allPermissions } = useAllMenuPermissions();
+  
+  // 메뉴 계층 구조 빌드
+  const menuItems = React.useMemo(() => {
+    if (!menus || menus.length === 0) return [];
+    return buildMenuHierarchy(menus);
+  }, [menus]);
   
   // 메뉴 데이터 로드 (최초 1회만)
   useEffect(() => {
@@ -62,16 +76,32 @@ const Header: React.FC<HeaderProps> = ({ user, onSidebarToggle, sidebarCollapsed
       if (recentTabsRef.current && !recentTabsRef.current.contains(event.target as Node)) {
         setShowRecentTabs(false);
       }
+      if (fullMenuRef.current && !fullMenuRef.current.contains(event.target as Node)) {
+        setShowFullMenu(false);
+      }
     };
 
-    if (showUserMenu || showSearchResults || showRecentTabs) {
+    if (showUserMenu || showSearchResults || showRecentTabs || showFullMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showUserMenu, showSearchResults, showRecentTabs]);
+  }, [showUserMenu, showSearchResults, showRecentTabs, showFullMenu]);
+
+  // 전체 메뉴 드롭다운이 열릴 때 활성 메뉴로 스크롤
+  useEffect(() => {
+    if (showFullMenu && activeTabId && dropdownContentRef.current) {
+      // 약간의 딜레이를 주어 DOM이 렌더링된 후 스크롤
+      setTimeout(() => {
+        const activeItem = dropdownContentRef.current?.querySelector('.menu-active');
+        if (activeItem) {
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  }, [showFullMenu, activeTabId]);
 
   // 로그아웃 모달 열기
   const handleLogoutClick = () => {
@@ -170,17 +200,42 @@ const Header: React.FC<HeaderProps> = ({ user, onSidebarToggle, sidebarCollapsed
   };
 
   // 메뉴 URL을 기반으로 컴포넌트명 매핑
-  const getComponentFromUrl = (url: string) => {
-    if (url.includes('ProductRegistration')) return 'ProductRegistration';
-    if (url.includes('AgentRegistration')) return 'AgentRegistration';
-    if (url.includes('/orders/OrderRegistration')) return 'OrderRegistration';
-    if (url.includes('/dashboard')) return 'Dashboard';
-    if (url.includes('CodeList')) return 'CodeList';
-    if (url.includes('CodeHistory')) return 'CodeHistory';
-    if (url.includes('/permission/users')) return 'UserManagement';
-    if (url.includes('/permission/menus')) return 'MenuManagement';
-    // 기본값
-    return 'Dashboard';
+  const getComponentFromUrl = (url: string): string => {
+    const urlMappings: { [key: string]: string } = {
+      '/products/ProductRegistration': 'ProductManage',
+      '/products/ProductPriceRegistration': 'PriceManage',
+      '/dashboard': 'Dashboard',
+      '/orders/new': 'OrderCheck',
+      '/orders/OrderRegistration': 'OrderRegistration',
+      '/orders/order-list-management': 'OrderListManagement',
+      '/orders/order-out-status': 'OrderOutStatus',
+      '/orders/orderOutStatus': 'OrderOutStatus',
+      '/orders/orderConfirm': 'OrderConfirm',
+      '/orders/history': 'OrderHistory',
+      '/orders/tracking': 'OrderStatus',      
+      '/inventory/agentStock': 'AgentStock',
+      '/in/store-inventory-management': 'StoreInventoryManagement',
+      '/in/storeInventoryStatus': 'StoreInventoryStatus',
+      '/reports/tradeStatus': 'TradeStatus',
+      '/code/list': 'CodeList',
+      '/code/history': 'CodeHistory',
+      '/code/create': 'CodeCreate',
+      '/code/edit': 'CodeEdit',
+      '/code/category': 'CodeCategory',
+      '/agent/AgentRegistration': 'AgentRegistration',
+      '/store-management/customer-registration': 'CustRegistration',
+      '/store-management/sales-registration': 'SalesRegistration',
+      '/permission/users': 'UserManagement',
+      '/permission/menus': 'MenuManagement',
+      '/crm/mis-dashboard': 'MISDashboard',
+      '/crm/product-analysis': 'ProductAnalysisDashboard',
+      '/crm/channel-analytics': 'ChannelAnalyticsDashboard',
+      '/crm/campaign-analytics': 'CampaignAnalyticsDashboard',
+      '/crm/professional-analytics': 'ProfessionalAnalyticsDashboard',
+      '/crm/customer-journey': 'CustomerJourneyAnalysis'
+    };
+    
+    return urlMappings[url] || '';
   };
 
   // 검색 결과 메뉴 클릭 처리
@@ -291,9 +346,79 @@ const Header: React.FC<HeaderProps> = ({ user, onSidebarToggle, sidebarCollapsed
     }
   };
 
+  // 전체 메뉴에서 메뉴 클릭 처리
+  const handleFullMenuClick = (menu: any) => {
+    const tabId = menu.menu_id.toString();
+    
+    // URL에서 컴포넌트 이름 가져오기, 없으면 메뉴 이름에서 공백 제거하여 사용
+    let componentName = menu.menu_url ? getComponentFromUrl(menu.menu_url) : '';
+    if (!componentName) {
+      componentName = menu.menu_name.replace(/\s+/g, '');
+    }
+    
+    // 이미 같은 메뉴의 탭이 열려있는지 확인
+    const existingTab = tabs.find(tab => tab.id === tabId);
+    
+    if (existingTab) {
+      dispatch(setActiveTab(existingTab.id));
+    } else {
+      addTabWithHistory({
+        id: tabId,
+        title: menu.menu_name,
+        component: componentName,
+        url: menu.menu_url || `/${tabId}`,
+        menuIcon: menu.menu_icon,
+        closable: true
+      });
+    }
+    
+    setShowFullMenu(false);
+  };
+
+  // 전체 메뉴 드롭다운 렌더링 함수
+  const renderFullMenuDropdown = (items: any[], level: number = 0): React.ReactNode => {
+    return items.map((item: any) => {
+      const itemId = item.id || item.menu_id;
+      const itemName = item.name || item.menu_name;
+      const hasChildren = item.children && item.children.length > 0;
+      const itemPermission = allPermissions.find(p => p.menuId === item.menu_id);
+      const canAccess = itemPermission && (
+        itemPermission.permissions.viewPermission === 'Y' ||
+        itemPermission.permissions.savePermission === 'Y' ||
+        itemPermission.permissions.deletePermission === 'Y' ||
+        itemPermission.permissions.exportPermission === 'Y' ||
+        itemPermission.permissions.personalInfoPermission === 'Y'
+      );
+
+      if (!canAccess) return null;
+
+      return (
+        <div key={itemId} className="header-dropdown-item-wrapper">
+          <div 
+            className={`header-dropdown-item level-${level} ${activeTabId === String(itemId) ? 'menu-active' : ''}`}
+            onClick={() => {
+              if (!hasChildren) {
+                handleFullMenuClick(item);
+              }
+            }}
+          >
+            {React.createElement(getMenuIcon(item.menu_icon), { className: "header-dropdown-icon", size: 14 })}
+            <span className="header-dropdown-name">{itemName}</span>
+            {hasChildren && <ChevronRight size={12} className="header-dropdown-arrow" />}
+          </div>
+          {hasChildren && (
+            <div className="header-dropdown-submenu">
+              {renderFullMenuDropdown(item.children, level + 1)}
+            </div>
+          )}
+        </div>
+      );
+    });
+  };
+
   return (
     <header className="header">
-      {/* 좌측 영역 - 회사 로고 + 햄버거 메뉴 */}
+      {/* 좌측 영역 - 회사 로고 + 전체메뉴 + 햄버거 메뉴 */}
       <div className="header-left">
         {/* 회사 로고 (홈 버튼) */}
         <button 
@@ -320,6 +445,31 @@ const Header: React.FC<HeaderProps> = ({ user, onSidebarToggle, sidebarCollapsed
             HD SYNC
           </div>
         </button>
+
+        {/* 전체 메뉴 버튼 (사이드바 접혔을 때만 표시) */}
+        {sidebarCollapsed && (
+          <div className="full-menu-container" ref={fullMenuRef}>
+            <button 
+              className="full-menu-btn"
+              onClick={() => setShowFullMenu(!showFullMenu)}
+              title="전체 메뉴"
+            >
+              <Menu size={18} />
+              <span className="full-menu-text">메뉴</span>
+              <ChevronDown size={14} className={`full-menu-arrow ${showFullMenu ? 'open' : ''}`} />
+            </button>
+            
+            {/* 전체 메뉴 드롭다운 */}
+            {showFullMenu && (
+              <div className="header-dropdown-popup">
+                <div className="header-dropdown-title">전체 메뉴</div>
+                <div className="header-dropdown-content" ref={dropdownContentRef}>
+                  {menuItems.map((item) => renderFullMenuDropdown([item]))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 햄버거 메뉴 버튼 */}
         <button 

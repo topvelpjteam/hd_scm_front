@@ -1,0 +1,228 @@
+@import './orderOutStatus.css';
+
+/* ========================================
+   고객판매일보 전용 스타일
+   ======================================== */
+
+.customer-sales-daily-page .page-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.customer-sales-daily-page .page-title i {
+  color: #1f3c88;
+}
+
+/* 넓은 검색 항목 */
+.customer-sales-daily-page .search-item-wide {
+  flex: 2;
+}
+
+/* 테이블 래퍼 */
+.customer-sales-daily-page .customer-sales-daily-table-wrapper {
+  overflow-x: auto;
+}
+
+/* 테이블 스타일 */
+.customer-sales-daily-page .customer-sales-daily-table {
+  min-width: 1800px;
+}
+
+.customer-sales-daily-page .customer-sales-daily-table th,
+.customer-sales-daily-page .customer-sales-daily-table td {
+  white-space: nowrap;
+  padding: 10px 12px;
+}
+
+/* 고객구분 배지 스타일 */
+.customer-sales-daily-page .cust-gbn-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.customer-sales-daily-page .cust-gbn-vip {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.customer-sales-daily-page .cust-gbn-normal {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+/* SMS 수신 상태 배지 */
+.customer-sales-daily-page .sms-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.customer-sales-daily-page .sms-yes {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.customer-sales-daily-page .sms-no {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* 합계 행 스타일 */
+.customer-sales-daily-page .summary-row {
+  background-color: #f8fafc;
+  border-top: 2px solid var(--color-border-strong);
+}
+
+.customer-sales-daily-page .summary-row td {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+/* 금액 셀 하이라이트 */
+.customer-sales-daily-page .amount-highlight {
+  color: #2563eb;
+  font-weight: var(--font-weight-semibold);
+}
+
+.customer-sales-daily-page .discount-highlight {
+  color: #dc2626;
+  font-weight: var(--font-weight-semibold);
+}
+
+.customer-sales-daily-page .point-highlight {
+  color: #7c3aed;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* 마일리지 표시 */
+.customer-sales-daily-page .mileage-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.customer-sales-daily-page .mileage-cell::after {
+  content: 'P';
+  font-size: 10px;
+  color: #6b7280;
+}
+
+/* 핸드폰 번호 포맷 */
+.customer-sales-daily-page .phone-cell {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+/* 테이블 호버 효과 강화 */
+.customer-sales-daily-page .customer-sales-daily-table tbody tr:hover {
+  background-color: #f0f9ff;
+}
+
+/* 반응형 조정 */
+@media (max-width: 1400px) {
+  .customer-sales-daily-page .search-row {
+    flex-wrap: wrap;
+  }
+  
+  .customer-sales-daily-page .search-item {
+    min-width: 200px;
+    flex: 1 1 calc(50% - 8px);
+  }
+  
+  .customer-sales-daily-page .search-item-wide {
+    flex: 1 1 100%;
+  }
+}
+
+/* 그리드 요약 - 판매사원aus-ipt 스타일 */
+.customer-sales-daily-page .olm-grid-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.customer-sales-daily-page .olm-grid-summary .summary-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* 전체건수 그룹 - 연한 회색 */
+.customer-sales-daily-page .olm-grid-summary .summary-group.count-group {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* 수량합계 그룹 - 연한 파란색 */
+.customer-sales-daily-page .olm-grid-summary .summary-group.qty-group {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* 판매금액 그룹 - 연한 초록색 */
+.customer-sales-daily-page .olm-grid-summary .summary-group.tot-group {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+/* 할인금액 그룹 - 연한 빨간색 */
+.customer-sales-daily-page .olm-grid-summary .summary-group.discount-group {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* 매출금액 그룹 - 연한 보라색 */
+.customer-sales-daily-page .olm-grid-summary .summary-group.sale-group {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+/* 마일리지 그룹 - 연한 주황색 */
+.customer-sales-daily-page .olm-grid-summary .summary-group.point-group {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.customer-sales-daily-page .olm-grid-summary .summary-label {
+  font-weight: 600;
+}
+
+.customer-sales-daily-page .olm-grid-summary .summary-value {
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .customer-sales-daily-page .search-item {
+    flex: 1 1 100%;
+  }
+  
+  .customer-sales-daily-page .olm-grid-summary {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .customer-sales-daily-page .olm-grid-summary .summary-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

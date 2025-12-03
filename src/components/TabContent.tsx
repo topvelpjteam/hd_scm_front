@@ -20,6 +20,16 @@ import StoreInventoryStatus from './storeInventoryStatus';
 import InOutStatus from './inOutStatus';
 import UserManagement from './UserManagement';
 import MenuManagement from './MenuManagement';
+import CustomerSalesDaily from './customerSalesDaily';
+import SalesPersonausipt from './salesPersonausipt';
+import DailySalesStatus from './dailySalesStatus';
+import CustomerSegmentStatus from './CustomerSegmentStatus';
+import DormantCustomerAnalysis from './DormantCustomerAnalysis';
+import PurchasePatternAnalysis from './PurchasePatternAnalysis';
+import StaffPerformanceAnalysis from './StaffPerformanceAnalysis';
+import CustomerJourneyAnalysis from './CustomerJourneyAnalysis';
+import SalesByVendorBrand from './SalesByVendorBrand';
+import OrderInByVendor from './OrderInByVendor';
 
 // CRM 대시보드 컴포넌트들
 import {
@@ -169,6 +179,71 @@ const TabContent: React.FC<TabContentProps> = React.memo(({ tabId }) => {
       case '출고확정':
         console.log('TabContent: OrderConfirm (출고확정) 컴포넌트 렌더링');
         return <OrderConfirm />;
+      
+      // 고객판매일보
+      case 'CustomerSalesDaily':
+      case 'customerSalesDaily':
+      case '고객판매일보':
+        return <CustomerSalesDaily />;
+      
+      // 판매사원 AUS-IPT
+      case 'SalesPersonausipt':
+      case 'salesPersonausipt':
+      case '판매사원AUS-IPT':
+        return <SalesPersonausipt />;
+      
+      // 일일매출현황
+      case 'DailySalesStatus':
+      case 'dailySalesStatus':
+      case '일일매출현황':
+        return <DailySalesStatus />;
+      
+      // 고객구분현황 (CRM 분석)
+      case 'CustomerSegmentStatus':
+      case 'customerSegmentStatus':
+      case '고객구분현황':
+        return <CustomerSegmentStatus />;
+      
+      // 휴면고객분석 (CRM 분석)
+      case 'DormantCustomerAnalysis':
+      case 'dormantCustomerAnalysis':
+      case '휴면고객분석':
+        return <DormantCustomerAnalysis />;
+      
+      // 구매패턴분석 (CRM 분석)
+      case 'PurchasePatternAnalysis':
+      case 'purchasePatternAnalysis':
+      case '구매패턴분석':
+        return <PurchasePatternAnalysis />;
+      
+      // 판매사원성과분석 (CRM 분석)
+      case 'StaffPerformanceAnalysis':
+      case 'staffPerformanceAnalysis':
+      case '판매사원성과분석':
+        return <StaffPerformanceAnalysis />;
+      
+      // 고객구매여정 (CRM 분석)
+      case 'CustomerJourneyAnalysis':
+      case 'customerJourneyAnalysis':
+      case '고객구매여정':
+        return <CustomerJourneyAnalysis />;
+      
+      // 매입처(벤더) 브랜드별 매출내역 (리포트)
+      case 'SalesByVendorBrand':
+      case 'salesByVendorBrand':
+      case '매입처브랜드별매출내역':
+      case '매입처(벤더)브랜드별매출내역':
+      case '벤더브랜드별매출':
+        return <SalesByVendorBrand />;
+      
+      // 매입처별 발주/입고내역 (리포트)
+      case 'OrderInByVendor':
+      case 'orderInByVendor':
+      case '매입처별발주입고내역':
+      case '매입처별발주/입고내역':
+      case '매입처별 발주/입고내역':
+      case '발주입고내역':
+        return <OrderInByVendor />;
       
       // 매출 정보
       case 'SalesDaily':

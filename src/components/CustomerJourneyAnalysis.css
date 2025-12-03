@@ -1,0 +1,388 @@
+/* 고객 구매 여정 분석 스타일 */
+/* cj = CustomerJourney */
+
+.cj-page {
+  padding: 0;
+}
+
+/* 검색 영역 */
+.cj-page .olm-search-box {
+  margin-bottom: 16px;
+}
+
+/* 요약 카드 영역 */
+.cj-summary-section {
+  margin-bottom: 20px;
+}
+
+.cj-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.cj-summary-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.cj-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cj-summary-card.highlight {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-color: #93c5fd;
+}
+
+.cj-summary-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.cj-summary-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.cj-summary-value.currency {
+  color: #2563eb;
+}
+
+.cj-summary-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* 차트 영역 */
+.cj-charts-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1200px) {
+  .cj-charts-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cj-chart-box {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.cj-chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* 막대 차트 */
+.cj-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cj-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cj-bar-label {
+  min-width: 100px;
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.cj-bar-wrapper {
+  flex: 1;
+  height: 24px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cj-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.cj-bar-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.cj-bar-value.outside {
+  position: absolute;
+  right: 8px;
+  color: #64748b;
+  text-shadow: none;
+}
+
+/* 파스텔 색상 */
+.cj-bar.blue { background: linear-gradient(90deg, #93c5fd 0%, #60a5fa 100%); }
+.cj-bar.green { background: linear-gradient(90deg, #86efac 0%, #4ade80 100%); }
+.cj-bar.orange { background: linear-gradient(90deg, #fdba74 0%, #fb923c 100%); }
+.cj-bar.pink { background: linear-gradient(90deg, #f9a8d4 0%, #f472b6 100%); }
+.cj-bar.purple { background: linear-gradient(90deg, #c4b5fd 0%, #a78bfa 100%); }
+.cj-bar.teal { background: linear-gradient(90deg, #5eead4 0%, #2dd4bf 100%); }
+.cj-bar.yellow { background: linear-gradient(90deg, #fde047 0%, #facc15 100%); }
+
+/* 도넛 차트 대체 - 원형 세그먼트 */
+.cj-pie-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cj-pie-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.cj-pie-item:hover {
+  background: #f1f5f9;
+}
+
+.cj-pie-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.cj-pie-label {
+  flex: 1;
+  font-size: 12px;
+  color: #475569;
+}
+
+.cj-pie-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.cj-pie-percent {
+  font-size: 11px;
+  color: #64748b;
+  min-width: 45px;
+  text-align: right;
+}
+
+/* 라인 차트 대체 */
+.cj-trend-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cj-trend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.cj-trend-row:last-child {
+  border-bottom: none;
+}
+
+.cj-trend-month {
+  min-width: 70px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.cj-trend-bar-wrapper {
+  flex: 1;
+  height: 20px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cj-trend-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #a8d4ff 0%, #60a5fa 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.cj-trend-value {
+  min-width: 80px;
+  text-align: right;
+  font-size: 11px;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* 테이블 영역 */
+.cj-tables-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1200px) {
+  .cj-tables-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cj-table-box {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cj-table-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.cj-table-wrapper {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cj-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cj-table th {
+  background: #f1f5f9;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.cj-table td {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #1f2937;
+  text-align: center;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.cj-table tr:hover td {
+  background: #f8fafc;
+}
+
+.cj-table td.text-left {
+  text-align: left;
+}
+
+.cj-table td.text-right {
+  text-align: right;
+}
+
+.cj-table .rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cj-table .rank-badge.gold {
+  background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
+  color: #78350f;
+}
+
+.cj-table .rank-badge.silver {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  color: #334155;
+}
+
+.cj-table .rank-badge.bronze {
+  background: linear-gradient(135deg, #fdba74 0%, #fb923c 100%);
+  color: #7c2d12;
+}
+
+.cj-table .rank-badge.normal {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* 마일리지 섹션 */
+.cj-mileage-section {
+  margin-bottom: 20px;
+}
+
+.cj-mileage-box {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* 로딩 & 에러 */
+.cj-loading,
+.cj-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.cj-error {
+  color: #ef4444;
+}
+
+/* 빈 데이터 */
+.cj-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+  font-size: 13px;
+}

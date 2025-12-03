@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
-  ChevronRight
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 import { setActiveTab } from '../store/tabSlice';
 import { fetchUserMenus } from '../store/menuSlice';
@@ -30,7 +31,10 @@ const MenuItemWithPermission = React.memo<{
   isMobile: boolean;
   allPermissions: any[];
   permissionsLoading: boolean;
-}>(({ item, level, onMenuClick, onToggle, expandedItems, collapsed, isMobile, allPermissions, permissionsLoading }) => {
+  activeMenuIds: string[];
+}>(({ item, level, onMenuClick, onToggle, expandedItems, collapsed, isMobile, allPermissions, permissionsLoading, activeMenuIds }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const itemId = item.id || item.menu_id;
   const menuName = item.name || item.menu_name;
   
@@ -56,13 +60,82 @@ const MenuItemWithPermission = React.memo<{
 
   const hasChildren = item.children && item.children.length > 0;
   const isExpanded = expandedItems.includes(itemId);
+  
+  // 현재 메뉴 또는 하위 메뉴가 활성화되어 있는지 확인
+  const isActive = activeMenuIds.includes(String(itemId));
+  const hasActiveChild = hasChildren && item.children.some((child: any) => 
+    activeMenuIds.includes(String(child.id || child.menu_id)) ||
+    (child.children && child.children.some((grandChild: any) => 
+      activeMenuIds.includes(String(grandChild.id || grandChild.menu_id))
+    ))
+  );
+
+  // 드롭다운 외부 클릭 시 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showDropdown]);
+
+  // 접힘 상태에서 드롭다운 메뉴 렌더링
+  const renderDropdownMenu = (items: any[], parentLevel: number = 0): React.ReactNode => {
+    return items.map((child: any) => {
+      const childId = child.id || child.menu_id;
+      const childName = child.name || child.menu_name;
+      const childHasChildren = child.children && child.children.length > 0;
+      const childPermission = allPermissions.find(p => p.menuId === child.menu_id);
+      const childCanAccess = childPermission && (
+        childPermission.permissions.viewPermission === 'Y' ||
+        childPermission.permissions.savePermission === 'Y' ||
+        childPermission.permissions.deletePermission === 'Y' ||
+        childPermission.permissions.exportPermission === 'Y' ||
+        childPermission.permissions.personalInfoPermission === 'Y'
+      );
+
+      if (!childCanAccess) return null;
+
+      return (
+        <div key={childId} className="dropdown-item-wrapper">
+          <div 
+            className={`dropdown-item level-${parentLevel} ${activeMenuIds.includes(String(childId)) ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!childHasChildren) {
+                const componentName = child.menu_name.replace(/\s+/g, '');
+                onMenuClick(child.menu_id.toString(), componentName, child.menu_name, child.menu_url, child.menu_icon);
+                setShowDropdown(false);
+              }
+            }}
+          >
+            {React.createElement(getMenuIcon(child.menu_icon), { className: "dropdown-icon", size: 14 })}
+            <span className="dropdown-name">{childName}</span>
+            {childHasChildren && <ChevronRight size={12} className="dropdown-arrow" />}
+          </div>
+          {childHasChildren && (
+            <div className="dropdown-submenu">
+              {renderDropdownMenu(child.children, parentLevel + 1)}
+            </div>
+          )}
+        </div>
+      );
+    });
+  };
 
   return (
-    <div className="menu-item-wrapper">
+    <div className="menu-item-wrapper" ref={dropdownRef}>
       <div
-        className={`menu-item level-${level} ${isExpanded ? 'expanded' : ''} ${hasChildren ? 'has-children' : ''}`}
+        className={`menu-item level-${level} ${isExpanded ? 'expanded' : ''} ${hasChildren ? 'has-children' : ''} ${isActive || hasActiveChild ? 'menu-active' : ''}`}
         onClick={() => {
-          if (hasChildren) {
+          if (collapsed && hasChildren) {
+            // 접힘 상태에서는 드롭다운 토글
+            setShowDropdown(!showDropdown);
+          } else if (hasChildren) {
             onToggle(itemId);
           } else {
             const componentName = item.menu_name.replace(/\s+/g, '');
@@ -72,7 +145,7 @@ const MenuItemWithPermission = React.memo<{
       >
         <div className="menu-item-content">
           {React.createElement(getMenuIcon(item.menu_icon), { className: "menu-icon", size: 18 })}
-          {!collapsed && <span className="menu-name">{menuName} ({itemId})</span>}
+          {!collapsed && <span className="menu-name">{menuName}</span>}
           {!collapsed && hasChildren && (
             <ChevronRight 
               className={`expand-icon ${isExpanded ? 'expanded' : ''}`} 
@@ -82,7 +155,17 @@ const MenuItemWithPermission = React.memo<{
         </div>
       </div>
 
-      {/* 하위 메뉴 렌더링 */}
+      {/* 접힘 상태에서 드롭다운 메뉴 */}
+      {collapsed && hasChildren && showDropdown && (
+        <div className="collapsed-dropdown">
+          <div className="dropdown-header">{menuName}</div>
+          <div className="dropdown-content">
+            {renderDropdownMenu(item.children)}
+          </div>
+        </div>
+      )}
+
+      {/* 하위 메뉴 렌더링 (펼침 상태) */}
       {hasChildren && !collapsed && (
         <div className={`submenu ${isExpanded ? 'expanded' : 'collapsed'}`}>
           {item.children.map((child: any) => (
@@ -97,6 +180,7 @@ const MenuItemWithPermission = React.memo<{
               isMobile={isMobile}
               allPermissions={allPermissions}
               permissionsLoading={permissionsLoading}
+              activeMenuIds={activeMenuIds}
             />
           ))}
         </div>
@@ -117,10 +201,15 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onClose, isMobil
   // Redux 상태 가져오기
   const { user } = useSelector((state: RootState) => state.auth);
   const { menus, loading } = useSelector((state: RootState) => state.menu);
-  const { tabs } = useSelector((state: RootState) => state.tabs);
+  const { tabs, activeTabId } = useSelector((state: RootState) => state.tabs);
 
   // 모든 메뉴 권한 조회
   const { allPermissions, loading: permissionsLoading } = useAllMenuPermissions();
+
+  // 현재 활성 탭의 메뉴 ID만 (가장 위에 떠있는 탭)
+  const activeMenuIds = React.useMemo(() => {
+    return activeTabId ? [activeTabId] : [];
+  }, [activeTabId]);
 
   // 동적 높이 계산을 위한 상태
   const [sidebarHeight, setSidebarHeight] = useState<string>('calc(100vh - 64px)');
@@ -451,13 +540,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onClose, isMobil
       >
         {/* 사이드바 헤더 */}
         <div className="sidebar-header">
-          <h2 className="sidebar-title">HYUNDAI</h2>
+          {!collapsed && <h2 className="sidebar-title">HYUNDAI</h2>}
           <button 
             className="sidebar-toggle"
             onClick={onToggle}
-            aria-label="사이드바 토글"
+            aria-label={collapsed ? "사이드바 펼치기" : "사이드바 접기"}
+            title={collapsed ? "메뉴 펼치기" : "메뉴 접기"}
           >
-            <ChevronRight size={20} />
+            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
           </button>
         </div>
 
@@ -490,6 +580,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onClose, isMobil
                 isMobile={isMobile}
                 allPermissions={allPermissions}
                 permissionsLoading={permissionsLoading}
+                activeMenuIds={activeMenuIds}
               />
             ))}
           </div>

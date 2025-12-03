@@ -20,6 +20,8 @@ import AgentStockProductModal, { SelectedGood } from './agent-stock/AgentStockPr
 import Pagination from './Pagination';
 import { exportAgentStockToExcel } from '../utils/exportAgentStockExcel';
 import './AgentStock.css';
+import './OrderListManagement.css';
+import './orderOutStatus.css';
 
 interface AgentStockFormState {
   targetMonth: string;
@@ -392,7 +394,7 @@ const AgentStock: React.FC = () => {
   const MenuIcon = currentTab?.menuIcon ? getMenuIcon(currentTab.menuIcon) : null;
 
   return (
-    <div className="olm-container agent-stock-page">
+    <div className="olm-container order-out-status-page agent-stock-page">
       <div className="top-section">
         <h1 className="page-title">
           {MenuIcon
@@ -573,20 +575,21 @@ const AgentStock: React.FC = () => {
             </button>
             <button
               type="button"
-              className="olm-btn olm-btn-primary"
-              onClick={handleSearch}
-              disabled={isLoading}
-            >
-              <i className="fas fa-search" /> 조회
-            </button>
-            <button
-              type="button"
               className="olm-btn olm-btn-excel"
               onClick={handleExportExcel}
               disabled={isLoading || rows.length === 0 || columns.length === 0}
             >
-              <i className="fas fa-file-excel" /> 엑셀
+              <i className="fas fa-file-excel" /> 엑셀다운로드
             </button>
+            <button
+              type="button"
+              className="olm-btn olm-btn-primary"
+              onClick={handleSearch}
+              disabled={isLoading}
+            >            
+              <i className="fas fa-search" /> 조회
+            </button>
+
           </div>
         </div>
       </div>

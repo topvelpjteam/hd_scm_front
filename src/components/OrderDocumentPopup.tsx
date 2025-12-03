@@ -52,6 +52,23 @@ const OrderDocumentPopup: React.FC<OrderDocumentPopupProps> = ({ isOpen, order, 
     return num.toLocaleString('ko-KR');
   };
 
+  // 이메일 마스킹 함수 (일부만 표시)
+  const maskEmail = (email: string): string => {
+    if (!email) return '이메일 정보 없음';
+    
+    const parts = email.split('@');
+    if (parts.length !== 2) return '***';
+    
+    const [localPart, domain] = parts;
+    
+    // 로컬 부분: 첫 글자만 표시하고 나머지는 *로 표시
+    const maskedLocal = localPart.length > 0 
+      ? localPart[0] + '*'.repeat(Math.max(1, localPart.length - 1))
+      : '***';
+    
+    return `${maskedLocal}@${domain}`;
+  };
+
   const handlePrint = () => {
     // 팝업 내용만 인쇄하기 위한 새 창 생성
     const printWindow = window.open('', '_blank', 'width=800,height=600');
@@ -845,7 +862,7 @@ const OrderDocumentPopup: React.FC<OrderDocumentPopupProps> = ({ isOpen, order, 
                 </div>
                 <div className="odp-info-item">
                   <span className="odp-label">이메일:</span>
-                  <span className="odp-value">{order.VENDOR_EMAIL || order.AGENT_EMAIL || '이메일 정보 없음'}</span>
+                  <span className="odp-value">{maskEmail(order.VENDOR_EMAIL || order.AGENT_EMAIL)}</span>
                 </div>
                 <div className="odp-info-item">
                   <span className="odp-label">전화번호:</span>

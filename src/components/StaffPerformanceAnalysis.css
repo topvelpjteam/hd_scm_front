@@ -1,0 +1,335 @@
+/* ============================================
+   판매사원성과분석 - 고객판매일보 스타일 상속 (olm-container 기반)
+   ============================================ */
+
+/* ============================================
+   1. 페이지 전용 스타일 (olm-container 상속)
+   ============================================ */
+.sp-page .page-title i {
+  color: #7c9ed9;
+}
+
+/* date input 스타일 */
+.sp-page .olm-form-control[type="date"] {
+  min-width: 140px;
+}
+
+/* select 스타일 */
+.sp-page .olm-select {
+  min-width: 100px;
+}
+
+/* 본문 스크롤 영역 */
+.sp-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+}
+
+/* 에러 메시지 */
+.sp-error {
+  background: #fff5f5;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #c53030;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* 요약 카드 */
+.sp-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.sp-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.sp-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sp-card-icon i {
+  font-size: 14px;
+  color: #555;
+}
+
+.sp-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-card-label {
+  font-size: 10px;
+  color: #888;
+}
+
+.sp-card-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* 차트 그리드 */
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1200px) {
+  .sp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 박스 */
+.sp-box {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.sp-box-wide {
+  grid-column: 1 / -1;
+}
+
+.sp-box-header {
+  background: linear-gradient(135deg, #e8f0fe 0%, #f0f4ff 100%);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-box-header i {
+  color: #7c9ed9;
+  font-size: 12px;
+}
+
+.sp-box-body {
+  padding: 12px;
+  min-height: 200px;
+}
+
+/* 바 차트 */
+.sp-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sp-bar-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  gap: 8px;
+  align-items: center;
+}
+
+.sp-bar-name {
+  font-size: 11px;
+  color: #555;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-bar-track {
+  height: 20px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sp-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.sp-bar-amt {
+  font-size: 11px;
+  color: #1f2937;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* 월별 추이 */
+.sp-trend-body {
+  height: 220px;
+  padding: 12px 12px 24px;
+}
+
+.sp-trend {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 100%;
+  gap: 4px;
+}
+
+.sp-trend-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 60px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.sp-trend-bar {
+  width: 100%;
+  max-width: 30px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+  cursor: pointer;
+}
+
+.sp-trend-bar:hover {
+  opacity: 0.85;
+}
+
+.sp-trend-label {
+  font-size: 10px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* 테이블 영역 */
+.sp-tables {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1200px) {
+  .sp-tables {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sp-box-table {
+  grid-column: 1 / -1;
+}
+
+.sp-box-half {
+  min-height: 200px;
+}
+
+/* 테이블 */
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.sp-table th {
+  background: #f8fafc;
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.sp-table td {
+  padding: 8px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1f2937;
+}
+
+.sp-table tr:hover {
+  background: #f8fafc;
+}
+
+.sp-table .center {
+  text-align: center;
+}
+
+.sp-table .right {
+  text-align: right;
+}
+
+.sp-table .ellipsis {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-table.small {
+  font-size: 11px;
+}
+
+.sp-table.small th,
+.sp-table.small td {
+  padding: 6px;
+}
+
+/* 순위 표시 */
+.sp-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sp-rank-1 {
+  background: #ffd700;
+  color: #8b6914;
+}
+
+.sp-rank-2 {
+  background: #c0c0c0;
+  color: #555;
+}
+
+.sp-rank-3 {
+  background: #cd7f32;
+  color: #fff;
+}
+
+.sp-rank-other {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+/* 빈 데이터 */
+.sp-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9ca3af;
+  font-size: 12px;
+}

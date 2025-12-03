@@ -1,232 +1,179 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  X, Search,
-  // 기본 아이콘들
-  Home, User, Users, Settings, Plus, Edit, Trash2, Save, Download, Upload,
-  // 비즈니스 아이콘들
-  LayoutDashboard, BarChart3, PieChart, TrendingUp, TrendingDown, DollarSign, CreditCard, Package,
-  // 파일 및 문서
-  File, Folder, FolderOpen, Archive, Copy, FileText, Book, BookOpen,
-  // UI 및 네비게이션
-  Menu, Grid, List, Filter, SortAsc, SortDesc, MoreHorizontal, MoreVertical,
-  // 방향 및 화살표
-  ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowLeft, ArrowRight,
-  // 상태 및 알림
-  AlertCircle, CheckCircle, XCircle, Info, HelpCircle, Star, Heart, Bookmark, Bell, Check,
-  // 보안 및 권한
-  Lock, Unlock, Shield, ShieldCheck, Key,
-  // 통신 및 메시지
-  Mail, Phone, MessageSquare, Send, Paperclip,
-  // 미디어
-  Image, Camera, Video, VideoOff, Mic, MicOff, Volume2, VolumeX, Headphones, Speaker,
-  // 재생 컨트롤
-  Play, Pause, SkipBack, SkipForward, Repeat, Shuffle,
-  // 하드웨어 및 기술
-  Printer, QrCode, Smartphone, Tablet, Laptop, Monitor,
-  // 네트워크 및 연결
-  Wifi, WifiOff, Globe, Link, ExternalLink,
-  // 전원 및 제어
-  Power, PowerOff, Zap, ToggleLeft, ToggleRight,
-  // 날씨 및 자연
-  Sun, Moon, Cloud, Wind, Thermometer, Droplets, Flame, Umbrella,
-  // 동물
-  Bug, Fish, Bird, Cat, Dog,
-  // 감정 및 반응
-  Hand, ThumbsUp, ThumbsDown, Smile, Frown,
-  // 기타 유용한 아이콘들
-  Tag, Tags, Flag, Share, RefreshCw, RotateCcw, RotateCw, ZoomIn, ZoomOut, Maximize, Minimize,
-  Battery, Calendar, Clock, MapPin, ShoppingCart, Truck, Database, Eye, Code, Activity,
-  UserPlus, UserMinus, LogIn, LogOut, Cog, Sliders, Wrench, Hammer, LineChart, History
-} from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
+import { X, Search, HelpCircle } from 'lucide-react';
 import './IconSelectorModal.css';
 
-// 아이콘 목록 정의
-const iconList = [
+// 사용 가능한 아이콘 이름 목록 (kebab-case)
+// lucide-react에 없는 아이콘도 추가 가능 - 자동으로 fallback 처리됨
+const iconNames: string[] = [
   // 기본 아이콘들
-  { name: 'home', component: Home },
-  { name: 'user', component: User },
-  { name: 'users', component: Users },
-  { name: 'settings', component: Settings },
-  { name: 'search', component: Search },
-  { name: 'plus', component: Plus },
-  { name: 'edit', component: Edit },
-  { name: 'trash-2', component: Trash2 },
-  { name: 'save', component: Save },
-  { name: 'download', component: Download },
-  { name: 'upload', component: Upload },
+  'home', 'user', 'users', 'settings', 'search', 'plus', 'edit', 'trash-2', 'save', 'download', 'upload',
   
   // 비즈니스 아이콘들
-  { name: 'layout-dashboard', component: LayoutDashboard },
-  { name: 'bar-chart-3', component: BarChart3 },
-  { name: 'pie-chart', component: PieChart },
-  { name: 'trending-up', component: TrendingUp },
-  { name: 'trending-down', component: TrendingDown },
-  { name: 'dollar-sign', component: DollarSign },
-  { name: 'credit-card', component: CreditCard },
-  { name: 'package', component: Package },
+  'layout-dashboard', 'bar-chart-3', 'bar-chart', 'bar-chart-2', 'bar-chart-4', 'pie-chart', 'line-chart',
+  'trending-up', 'trending-down', 'dollar-sign', 'credit-card', 'package',
+  'briefcase', 'building', 'building-2', 'factory', 'warehouse', 'store',
+  'receipt', 'banknote', 'coins', 'wallet', 'calculator', 'percent',
+  'clipboard-list', 'clipboard-check', 'clipboard-copy',
+  'target', 'award', 'trophy', 'crown', 'gem', 'gift',
+  'user-check', 'user-cog', 'user-plus', 'user-minus', 'user-x',
+  'layers', 'box', 'git-branch', 'network',
+  
+  // 금융/비즈니스 확장
+  'landmark', 'scale', 'gauge', 'timer', 'hourglass', 'alarm-clock',
+  'file-bar-chart', 'file-spreadsheet', 'file-pie-chart',
+  'table', 'table-2', 'kanban', 'layout-list', 'layout-grid',
+  'badge-percent', 'ticket', 'shopping-bag', 'shopping-cart',
   
   // 파일 및 문서
-  { name: 'file', component: File },
-  { name: 'folder', component: Folder },
-  { name: 'folder-open', component: FolderOpen },
-  { name: 'archive', component: Archive },
-  { name: 'copy', component: Copy },
-  { name: 'file-text', component: FileText },
-  { name: 'book', component: Book },
-  { name: 'book-open', component: BookOpen },
+  'file', 'folder', 'folder-open', 'archive', 'copy', 'file-text', 'book', 'book-open',
+  'file-plus', 'file-check', 'file-minus', 'file-x', 'files',
+  'folder-plus', 'folder-minus', 'folder-x', 'folders', 'folder-archive',
+  'file-input', 'file-output', 'inbox',
   
   // UI 및 네비게이션
-  { name: 'menu', component: Menu },
-  { name: 'grid', component: Grid },
-  { name: 'list', component: List },
-  { name: 'filter', component: Filter },
-  { name: 'sort-asc', component: SortAsc },
-  { name: 'sort-desc', component: SortDesc },
-  { name: 'more-horizontal', component: MoreHorizontal },
-  { name: 'more-vertical', component: MoreVertical },
+  'menu', 'grid', 'list', 'filter', 'sort-asc', 'sort-desc', 'more-horizontal', 'more-vertical',
+  'combine', 'split', 'merge', 'replace', 'scissors',
+  
+  // 편집/텍스트
+  'pen-tool', 'pencil', 'eraser', 'highlighter', 'type',
+  'align-left', 'align-center', 'align-right', 'align-justify',
+  'bold', 'italic', 'underline', 'strikethrough',
+  'list-ordered', 'list-minus', 'list-plus', 'check-square', 'square',
+  'circle', 'circle-dot', 'disc', 'radio', 'hash', 'at-sign', 'asterisk', 'command', 'option',
   
   // 방향 및 화살표
-  { name: 'chevron-down', component: ChevronDown },
-  { name: 'chevron-up', component: ChevronUp },
-  { name: 'chevron-left', component: ChevronLeft },
-  { name: 'chevron-right', component: ChevronRight },
-  { name: 'arrow-up', component: ArrowUp },
-  { name: 'arrow-down', component: ArrowDown },
-  { name: 'arrow-left', component: ArrowLeft },
-  { name: 'arrow-right', component: ArrowRight },
+  'chevron-down', 'chevron-up', 'chevron-left', 'chevron-right',
+  'chevrons-up', 'chevrons-down', 'chevrons-left', 'chevrons-right',
+  'arrow-up', 'arrow-down', 'arrow-left', 'arrow-right',
+  'arrow-up-right', 'arrow-up-left', 'arrow-down-right', 'arrow-down-left',
+  'move-up', 'move-down', 'move-left', 'move-right', 'move',
+  'corner-down-left', 'corner-down-right', 'corner-up-left', 'corner-up-right',
   
   // 상태 및 알림
-  { name: 'alert-circle', component: AlertCircle },
-  { name: 'check-circle', component: CheckCircle },
-  { name: 'x-circle', component: XCircle },
-  { name: 'info', component: Info },
-  { name: 'help-circle', component: HelpCircle },
-  { name: 'star', component: Star },
-  { name: 'heart', component: Heart },
-  { name: 'bookmark', component: Bookmark },
-  { name: 'bell', component: Bell },
-  { name: 'check', component: Check },
-  { name: 'x', component: X },
+  'alert-circle', 'check-circle', 'x-circle', 'info', 'help-circle', 'star', 'heart', 'bookmark', 'bell', 'check',
+  'alert-triangle', 'alert-octagon', 'shield-alert', 'bell-ring', 'bell-off',
+  'plus-circle', 'minus-circle',
   
   // 보안 및 권한
-  { name: 'lock', component: Lock },
-  { name: 'unlock', component: Unlock },
-  { name: 'shield', component: Shield },
-  { name: 'shield-check', component: ShieldCheck },
-  { name: 'key', component: Key },
+  'lock', 'unlock', 'shield', 'shield-check', 'shield-off', 'key', 'key-round', 'fingerprint', 'scan-face',
   
   // 통신 및 메시지
-  { name: 'mail', component: Mail },
-  { name: 'phone', component: Phone },
-  { name: 'message-square', component: MessageSquare },
-  { name: 'send', component: Send },
-  { name: 'paperclip', component: Paperclip },
+  'mail', 'phone', 'message-square', 'send', 'paperclip',
+  'mail-open', 'mail-plus', 'mail-minus', 'mail-x', 'mail-check',
+  'phone-call', 'phone-incoming', 'phone-outgoing', 'phone-missed', 'phone-off',
+  'message-circle', 'messages-square',
   
   // 미디어
-  { name: 'image', component: Image },
-  { name: 'camera', component: Camera },
-  { name: 'video', component: Video },
-  { name: 'video-off', component: VideoOff },
-  { name: 'mic', component: Mic },
-  { name: 'mic-off', component: MicOff },
-  { name: 'volume-2', component: Volume2 },
-  { name: 'volume-x', component: VolumeX },
-  { name: 'headphones', component: Headphones },
-  { name: 'speaker', component: Speaker },
+  'image', 'camera', 'video', 'video-off', 'mic', 'mic-off', 'volume-2', 'volume-x', 'headphones', 'speaker',
+  'image-plus', 'image-minus', 'images', 'film', 'clapperboard',
+  'volume', 'volume-1', 'music', 'music-2', 'music-3', 'music-4',
   
   // 재생 컨트롤
-  { name: 'play', component: Play },
-  { name: 'pause', component: Pause },
-  { name: 'skip-back', component: SkipBack },
-  { name: 'skip-forward', component: SkipForward },
-  { name: 'repeat', component: Repeat },
-  { name: 'shuffle', component: Shuffle },
+  'play', 'pause', 'skip-back', 'skip-forward', 'repeat', 'shuffle',
+  'play-circle', 'pause-circle', 'stop-circle', 'fast-forward', 'rewind', 'repeat-1', 'repeat-2',
   
   // 하드웨어 및 기술
-  { name: 'printer', component: Printer },
-  { name: 'qr-code', component: QrCode },
-  { name: 'smartphone', component: Smartphone },
-  { name: 'tablet', component: Tablet },
-  { name: 'laptop', component: Laptop },
-  { name: 'monitor', component: Monitor },
+  'printer', 'qr-code', 'barcode', 'smartphone', 'tablet', 'laptop', 'monitor',
+  'cpu', 'hard-drive', 'server', 'router', 'cable',
+  'mouse', 'keyboard', 'gamepad', 'gamepad-2', 'watch',
   
   // 네트워크 및 연결
-  { name: 'wifi', component: Wifi },
-  { name: 'wifi-off', component: WifiOff },
-  { name: 'globe', component: Globe },
-  { name: 'link', component: Link },
-  { name: 'external-link', component: ExternalLink },
+  'wifi', 'wifi-off', 'globe', 'link', 'external-link', 'link-2', 'link-2-off', 'unlink', 'unlink-2', 'share-2',
+  'cloud', 'cloud-off', 'cloud-rain', 'cloud-snow', 'cloud-sun', 'upload-cloud', 'download-cloud',
   
   // 전원 및 제어
-  { name: 'power', component: Power },
-  { name: 'power-off', component: PowerOff },
-  { name: 'zap', component: Zap },
-  { name: 'toggle-left', component: ToggleLeft },
-  { name: 'toggle-right', component: ToggleRight },
+  'power', 'power-off', 'zap', 'toggle-left', 'toggle-right',
+  'battery-charging', 'battery-full', 'battery-low', 'battery-medium', 'battery-warning',
+  'plug', 'plug-zap', 'outlet',
   
   // 날씨 및 자연
-  { name: 'sun', component: Sun },
-  { name: 'moon', component: Moon },
-  { name: 'cloud', component: Cloud },
-  { name: 'wind', component: Wind },
-  { name: 'thermometer', component: Thermometer },
-  { name: 'droplets', component: Droplets },
-  { name: 'flame', component: Flame },
-  { name: 'umbrella', component: Umbrella },
+  'sun', 'moon', 'wind', 'thermometer', 'droplets', 'flame', 'umbrella',
+  'sunrise', 'sunset', 'cloud-lightning', 'snowflake', 'waves',
+  'leaf', 'tree-deciduous', 'tree-pine', 'flower', 'flower-2', 'mountain', 'mountain-snow',
   
   // 동물
-  { name: 'bug', component: Bug },
-  { name: 'fish', component: Fish },
-  { name: 'bird', component: Bird },
-  { name: 'cat', component: Cat },
-  { name: 'dog', component: Dog },
+  'bug', 'fish', 'bird', 'cat', 'dog', 'rat', 'rabbit', 'squirrel', 'turtle', 'snail',
   
   // 감정 및 반응
-  { name: 'hand', component: Hand },
-  { name: 'thumbs-up', component: ThumbsUp },
-  { name: 'thumbs-down', component: ThumbsDown },
-  { name: 'smile', component: Smile },
-  { name: 'frown', component: Frown },
+  'hand', 'thumbs-up', 'thumbs-down', 'smile', 'frown', 'laugh', 'meh', 'angry', 'smile-plus', 'heart-crack',
+  'party-popper', 'sparkles', 'stars', 'rocket',
   
   // 기타 유용한 아이콘들
-  { name: 'tag', component: Tag },
-  { name: 'tags', component: Tags },
-  { name: 'flag', component: Flag },
-  { name: 'share', component: Share },
-  { name: 'refresh-cw', component: RefreshCw },
-  { name: 'rotate-ccw', component: RotateCcw },
-  { name: 'rotate-cw', component: RotateCw },
-  { name: 'zoom-in', component: ZoomIn },
-  { name: 'zoom-out', component: ZoomOut },
-  { name: 'maximize', component: Maximize },
-  { name: 'minimize', component: Minimize },
-  { name: 'battery', component: Battery },
-  { name: 'calendar', component: Calendar },
-  { name: 'clock', component: Clock },
-  { name: 'map-pin', component: MapPin },
-  { name: 'shopping-cart', component: ShoppingCart },
-  { name: 'truck', component: Truck },
-  { name: 'database', component: Database },
-  { name: 'eye', component: Eye },
-  { name: 'code', component: Code },
-  { name: 'activity', component: Activity },
-  { name: 'user-plus', component: UserPlus },
-  { name: 'user-minus', component: UserMinus },
-  { name: 'log-in', component: LogIn },
-  { name: 'log-out', component: LogOut },
-  { name: 'cog', component: Cog },
-  { name: 'sliders', component: Sliders },
-  { name: 'wrench', component: Wrench },
-  { name: 'hammer', component: Hammer },
-  { name: 'line-chart', component: LineChart },
-  { name: 'history', component: History }
+  'tag', 'tags', 'flag', 'share', 'refresh-cw', 'rotate-ccw', 'rotate-cw',
+  'zoom-in', 'zoom-out', 'maximize', 'minimize',
+  'battery', 'calendar', 'clock', 'map-pin', 'truck', 'database', 'eye', 'eye-off', 'code', 'activity',
+  'log-in', 'log-out', 'cog', 'sliders', 'wrench', 'hammer', 'history',
+  'compass', 'map', 'navigation', 'navigation-2', 'locate', 'crosshair', 'focus', 'scan', 'scan-line',
+  
+  // 추가로 원하는 아이콘들 (존재하지 않아도 에러 없음)
+  'handshake', 'piggy-bank', 'blocks', 'medal', 'badge-check', 'layers-2', 'layers-3',
+  'file-plus-2', 'file-check-2', 'component', 'chart-area', 'chart-bar', 'chart-line',
 ];
 
-// 모든 아이콘 가져오기
-const getAllLucideIcons = () => {
-  console.log('Available icons count:', iconList.length);
-  return iconList.sort((a, b) => a.name.localeCompare(b.name));
+// kebab-case를 PascalCase로 변환
+const toPascalCase = (str: string): string => {
+  return str
+    .split('-')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
 };
+
+// 아이콘 컴포넌트 가져오기 (없으면 null 반환)
+const getIconComponent = (iconName: string): React.ComponentType<{ size?: number }> | null => {
+  const pascalName = toPascalCase(iconName);
+  const IconComponent = (LucideIcons as Record<string, unknown>)[pascalName];
+  
+  // ESM/CommonJS 호환: function 또는 object(forwardRef) 모두 처리
+  if (IconComponent && (typeof IconComponent === 'function' || typeof IconComponent === 'object')) {
+    return IconComponent as React.ComponentType<{ size?: number }>;
+  }
+  return null;
+};
+
+// Fallback 아이콘 컴포넌트
+const FallbackIcon: React.FC<{ size?: number; name: string }> = ({ size = 20, name }) => (
+  <div 
+    style={{ 
+      width: size, 
+      height: size, 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      border: '1px dashed #ccc',
+      borderRadius: 4,
+      fontSize: 8,
+      color: '#999',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    }}
+    title={`${name} (아이콘 없음)`}
+  >
+    ?
+  </div>
+);
+
+// 아이콘 목록 생성 (존재하는 것만 + fallback 표시)
+const createIconList = () => {
+  const validIcons: Array<{ name: string; component: React.ComponentType<{ size?: number }>; exists: boolean }> = [];
+  const invalidIcons: Array<{ name: string; component: React.ComponentType<{ size?: number }>; exists: boolean }> = [];
+  
+  iconNames.forEach(name => {
+    const component = getIconComponent(name);
+    if (component) {
+      validIcons.push({ name, component, exists: true });
+    } else {
+      // Fallback 컴포넌트 생성
+      const FallbackComponent: React.FC<{ size?: number }> = (props) => <FallbackIcon {...props} name={name} />;
+      invalidIcons.push({ name, component: FallbackComponent, exists: false });
+    }
+  });
+  
+  // 존재하는 아이콘 먼저, 그 다음 없는 아이콘들
+  return [...validIcons, ...invalidIcons];
+};
+
+const allIcons = createIconList();
 
 interface IconSelectorModalProps {
   isOpen: boolean;
@@ -239,20 +186,26 @@ const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
   isOpen,
   onClose,
   onSelect,
-  currentIcon = ''
+  currentIcon
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const allIcons = useMemo(() => getAllLucideIcons(), []);
+  const [showOnlyValid, setShowOnlyValid] = useState(true);
 
-  // 검색 필터링
   const filteredIcons = useMemo(() => {
-    if (!searchTerm.trim()) return allIcons;
+    const search = searchTerm.toLowerCase().trim();
+    let icons = allIcons;
     
-    const search = searchTerm.toLowerCase();
-    return allIcons.filter(icon => 
+    // 유효한 아이콘만 필터링
+    if (showOnlyValid) {
+      icons = icons.filter(icon => icon.exists);
+    }
+    
+    if (!search) return icons;
+    
+    return icons.filter(icon =>
       icon.name.toLowerCase().includes(search)
     );
-  }, [allIcons, searchTerm]);
+  }, [searchTerm, showOnlyValid]);
 
   const handleIconSelect = (iconName: string) => {
     onSelect(iconName);
@@ -266,6 +219,9 @@ const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
   };
 
   if (!isOpen) return null;
+
+  const validCount = allIcons.filter(i => i.exists).length;
+  const invalidCount = allIcons.filter(i => !i.exists).length;
 
   return (
     <div 
@@ -298,17 +254,25 @@ const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
               autoFocus
             />
           </div>
+          <label className="icon-selector-filter-label">
+            <input
+              type="checkbox"
+              checked={showOnlyValid}
+              onChange={(e) => setShowOnlyValid(e.target.checked)}
+            />
+            <span>유효한 아이콘만 ({validCount}개)</span>
+          </label>
         </div>
 
         {/* 아이콘 그리드 */}
         <div className="icon-selector-content">
           <div className="icon-selector-grid">
-            {filteredIcons.map(({ name, component: IconComponent }) => (
+            {filteredIcons.map(({ name, component: IconComponent, exists }) => (
               <button
                 key={name}
-                className={`icon-selector-item ${currentIcon === name ? 'selected' : ''}`}
+                className={`icon-selector-item ${currentIcon === name ? 'selected' : ''} ${!exists ? 'invalid' : ''}`}
                 onClick={() => handleIconSelect(name)}
-                title={name}
+                title={exists ? name : `${name} (미지원 아이콘)`}
               >
                 <IconComponent size={20} />
                 <span className="icon-selector-item-name">{name}</span>
@@ -327,6 +291,12 @@ const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
         <div className="icon-selector-footer">
           <p className="icon-selector-count">
             총 {filteredIcons.length}개의 아이콘
+            {!showOnlyValid && invalidCount > 0 && (
+              <span className="icon-selector-invalid-info">
+                <HelpCircle size={12} />
+                미지원 {invalidCount}개 포함
+              </span>
+            )}
           </p>
         </div>
       </div>

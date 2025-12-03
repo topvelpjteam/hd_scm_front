@@ -1,0 +1,333 @@
+/* ============================================
+   구매패턴분석 - 고객판매일보 스타일 상속 (olm-container 기반)
+   ============================================ */
+
+/* ============================================
+   1. 페이지 전용 스타일 (olm-container 상속)
+   ============================================ */
+.pp-page .page-title i {
+  color: #7c9ed9;
+}
+
+/* date input 스타일 */
+.pp-page .olm-form-control[type="date"] {
+  min-width: 140px;
+}
+
+/* select 스타일 */
+.pp-page .olm-select {
+  min-width: 100px;
+}
+
+.pp-search-btns .olm-btn-primary:hover:not(:disabled) {
+  background-color: #0069d9 !important;
+  border-color: #0069d9 !important;
+}
+
+.pp-search-btns .olm-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 본문 스크롤 영역 */
+.pp-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+}
+
+/* 에러 메시지 */
+.pp-error {
+  background: #fff5f5;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #c53030;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* 요약 카드 */
+.pp-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.pp-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.pp-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pp-card-icon i {
+  font-size: 14px;
+  color: #555;
+}
+
+.pp-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-card-label {
+  font-size: 10px;
+  color: #888;
+}
+
+.pp-card-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 차트 그리드 */
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* 박스 공통 */
+.pp-box {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.pp-box-wide {
+  grid-column: span 2;
+}
+
+.pp-box-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  background: #fafbfc;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.pp-box-header i {
+  color: #8ca3c0;
+  font-size: 11px;
+}
+
+.pp-box-body {
+  padding: 12px 14px;
+  min-height: 120px;
+}
+
+/* 바 차트 */
+.pp-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pp-bar-name {
+  width: 55px;
+  font-size: 11px;
+  color: #555;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.pp-bar-track {
+  flex: 1;
+  height: 16px;
+  background: #f0f2f5;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pp-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  min-width: 2px;
+}
+
+.pp-bar-amt {
+  width: 75px;
+  font-size: 10px;
+  color: #666;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* 월별 추이 */
+.pp-trend-body {
+  height: 140px;
+  padding-bottom: 24px;
+}
+
+.pp-trend {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 100%;
+}
+
+.pp-trend-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.pp-trend-bar {
+  width: 100%;
+  max-width: 28px;
+  border-radius: 3px 3px 0 0;
+  transition: height 0.4s ease;
+  cursor: pointer;
+}
+
+.pp-trend-bar:hover {
+  opacity: 0.85;
+}
+
+.pp-trend-label {
+  position: absolute;
+  bottom: -18px;
+  font-size: 9px;
+  color: #888;
+}
+
+/* 테이블 영역 */
+.pp-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.pp-box-table {
+  grid-column: span 2;
+}
+
+.pp-box-half {
+  grid-column: span 1;
+}
+
+/* 테이블 */
+.pp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.pp-table th {
+  background: #f8f9fa;
+  padding: 7px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 1px solid #e8ecf0;
+}
+
+.pp-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f0f2f5;
+  color: #555;
+}
+
+.pp-table tr:hover {
+  background: #fafbfc;
+}
+
+.pp-table .center {
+  text-align: center;
+}
+
+.pp-table .right {
+  text-align: right;
+}
+
+.pp-table .ellipsis {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pp-table.small th,
+.pp-table.small td {
+  padding: 5px 6px;
+  font-size: 10px;
+}
+
+/* 데이터 없음 */
+.pp-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  color: #adb5bd;
+  font-size: 12px;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .pp-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pp-box-wide {
+    grid-column: span 1;
+  }
+  
+  .pp-tables {
+    grid-template-columns: 1fr;
+  }
+  
+  .pp-box-table,
+  .pp-box-half {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .pp-search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .pp-search-btns {
+    justify-content: flex-end;
+  }
+  
+  .pp-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

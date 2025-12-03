@@ -43,7 +43,8 @@ const normalizeParams = (params: AgentStockSearchParams): AgentStockSearchParams
     if (!value) return undefined;
     const digits = value.replace(/[^0-9]/g, '');
     if (digits.length < 6) return undefined;
-    return digits.substring(0, 6);
+    // yyyy-mm 형식으로 변환
+    return `${digits.substring(0, 4)}-${digits.substring(4, 6)}`;
   };
 
   const normalizeArray = (values?: string[]) => {

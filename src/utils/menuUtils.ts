@@ -1,3 +1,4 @@
+import * as LucideIcons from 'lucide-react';
 import { 
   // 기본 아이콘들
   Code, 
@@ -386,14 +387,31 @@ const iconMap: { [key: string]: LucideIcon } = {
 // 기본 아이콘 (매핑되지 않은 경우)
 const defaultIcon = Code;
 
-// 아이콘 가져오기 함수
+// kebab-case를 PascalCase로 변환
+const toPascalCase = (str: string): string => {
+  return str
+    .split('-')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+};
+
+// 아이콘 가져오기 함수 - 동적 로딩 지원
 export const getMenuIcon = (iconName: string): LucideIcon => {
-  // Debug 로그 제거 (요청: 반환할 아이콘 관련 콘솔 미출력)
-  // 필요 시 아래 주석 해제하여 문제 분석 가능
-  // if (process.env.NODE_ENV === 'development') {
-  //   console.debug('[menuUtils] getMenuIcon:', { iconName, found: !!iconMap[iconName] });
-  // }
-  return iconMap[iconName] || defaultIcon;
+  // 1. 먼저 iconMap에서 찾기 (기존 매핑)
+  if (iconMap[iconName]) {
+    return iconMap[iconName];
+  }
+  
+  // 2. iconMap에 없으면 lucide-react에서 동적으로 찾기
+  const pascalName = toPascalCase(iconName);
+  const DynamicIcon = (LucideIcons as Record<string, unknown>)[pascalName];
+  
+  if (DynamicIcon && (typeof DynamicIcon === 'function' || typeof DynamicIcon === 'object')) {
+    return DynamicIcon as LucideIcon;
+  }
+  
+  // 3. 그래도 없으면 기본 아이콘 반환
+  return defaultIcon;
 };
 
 // 메뉴 데이터를 계층 구조로 변환하는 함수

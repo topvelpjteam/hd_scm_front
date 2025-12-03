@@ -73,6 +73,32 @@ const EmailPasswordModal: React.FC<EmailPasswordModalProps> = ({
     }
   };
 
+  // 이메일 완전 마스킹 함수
+  const maskEmailCompletely = (email: string): string => {
+    if (!email) return '***';
+    
+    const parts = email.split('@');
+    if (parts.length !== 2) return '***';
+    
+    const [localPart, domain] = parts;
+    
+    // 로컬 부분과 도메인 모두 마스킹
+    const maskedLocal = '*'.repeat(Math.max(3, Math.min(localPart.length, 8)));
+    const domainParts = domain.split('.');
+    const maskedDomain = domainParts
+      .map((part, idx) => {
+        if (idx === domainParts.length - 1) {
+          // 확장자(예: com, kr)는 그대로 유지
+          return part;
+        }
+        // 나머지는 마스킹
+        return '*'.repeat(Math.max(1, part.length));
+      })
+      .join('.');
+    
+    return `${maskedLocal}@${maskedDomain}`;
+  };
+
   // 패스워드 표시/숨김 토글
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -103,7 +129,7 @@ const EmailPasswordModal: React.FC<EmailPasswordModalProps> = ({
           <div className="email-password-modal-info">
             <div className="email-password-modal-info-item">
               <span className="email-password-modal-label">이메일 계정:</span>
-              <span className="email-password-modal-value">{emailAddress}</span>
+              <span className="email-password-modal-value">{maskEmailCompletely(emailAddress)}</span>
             </div>
             <p className="email-password-modal-description">
               이메일 전송을 위해 계정 패스워드를 입력해주세요.

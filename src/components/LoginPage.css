@@ -1,23 +1,495 @@
+/* ========================================
+   AI 스마트 비즈니스 로그인 페이지
+   진취적이고 전문적인 디자인
+   ======================================== */
+
 /* 로그인 페이지 컨테이너 */
 .login-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* 딥 네이비 - 스마트 테크 느낌 */
+  background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
   padding: 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
-/* 로그인 폼 */
+/* AI 회로 패턴 배경 */
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+  z-index: 0;
+}
+
+/* 움직이는 그리드 라인 */
+.login-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(60px, 60px); }
+}
+
+/* 로그인 폼 카드 */
 .login-form {
-  background: #ffffff;
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 16px;
-  padding: 48px;
+  padding: 40px 36px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e5e7eb;
+  box-shadow: 
+    0 0 0 1px rgba(59, 130, 246, 0.1),
+    0 20px 40px -12px rgba(0, 0, 0, 0.4),
+    0 0 60px -20px rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  position: relative;
+  z-index: 1;
+  animation: formAppear 0.5s ease-out;
+  overflow: hidden;
+}
+
+/* 테두리를 도는 빛 효과 */
+.login-form::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 340deg,
+    rgba(59, 130, 246, 0.8) 350deg,
+    rgba(16, 185, 129, 0.8) 355deg,
+    rgba(59, 130, 246, 0.6) 360deg
+  );
+  animation: borderRotate 8s linear infinite;
+  z-index: -2;
+}
+
+/* 내부 배경 (테두리 두께 조절) */
+.login-form > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 내부 배경 덩어리 */
+.login-form::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: rgba(30, 41, 59, 0.95);
+  border-radius: 14px;
+  z-index: -1;
+}
+
+@keyframes borderRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* ========================================
+   🦌 귀여운 꽃사슴 + 산타모자 - 천천히 뛰기
+   ======================================== */
+.rudolph-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.rudolph {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  animation: rudolphPath 30s linear infinite;
+}
+
+/* 꽃사슴 캐릭터 컨테이너 */
+.deer-character {
+  position: relative;
+  width: 35px;
+  height: 32px;
+  transform: scale(0.5);
+  transform-origin: top left;
+  animation: deerBounce 0.5s ease-in-out infinite;
+}
+
+@keyframes deerBounce {
+  0%, 100% { transform: scale(0.5) translateY(0); }
+  50% { transform: scale(0.5) translateY(-3px); }
+}
+
+/* ===== 산타 모자 ===== */
+.santa-hat {
+  position: absolute;
+  top: -8px;
+  right: 8px;
+  z-index: 20;
+}
+
+.hat-base {
+  width: 20px;
+  height: 14px;
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  border-radius: 50% 80% 20% 20%;
+  position: relative;
+  transform: rotate(15deg);
+}
+
+.hat-tip {
+  position: absolute;
+  width: 8px;
+  height: 10px;
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  border-radius: 50%;
+  top: -6px;
+  right: -3px;
+  transform: rotate(30deg);
+}
+
+.hat-ball {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #f0f0f0);
+  border-radius: 50%;
+  top: -10px;
+  right: -6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.hat-fur {
+  position: absolute;
+  width: 22px;
+  height: 5px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+  border-radius: 3px;
+  bottom: -1px;
+  left: -1px;
+  transform: rotate(15deg);
+}
+
+/* ===== 머리 ===== */
+.deer-head {
+  position: absolute;
+  width: 28px;
+  height: 26px;
+  background: radial-gradient(ellipse at 50% 40%, #f4c298 0%, #dda866 100%);
+  border-radius: 50% 50% 45% 45%;
+  top: 5px;
+  right: 2px;
+  z-index: 10;
+}
+
+/* 귀 */
+.ear {
+  position: absolute;
+  width: 12px;
+  height: 18px;
+  background: linear-gradient(180deg, #dda866 0%, #c9935a 100%);
+  border-radius: 50% 50% 30% 30%;
+  top: -8px;
+  z-index: 5;
+}
+.left-ear { left: -2px; transform: rotate(-30deg); }
+.right-ear { right: -2px; transform: rotate(30deg); }
+
+.inner-ear {
+  position: absolute;
+  width: 6px;
+  height: 10px;
+  background: #ffb6c1;
+  border-radius: 50%;
+  top: -4px;
+  z-index: 6;
+}
+.left-inner { left: 1px; transform: rotate(-30deg); }
+.right-inner { right: 1px; transform: rotate(30deg); }
+
+/* 얼굴 */
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* 큰 반짝이는 눈 */
+.eye {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  top: 7px;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+.left-eye { left: 4px; }
+.right-eye { right: 4px; }
+
+.pupil {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle at 40% 40%, #4a3728, #1a1a1a);
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+}
+
+.eye-shine {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+}
+
+/* 볼터치 */
+.blush {
+  position: absolute;
+  width: 8px;
+  height: 5px;
+  background: rgba(255, 150, 150, 0.6);
+  border-radius: 50%;
+  top: 15px;
+  filter: blur(1px);
+}
+.left-blush { left: 1px; }
+.right-blush { right: 1px; }
+
+/* 귀여운 코 */
+.nose {
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #d32f2f);
+  border-radius: 50%;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px 3px rgba(255, 100, 100, 0.6);
+  animation: noseGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes noseGlow {
+  0% { box-shadow: 0 0 8px 2px rgba(255, 100, 100, 0.4); }
+  100% { box-shadow: 0 0 15px 5px rgba(255, 100, 100, 0.8); }
+}
+
+/* 입 */
+.mouth {
+  position: absolute;
+  width: 6px;
+  height: 3px;
+  border: 2px solid #8b5a3c;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 머리 꽃사슴 무늬 */
+.spot {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+}
+.spot1 { width: 4px; height: 4px; top: 2px; left: 8px; }
+.spot2 { width: 3px; height: 3px; top: 0px; right: 10px; }
+
+/* ===== 몸통 ===== */
+.deer-body {
+  position: absolute;
+  width: 40px;
+  height: 28px;
+  background: linear-gradient(180deg, #f4c298 0%, #dda866 80%, #c9935a 100%);
+  border-radius: 55% 45% 50% 50%;
+  top: 20px;
+  left: 5px;
+  z-index: 5;
+}
+
+/* 몸통 꽃사슴 무늬 (하얀 점) */
+.body-spot {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+.spot3 { width: 5px; height: 5px; top: 5px; left: 8px; }
+.spot4 { width: 4px; height: 4px; top: 12px; left: 18px; }
+.spot5 { width: 6px; height: 6px; top: 8px; left: 28px; }
+
+/* 꼬리 */
+.deer-tail {
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  background: radial-gradient(circle at 50% 50%, #ffffff, #f4c298);
+  border-radius: 50%;
+  top: 28px;
+  left: 0px;
+  z-index: 4;
+  animation: tailWag 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes tailWag {
+  0% { transform: rotate(-10deg); }
+  100% { transform: rotate(15deg); }
+}
+
+/* ===== 다리 ===== */
+.legs-container {
+  position: absolute;
+  top: 40px;
+  left: 8px;
+  width: 40px;
+  height: 25px;
+}
+
+.deer-leg {
+  position: absolute;
+  width: 6px;
+  height: 18px;
+  background: linear-gradient(180deg, #dda866 0%, #c9935a 60%, #4a3728 95%);
+  border-radius: 4px 4px 2px 2px;
+  transform-origin: top center;
+}
+
+/* 다리 위치 */
+.front-left { left: 28px; z-index: 6; }
+.front-right { left: 32px; z-index: 3; }
+.back-left { left: 6px; z-index: 6; }
+.back-right { left: 10px; z-index: 3; }
+
+/* 다리 달리기 - 느리고 귀엽게 */
+.front-left { animation: legFront1 0.5s ease-in-out infinite; }
+.front-right { animation: legFront2 0.5s ease-in-out infinite; }
+.back-left { animation: legBack1 0.5s ease-in-out infinite; }
+.back-right { animation: legBack2 0.5s ease-in-out infinite; }
+
+@keyframes legFront1 {
+  0%, 100% { transform: rotate(-25deg); }
+  50% { transform: rotate(20deg); }
+}
+
+@keyframes legFront2 {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(-25deg); }
+}
+
+@keyframes legBack1 {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(-20deg); }
+}
+
+@keyframes legBack2 {
+  0%, 100% { transform: rotate(-20deg); }
+  50% { transform: rotate(20deg); }
+}
+
+/* 브라우저 테두리를 따라 천천히 이동 - 방향별 회전 */
+@keyframes rudolphPath {
+  /* 상단: 왼쪽 → 오른쪽 (다리가 위쪽 천장에 붙음) */
+  0% {
+    top: 5px;
+    left: -35px;
+    transform: rotate(180deg) scaleX(1);
+  }
+  25% {
+    top: 5px;
+    left: calc(100vw + 5px);
+    transform: rotate(180deg) scaleX(1);
+  }
+  /* 우측: 위 → 아래 (다리가 오른쪽 벽에 붙음) */
+  25.01% {
+    top: -5px;
+    left: calc(100vw - 35px);
+    transform: rotate(270deg) scaleX(1);
+  }
+  50% {
+    top: calc(100vh + 5px);
+    left: calc(100vw - 35px);
+    transform: rotate(270deg) scaleX(1);
+  }
+  /* 하단: 오른쪽 → 왼쪽 (다리가 아래 바닥에 붙음) */
+  50.01% {
+    top: calc(100vh - 40px);
+    left: calc(100vw + 5px);
+    transform: rotate(0deg) scaleX(1);
+  }
+  75% {
+    top: calc(100vh - 40px);
+    left: -35px;
+    transform: rotate(0deg) scaleX(1);
+  }
+  /* 좌측: 아래 → 위 (다리가 왼쪽 벽에 붙음) */
+  75.01% {
+    top: calc(100vh + 5px);
+    left: 5px;
+    transform: rotate(90deg) scaleX(1);
+  }
+  99.99% {
+    top: -35px;
+    left: 5px;
+    transform: rotate(90deg) scaleX(1);
+  }
+  100% {
+    top: 5px;
+    left: -35px;
+    transform: rotate(180deg) scaleX(1);
+  }
+}
+
+@keyframes formAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* 로그인 헤더 */
@@ -36,37 +508,66 @@
   justify-content: center;
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  border-radius: 16px;
+  /* AI 블루-그린 그라데이션 */
+  background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+  border-radius: 14px;
   color: #ffffff;
-  margin-bottom: 16px;
+  position: relative;
+  box-shadow: 
+    0 8px 20px -4px rgba(59, 130, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* 로고 펄스 효과 */
+.logo-icon::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 17px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  animation: logoPulse 2s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0;
+    transform: scale(1.1);
+  }
 }
 
 /* 로그인 제목 */
 .login-title {
   font-size: 28px;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 8px;
+  color: #f1f5f9;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
 }
 
 .login-subtitle {
-  font-size: 16px;
-  color: #6b7280;
+  font-size: 14px;
+  color: #64748b;
   margin: 0;
+  font-weight: 400;
 }
 
 /* 폼 그룹 */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .form-label {
   display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
 }
 
 /* 입력 필드 */
@@ -78,31 +579,47 @@
 
 .input-icon {
   position: absolute;
-  left: 12px;
-  color: #9ca3af;
+  left: 14px;
+  color: #64748b;
   z-index: 1;
+  transition: color 0.2s ease;
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: #3b82f6;
 }
 
 .form-input {
   width: 100%;
-  padding: 12px 16px 12px 44px;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 16px;
-  color: #111827;
-  background: #ffffff;
+  padding: 12px 44px 12px 44px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #f1f5f9;
+  background: rgba(15, 23, 42, 0.6);
   transition: all 0.2s ease;
   box-sizing: border-box;
+  font-weight: 500;
 }
 
 .form-input:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.15),
+    0 0 20px -5px rgba(59, 130, 246, 0.2);
 }
 
 .form-input::placeholder {
-  color: #9ca3af;
+  color: #475569;
+  font-weight: 400;
+}
+
+.form-input:disabled {
+  background: rgba(15, 23, 42, 0.4);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* 비밀번호 토글 버튼 */
@@ -111,77 +628,146 @@
   right: 12px;
   background: none;
   border: none;
-  color: #9ca3af;
+  color: #64748b;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: color 0.2s ease;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .password-toggle:hover {
-  color: #6b7280;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
 }
 
-/* 로그인 버튼 */
+/* 로그인 버튼 - 메탈릭 스타일 */
 .login-button {
   width: 100%;
   padding: 12px 24px;
-  background: #3b82f6;
+  /* 메탈릭 그라데이션 */
+  background: linear-gradient(
+    145deg,
+    #4a5568 0%,
+    #718096 15%,
+    #a0aec0 30%,
+    #718096 50%,
+    #4a5568 70%,
+    #2d3748 100%
+  );
+  background-size: 200% 200%;
   color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  margin-top: 6px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* 버튼 광택 효과 */
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+}
+
+.login-button:hover::before {
+  left: 150%;
 }
 
 .login-button:hover {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+  background-position: 100% 0;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(59, 130, 246, 0.2);
 }
 
 .login-button:active {
-  transform: translateY(0);
+  transform: translateY(1px);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .login-button:disabled {
-  background: #9ca3af;
+  background: linear-gradient(
+    145deg,
+    #374151 0%,
+    #4b5563 50%,
+    #374151 100%
+  );
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #9ca3af;
+  text-shadow: none;
+}
+
+.login-button:disabled::before {
+  display: none;
 }
 
 /* 비밀번호 찾기 링크 */
 .forgot-password {
   display: block;
   text-align: center;
-  color: #3b82f6;
+  color: #64748b;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   transition: color 0.2s ease;
 }
 
 .forgot-password:hover {
-  color: #2563eb;
-  text-decoration: underline;
+  color: #3b82f6;
 }
 
 /* 구분선 */
 .divider {
   display: flex;
   align-items: center;
-  margin: 24px 0;
-  color: #6b7280;
-  font-size: 14px;
+  margin: 20px 0;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .divider::before,
@@ -189,32 +775,32 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: #e5e7eb;
+  background: linear-gradient(90deg, transparent, #334155, transparent);
 }
 
 .divider span {
-  padding: 0 16px;
+  padding: 0 14px;
 }
 
 /* 소셜 로그인 버튼 */
 .social-login {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .social-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 12px 24px;
-  background: #ffffff;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  color: #374151;
-  font-size: 16px;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  color: #94a3b8;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -222,297 +808,200 @@
 
 .social-button:hover {
   border-color: #3b82f6;
-  color: #3b82f6;
-  background: #f8fafc;
+  color: #f1f5f9;
+  background: rgba(59, 130, 246, 0.1);
 }
 
 .social-button img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 /* 회원가입 링크 */
 .signup-link {
   text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 24px;
+  font-size: 13px;
+  color: #64748b;
 }
 
 .signup-link a {
   color: #3b82f6;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   margin-left: 4px;
+  transition: color 0.2s ease;
 }
 
 .signup-link a:hover {
-  text-decoration: underline;
+  color: #10b981;
 }
 
 /* 테스트 계정 정보 */
 .test-accounts {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 24px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 20px;
 }
 
 .test-accounts h3 {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 600;
-  color: #374151;
-  margin: 0 0 12px 0;
+  color: #64748b;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
 }
 
 .account-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .account-item {
-  font-size: 12px;
-  color: #6b7280;
+  font-size: 11px;
+  color: #475569;
   line-height: 1.4;
 }
 
 .account-item strong {
-  color: #374151;
+  color: #94a3b8;
 }
 
-/* 에러 메시지 */
+/* ========================================
+   에러 메시지 스타일
+   ======================================== */
+
 .error-message {
-  background: #fef2f2;
-  border: 2px solid #fecaca;
-  color: #dc2626;
-  padding: 16px 20px;
-  border-radius: 12px;
-  font-size: 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  animation: fadeIn 0.4s ease-out;
-  position: relative;
-  z-index: 10;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  min-height: auto;
-  width: 100%;
-  box-sizing: border-box;
+  gap: 10px;
+  animation: errorAppear 0.3s ease-out;
 }
 
-/* 에러 메시지 페이드인 애니메이션 */
-@keyframes fadeIn {
+@keyframes errorAppear {
   from {
     opacity: 0;
-    transform: translateY(-20px) scale(0.95);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-/* 에러 메시지 아이콘 스타일 */
+/* 에러 아이콘 */
 .error-message .error-icon {
-  font-size: 24px;
-  margin-right: 12px;
+  font-size: 18px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.15);
 }
 
-/* 에러 콘텐츠 스타일 */
+/* 에러 콘텐츠 */
 .error-message .error-content {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px;
+  line-height: 1.4;
 }
 
-/* 계정 잠금 아이콘 */
-.error-message.account-locked .error-icon {
-  font-size: 24px;
-  background: rgba(245, 158, 11, 0.2);
-  border: 2px solid rgba(245, 158, 11, 0.3);
-}
-
-/* 비밀번호 오류 아이콘 */
-.error-message.wrong-password .error-icon {
-  font-size: 24px;
-  background: rgba(220, 38, 38, 0.2);
-  border: 2px solid rgba(220, 38, 38, 0.3);
-}
-
-/* 계정 비활성화 아이콘 */
-.error-message.account-inactive .error-icon {
-  font-size: 24px;
-  background: rgba(107, 114, 128, 0.2);
-  border: 2px solid rgba(107, 114, 128, 0.3);
-}
-
-/* 시스템 오류 아이콘 */
-.error-message.system-error .error-icon {
-  font-size: 24px;
-  background: rgba(220, 38, 38, 0.2);
-  border: 2px solid rgba(220, 38, 38, 0.3);
-}
-
-/* 계정 잠금 에러 메시지 */
+/* 계정 잠금 에러 */
 .error-message.account-locked {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border: 2px solid #f59e0b;
-  color: #92400e;
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 16px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-  min-height: auto;
-  width: 100%;
-  box-sizing: border-box;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fcd34d;
 }
 
-.account-lock-info {
-  margin-top: 12px;
-  padding-left: 32px;
-  width: 100%;
+.error-message.account-locked .error-icon {
+  background: rgba(245, 158, 11, 0.15);
 }
 
-.account-lock-info p {
-  margin: 8px 0;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #92400e;
+/* 비밀번호 오류 */
+.error-message.wrong-password {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
 }
 
-.account-lock-info p:first-child {
-  font-weight: 700;
-  color: #92400e;
-  font-size: 16px;
+.error-message.wrong-password .error-icon {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* 계정 비활성화 */
+.error-message.account-inactive {
+  background: rgba(100, 116, 139, 0.1);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  color: #94a3b8;
+}
+
+.error-message.account-inactive .error-icon {
+  background: rgba(100, 116, 139, 0.15);
+}
+
+/* 시스템 오류 */
+.error-message.system-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.error-message.system-error .error-icon {
+  background: rgba(239, 68, 68, 0.15);
 }
 
 /* 경고 메시지 */
 .error-message.warning {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border: 2px solid #f59e0b;
-  color: #92400e;
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 16px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-  min-height: auto;
-  width: 100%;
-  box-sizing: border-box;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fcd34d;
 }
 
-/* 경고 아이콘 */
 .error-message.warning .error-icon {
-  font-size: 24px;
-  background: rgba(245, 158, 11, 0.2);
-  border: 2px solid rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.15);
 }
 
-/* 사용자 없음 에러 메시지 */
-.error-message.user-not-found {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 계정 비활성화 에러 메시지 */
-.error-message.account-inactive {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
-  color: #6b7280;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 시스템 오류 메시지 */
-.error-message.system-error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 일반 오류 메시지 */
+/* 일반 오류 */
 .error-message.general-error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* 에러 가이드 메시지 */
-.error-guidance {
-  margin-top: 12px;
-  padding-left: 32px;
-  font-size: 15px;
-  line-height: 1.6;
-  width: 100%;
-}
-
-.error-guidance p {
-  margin: 8px 0;
-  color: inherit;
-  opacity: 0.9;
-}
-
-.error-guidance p:first-child {
-  font-weight: 700;
-  font-size: 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
 }
 
 /* 성공 메시지 */
 .success-message {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #16a34a;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  margin-bottom: 20px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* ========================================
+   반응형 디자인
+   ======================================== */
 
-/* 반응형 디자인 */
 @media (max-width: 480px) {
   .login-container {
     padding: 16px;
@@ -520,6 +1009,13 @@
   
   .login-form {
     padding: 32px 24px;
+    border-radius: 14px;
+  }
+  
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
   }
   
   .login-title {
@@ -527,42 +1023,83 @@
   }
   
   .login-subtitle {
+    font-size: 13px;
+  }
+  
+  .form-input {
+    padding: 11px 40px 11px 40px;
+    font-size: 14px;
+  }
+  
+  .login-button {
+    padding: 11px 20px;
     font-size: 14px;
   }
 }
 
-/* 포커스 스타일 */
+/* ========================================
+   포커스 및 접근성
+   ======================================== */
+
 .form-input:focus,
 .login-button:focus,
-.social-button:focus {
+.social-button:focus,
+.password-toggle:focus {
+  outline: none;
+}
+
+.form-input:focus-visible,
+.login-button:focus-visible,
+.social-button:focus-visible,
+.password-toggle:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
-/* 접근성 개선 */
+/* 모션 감소 설정 */
 @media (prefers-reduced-motion: reduce) {
-  .form-input,
-  .login-button,
-  .social-button {
-    transition: none;
+  .login-container::after {
+    animation: none;
   }
   
-  .login-button:hover {
-    transform: none;
+  .login-form {
+    animation: none;
+  }
+  
+  .logo-icon::after {
+    animation: none;
+  }
+  
+  .login-button::before {
+    display: none;
+  }
+  
+  .error-message {
+    animation: none;
+  }
+  
+  .form-input,
+  .login-button,
+  .social-button,
+  .password-toggle {
+    transition: none;
   }
 }
 
-/* 고대비 모드 지원 */
+/* 고대비 모드 */
 @media (prefers-contrast: high) {
   .login-form {
-    border-width: 2px;
+    background: #1e293b;
+    border: 2px solid #f1f5f9;
   }
   
   .form-input {
     border-width: 2px;
+    border-color: #f1f5f9;
   }
   
-  .social-button {
-    border-width: 2px;
+  .login-button {
+    background: #3b82f6;
+    border: 2px solid #f1f5f9;
   }
 }

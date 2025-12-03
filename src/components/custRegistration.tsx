@@ -853,6 +853,31 @@ const CustRegistration: React.FC = () => {
     try {
       const selectedData = event.data;
       console.log('선택된 고객:', selectedData);
+      
+      // 이메일 파싱 헬퍼 함수
+      const parseAndSetEmail = (email: string | null | undefined) => {
+        if (email && email.includes('@')) {
+          const emailParts = email.split('@');
+          if (emailParts.length === 2) {
+            setEmailId(emailParts[0]);
+            const domain = emailParts[1];
+            const domainExists = emailDomainOptions.some(opt => opt.value === domain);
+            if (domainExists) {
+              setEmailDomain(domain);
+              setIsCustomDomain(false);
+            } else {
+              setEmailDomain(domain);
+              setIsCustomDomain(true);
+            }
+            return;
+          }
+        }
+        // 이메일이 없거나 유효하지 않은 경우 초기화
+        setEmailId('');
+        setEmailDomain('');
+        setIsCustomDomain(false);
+      };
+      
       try {
         const detailData = await customerService.getCustomerDetail(selectedData.CUST_ID);
         if (detailData) {
@@ -861,26 +886,14 @@ const CustRegistration: React.FC = () => {
           dispatch(setIsNewMode(false));
           setOriginalData({ ...detailData });
           // 이메일 파싱
-          if (detailData.C_EMAIL) {
-            const emailParts = detailData.C_EMAIL.split('@');
-            if (emailParts.length === 2) {
-              setEmailId(emailParts[0]);
-              const domain = emailParts[1];
-              const domainExists = emailDomainOptions.some(opt => opt.value === domain);
-              if (domainExists) {
-                setEmailDomain(domain);
-                setIsCustomDomain(false);
-              } else {
-                setEmailDomain(domain);
-                setIsCustomDomain(true);
-              }
-            }
-          }
+          parseAndSetEmail(detailData.C_EMAIL);
         } else {
           dispatch(setSelectedCustomer(selectedData));
           dispatch(setCustomerData(selectedData));
           dispatch(setIsNewMode(false));
           setOriginalData({ ...selectedData });
+          // 이메일 파싱
+          parseAndSetEmail(selectedData.C_EMAIL);
         }
       } catch (err) {
         console.error('상세 조회 실패, 그리드 데이터 사용', err);
@@ -888,23 +901,8 @@ const CustRegistration: React.FC = () => {
         dispatch(setCustomerData(selectedData));
         dispatch(setIsNewMode(false));
         setOriginalData({ ...selectedData });
-      }
-
-      // 이메일 파싱
-      if (selectedData.C_EMAIL) {
-        const emailParts = selectedData.C_EMAIL.split('@');
-        if (emailParts.length === 2) {
-          setEmailId(emailParts[0]);
-          const domain = emailParts[1];
-          const domainExists = emailDomainOptions.some(opt => opt.value === domain);
-          if (domainExists) {
-            setEmailDomain(domain);
-            setIsCustomDomain(false);
-          } else {
-            setEmailDomain(domain);
-            setIsCustomDomain(true);
-          }
-        }
+        // 이메일 파싱
+        parseAndSetEmail(selectedData.C_EMAIL);
       }
     } catch (error) {
       console.error('고객 상세 정보 조회 실패:', error);

@@ -1,0 +1,296 @@
+@import './orderOutStatus.css';
+
+/* ========================================
+   일일매출현황 전용 스타일
+   파스텔톤 색상 적용
+   ======================================== */
+
+.daily-sales-status-page .page-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.daily-sales-status-page .page-title i {
+  color: #6366f1;
+}
+
+/* 연월 선택기 */
+.daily-sales-status-page .month-picker {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  min-width: 140px;
+}
+
+.daily-sales-status-page .month-picker:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* 넓은 검색 항목 */
+.daily-sales-status-page .search-item-wide {
+  flex: 2;
+}
+
+/* 테이블 래퍼 */
+.daily-sales-status-page .daily-sales-table-wrapper {
+  overflow-x: auto;
+  max-height: calc(100vh - 320px);
+}
+
+/* 테이블 스타일 */
+.daily-sales-status-page .daily-sales-table {
+  min-width: 1200px;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+.daily-sales-status-page .daily-sales-table th,
+.daily-sales-status-page .daily-sales-table td {
+  white-space: nowrap;
+  padding: 6px 8px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+}
+
+/* 테이블 데이터 셀 - 검은색 글씨 */
+.daily-sales-status-page .daily-sales-table tbody td {
+  color: #1f2937;
+}
+
+/* 헤더 스타일 - 파스텔톤 */
+.daily-sales-status-page .daily-sales-table thead th {
+  background-color: #e0e7ff;
+  color: #374151;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.daily-sales-status-page .daily-sales-table thead tr:nth-child(2) th {
+  background-color: #ddd6fe;
+  font-size: 11px;
+}
+
+/* Total 그룹 헤더 */
+.daily-sales-status-page .header-total {
+  background-color: #c7d2fe !important;
+  color: #1e40af !important;
+}
+
+/* 매장별 그룹 헤더 - 다른 파스텔 색상 */
+.daily-sales-status-page .header-agent-1 {
+  background-color: #a7f3d0 !important;
+  color: #065f46 !important;
+}
+
+.daily-sales-status-page .header-agent-2 {
+  background-color: #fde68a !important;
+  color: #92400e !important;
+}
+
+.daily-sales-status-page .header-agent-3 {
+  background-color: #fecaca !important;
+  color: #991b1b !important;
+}
+
+.daily-sales-status-page .header-agent-4 {
+  background-color: #ddd6fe !important;
+  color: #5b21b6 !important;
+}
+
+/* 고정 컬럼 (일, 요일) */
+.daily-sales-status-page .col-day,
+.daily-sales-status-page .col-dow {
+  position: sticky;
+  background-color: #f8fafc;
+  z-index: 5;
+}
+
+.daily-sales-status-page .col-day {
+  left: 0;
+  min-width: 40px;
+  font-weight: 600;
+}
+
+.daily-sales-status-page .col-dow {
+  left: 40px;
+  min-width: 50px;
+}
+
+/* 요일 색상 */
+.daily-sales-status-page .dow-sun {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.daily-sales-status-page .dow-sat {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* 데이터 셀 */
+.daily-sales-status-page .daily-sales-table td.numeric-cell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 행 유형별 스타일 */
+.daily-sales-status-page .row-day {
+  background-color: #ffffff;
+}
+
+.daily-sales-status-page .row-day:hover {
+  background-color: #f0f9ff;
+}
+
+.daily-sales-status-page .row-subtotal {
+  background-color: #fef3c7;
+  font-weight: 700;
+  border-top: 2px solid #f59e0b;
+}
+
+.daily-sales-status-page .row-target {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.daily-sales-status-page .row-achieve {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.daily-sales-status-page .row-prev-month {
+  background-color: #e0f2fe;
+  font-weight: 600;
+}
+
+.daily-sales-status-page .row-prev-month-ratio {
+  background-color: #dbeafe;
+  font-weight: 600;
+}
+
+.daily-sales-status-page .row-prev-year {
+  background-color: #d1fae5;
+  font-weight: 600;
+}
+
+.daily-sales-status-page .row-prev-year-ratio {
+  background-color: #dcfce7;
+  font-weight: 600;
+}
+
+/* 비율 표시 */
+.daily-sales-status-page .ratio-positive {
+  color: #059669;
+}
+
+.daily-sales-status-page .ratio-negative {
+  color: #dc2626;
+}
+
+/* 그리드 요약 - 판매사원aus-ipt 스타일 */
+.daily-sales-status-page .olm-grid-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.daily-sales-status-page .olm-grid-summary .summary-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* 매장매출 그룹 - 진한 파란색 */
+.daily-sales-status-page .olm-grid-summary .summary-group.store-group {
+  background-color: #bfdbfe;
+  color: #1e3a8a;
+}
+
+/* 온라인매출 그룹 - 진한 보라색 */
+.daily-sales-status-page .olm-grid-summary .summary-group.online-group {
+  background-color: #ddd6fe;
+  color: #4c1d95;
+}
+
+/* 합계 그룹 - 진한 초록색 */
+.daily-sales-status-page .olm-grid-summary .summary-group.total-group {
+  background-color: #a7f3d0;
+  color: #064e3b;
+}
+
+/* 고객수 그룹 - 진한 주황색 */
+.daily-sales-status-page .olm-grid-summary .summary-group.cust-group {
+  background-color: #fde68a;
+  color: #78350f;
+}
+
+.daily-sales-status-page .olm-grid-summary .summary-label {
+  font-weight: 600;
+}
+
+.daily-sales-status-page .olm-grid-summary .summary-value {
+  font-weight: 700;
+}
+
+/* 금액 셀 - 검은색 글씨 */
+.daily-sales-status-page .amt-store {
+  color: #1f2937;
+}
+
+.daily-sales-status-page .amt-online {
+  color: #1f2937;
+}
+
+.daily-sales-status-page .amt-total {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.daily-sales-status-page .cnt-cust {
+  color: #1f2937;
+}
+
+/* 반응형 조정 */
+@media (max-width: 1400px) {
+  .daily-sales-status-page .search-row {
+    flex-wrap: wrap;
+  }
+  
+  .daily-sales-status-page .search-item {
+    min-width: 200px;
+    flex: 1 1 calc(50% - 8px);
+  }
+  
+  .daily-sales-status-page .search-item-wide {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .daily-sales-status-page .search-item {
+    flex: 1 1 100%;
+  }
+  
+  .daily-sales-status-page .olm-grid-summary {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .daily-sales-status-page .olm-grid-summary .summary-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

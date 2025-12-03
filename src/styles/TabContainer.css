@@ -20,16 +20,77 @@
   height: 28px;
   gap: 2px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
-/* 탭 리스트 */
-.tab-list {
+/* 탭 스크롤 영역 */
+.tab-scroll-area {
   display: flex;
   align-items: center;
   gap: 2px;
   flex: 1;
   overflow-x: auto;
   overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.tab-scroll-area::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+/* 탭 스크롤 버튼 */
+.tab-scroll-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 22px;
+  border-radius: 4px;
+  background: #0284c7;
+  border: 1px solid #0369a1;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  z-index: 2;
+  margin: 0 2px;
+  padding: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+.tab-scroll-btn svg {
+  color: #ffffff;
+  stroke: #ffffff;
+  fill: none;
+}
+
+.tab-scroll-btn:hover svg {
+  color: #ffffff;
+}
+
+.tab-scroll-btn:hover {
+  background: #0369a1;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.tab-scroll-btn:active {
+  transform: scale(0.95);
+  background: #075985;
+}
+
+.tab-scroll-btn svg {
+  stroke-width: 2.5;
+  color: #ffffff;
+  stroke: #ffffff;
+}
+
+.tab-scroll-btn:hover svg {
+  color: #ffffff;
+  stroke: #ffffff;
 }
 
 /* 탭 아이템 */
