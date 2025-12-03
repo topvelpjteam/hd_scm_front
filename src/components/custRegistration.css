@@ -115,6 +115,27 @@
   gap: 6px;
 }
 
+/* 검색조건의 특정 항목(소속매장)만 라벨-컨트롤 간격을 줄이기 위한 클래스 */
+.cust-search-item.narrow-gap {
+  gap: 4px; /* 내부 요소 간격 축소 */
+}
+.cust-search-item.narrow-gap label {
+  min-width: 50px; /* 라벨 너비 축소(기본 60px보다 작게) */
+  font-size: 12px;
+  text-align: right;
+}
+.cust-search-item.narrow-gap select {
+  padding: 4px 8px; /* 수평 패딩 약간 줄임 */
+  height: 28px;
+}
+
+.cust-search-item.narrow-gap input[type="text"] {
+  padding: 4px 8px;
+  height: 28px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
 .cust-search-item label {
   font-weight: 600;
   color: #495057;
@@ -136,6 +157,46 @@
   color: #495057;
   transition: all 0.3s ease;
   height: 28px; /* 높이 고정 */
+  box-sizing: border-box;
+}
+
+/* (agent-select removed) */
+/* Select / dropdown styling for search and detail controls */
+.cust-search-item select,
+.cust-form-item select {
+  padding: 6px 10px;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  font-size: 12px;
+  height: 28px;
+  background-color: #ffffff;
+  color: #495057;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  flex: 1; /* 입력과 동일하게 남는 공간을 채우도록 설정 */
+}
+
+.cust-search-item select:focus,
+.cust-form-item select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.08);
+}
+
+.cust-search-item select[disabled],
+.cust-form-item select[disabled] {
+  background-color: #f1f3f5;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* datalist-like input variant (if used) */
+.cust-search-item input[list] {
+  padding: 6px 10px;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  height: 28px;
+  background: #fff;
   box-sizing: border-box;
 }
 
@@ -387,7 +448,7 @@
 
 /* LEFT 구역 - 고객 목록 그리드 (6:4 비율) */
 .cust-left-section {
-  flex: 6;
+  flex: 1; /* 50% 가깝게 좌우 동일 비율 */
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -446,7 +507,7 @@
 
 /* RIGHT 구역 - 고객 상세 정보 (6:4 비율) */
 .cust-right-section {
-  flex: 4;
+  flex: 1; /* 50% 가깝게 좌우 동일 비율 */
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);

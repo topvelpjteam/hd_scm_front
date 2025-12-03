@@ -38,12 +38,17 @@ const Header: React.FC<HeaderProps> = ({ user, onSidebarToggle, sidebarCollapsed
   const { user: authUser } = useSelector((state: RootState) => state.auth);
   const { tabs, closedTabHistory } = useSelector((state: RootState) => state.tabs);
   
-  // 메뉴 데이터 로드
+  // 메뉴 데이터 로드 (최초 1회만)
   useEffect(() => {
-    if (authUser?.userId && (!menus || menus.length === 0)) {
+    // 이미 메뉴가 로드되어 있으면 다시 조회하지 않음
+    if (menus && menus.length > 0) {
+      return;
+    }
+    
+    if (authUser?.userId) {
       dispatch(fetchUserMenus(authUser.userId));
     }
-  }, [authUser?.userId, menus, dispatch]);
+  }, [authUser?.userId, dispatch]); // menus 의존성 제거하여 무한 루프 방지
 
   // 외부 클릭 시 드롭다운 메뉴 및 검색 결과 닫기
   useEffect(() => {

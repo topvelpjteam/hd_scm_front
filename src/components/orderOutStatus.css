@@ -18,8 +18,8 @@
 }
 
 .order-out-status-page .search-hint {
-  font-size: 11px;
-  color: #6c757d;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
 }
 
 .order-out-status-page .checkbox-control {
@@ -32,9 +32,9 @@
 .order-out-status-page .checkbox-label {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #343a40;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
 }
 
 .order-out-status-page .checkbox-label input[type='checkbox'] {
@@ -46,14 +46,14 @@
 .order-out-status-page .olm-error-banner {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin: 8px 12px;
-  padding: 8px 12px;
-  border-radius: 4px;
+  gap: var(--space-2);
+  margin: var(--space-2) 12px;
+  padding: var(--space-2) 12px;
+  border-radius: var(--radius-sm);
   background-color: #fff5f5;
-  color: #c53030;
+  color: var(--color-status-pending-end);
   border: 1px solid #feb2b2;
-  font-size: 12px;
+  font-size: var(--font-size-sm);
 }
 
 .order-out-status-page .olm-main-section {
@@ -74,8 +74,8 @@
 .order-out-status-page .order-out-status-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
-  color: #343a40;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
 }
 
 .order-out-status-page .order-out-status-table tbody tr.row-expandable {
@@ -84,7 +84,7 @@
 }
 
 .order-out-status-page .order-out-status-table tbody tr.row-expandable:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-bg-subtle);
 }
 
 .order-out-status-page .order-out-status-table tbody tr.row-expandable.is-expanded {
@@ -92,10 +92,10 @@
 }
 
 .order-out-status-page .order-out-status-detail-row td {
-  padding: 16px;
+  padding: var(--space-4);
   background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .order-out-status-page .order-out-status-detail-row .detail-grid {
@@ -105,19 +105,20 @@
 }
 
 .order-out-status-page .order-out-status-detail-row .detail-section {
-  background: #ffffff;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 12px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-sm);
 }
 
 .order-out-status-page .order-out-status-detail-row .detail-section h4 {
   margin: 0;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   color: #1f2937;
 }
 
@@ -134,7 +135,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: #4b5563;
   gap: 12px;
 }
@@ -146,16 +147,16 @@
 }
 
 .order-out-status-page .detail-items-section {
-  margin-top: 16px;
+  margin-top: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .order-out-status-page .detail-items-section h4 {
   margin: 0;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   color: #1f2937;
 }
 
@@ -163,13 +164,13 @@
 .order-out-status-page .detail-items-error {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
   color: #4b5563;
-  padding: 12px;
+  padding: var(--space-3);
   background-color: #f8fafc;
   border: 1px dashed #cbd5f5;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .order-out-status-page .detail-items-error {
@@ -181,11 +182,11 @@
 .order-out-status-page .detail-items-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: #374151;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
@@ -195,14 +196,14 @@
 
 .order-out-status-page .detail-items-table th,
 .order-out-status-page .detail-items-table td {
-  padding: 8px 10px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--space-2) 10px;
+  border-bottom: 1px solid var(--color-border);
   text-align: left;
   white-space: nowrap;
 }
 
 .order-out-status-page .detail-items-table th {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: #1f2937;
 }
 
@@ -216,26 +217,26 @@
 }
 
 .order-out-status-page .order-out-status-table thead tr {
-  background: #f1f3f5;
+  background: var(--color-bg-muted);
 }
 
 .order-out-status-page .order-out-status-table th {
   padding: 10px 12px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   text-align: left;
   color: #495057;
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 2px solid var(--color-border-strong);
   white-space: nowrap;
 }
 
 .order-out-status-page .order-out-status-table td {
   padding: 12px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--color-border);
   vertical-align: middle;
 }
 
 .order-out-status-page .order-out-status-table tbody tr:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-bg-subtle);
 }
 
 .order-out-status-page .numeric-cell {
@@ -250,13 +251,13 @@
 }
 
 .order-out-status-page .cell-primary {
-  font-weight: 600;
-  color: #212529;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .order-out-status-page .cell-secondary {
-  font-size: 11px;
-  color: #6c757d;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
 }
 
 .order-out-status-page .cell-tertiary {
@@ -273,7 +274,7 @@
 .order-out-status-page .progress-track {
   flex: 1;
   height: 6px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background-color: #e9ecef;
   overflow: hidden;
 }
@@ -281,17 +282,17 @@
 .order-out-status-page .progress-fill {
   display: block;
   height: 100%;
-  background: linear-gradient(135deg, #5c6bc0, #3949ab);
+  background: linear-gradient(135deg, var(--color-progress-start), var(--color-progress-end));
   transition: width 0.2s ease;
 }
 
 .order-out-status-page .progress-value {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-variant-numeric: tabular-nums;
-  color: #212529;
+  color: var(--color-text-primary);
   min-width: 48px;
   text-align: right;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .order-out-status-page .status-badge {
@@ -300,24 +301,24 @@
   justify-content: center;
   min-width: 72px;
   padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .order-out-status-page .status-complete {
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  background: linear-gradient(135deg, var(--color-status-complete-start), var(--color-status-complete-end));
 }
 
 .order-out-status-page .status-partial {
-  background: linear-gradient(135deg, #f6ad55, #dd6b20);
+  background: linear-gradient(135deg, var(--color-status-partial-start), var(--color-status-partial-end));
 }
 
 .order-out-status-page .status-pending {
-  background: linear-gradient(135deg, #e53e3e, #c53030);
+  background: linear-gradient(135deg, var(--color-status-pending-start), var(--color-status-pending-end));
 }
 
 .order-out-status-page .olm-pagination.pagination-comp-container {

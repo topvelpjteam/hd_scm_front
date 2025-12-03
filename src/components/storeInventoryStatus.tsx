@@ -21,12 +21,15 @@ import {
   searchStoreInventoryStatus,
 } from '../services/storeInventoryStatusService';
 import { getMenuIcon } from '../utils/menuUtils';
+import { exportMasterToExcel, exportRawToExcel } from '../utils/exportInventoryStatusExcel';
 import './OrderListManagement.css';
 import './orderOutStatus.css';
 import './storeInventoryStatus.css';
+import '../styles/designTokens.css';
 
 // ✅ 검색 폼 상태 타입 정의 (입고 현황 전용)
 type SearchFormState = {
+  viewMode: 'MASTER' | 'RAW';
   inboundDateFrom: string;
   inboundDateTo: string;
   outboundDateFrom: string;
@@ -114,6 +117,7 @@ const StoreInventoryStatus: React.FC = () => {
     const defaultInboundTo = createDefaultDate(0);
 
     return {
+      viewMode: 'MASTER',
       inboundDateFrom: defaultInboundFrom,
       inboundDateTo: defaultInboundTo,
       outboundDateFrom: '',
@@ -188,6 +192,7 @@ const StoreInventoryStatus: React.FC = () => {
       const normalized = normalizeSearchParams(merged);
       const payload: StoreInventoryStatusSearchParams = {
         ...normalized,
+        mode: merged.viewMode === 'RAW' ? 'RAW' : 'SEARCH',
         userRoleId: user.roleId,
         userAgentId: user.agentId ? String(user.agentId) : undefined,
       };
@@ -208,16 +213,31 @@ const StoreInventoryStatus: React.FC = () => {
         }
 
         // ✅ 수치 데이터 정규화 (NaN 방지)
-        const items = (response.items || []).map((item) => ({
-          ...item,
-          TOTAL_ORDER_QTY: Number(item.TOTAL_ORDER_QTY ?? 0),
-          TOTAL_OUT_QTY: Number(item.TOTAL_OUT_QTY ?? 0),
-          TOTAL_IN_GOOD_QTY: Number(item.TOTAL_IN_GOOD_QTY ?? 0),
-          TOTAL_IN_BAD_QTY: Number(item.TOTAL_IN_BAD_QTY ?? 0),
-          TOTAL_IN_QTY: Number(item.TOTAL_IN_QTY ?? 0),
-          PENDING_QTY: Number(item.PENDING_QTY ?? 0),
-          IN_PROGRESS_RATE: Number(item.IN_PROGRESS_RATE ?? 0),
-        }));
+        let items: any[] = (response.items || []).map((item: any) => {
+          // MASTER (집계) vs RAW (행) 분기
+          if (merged.viewMode === 'RAW') {
+            return {
+              ...item,
+              ORDER_QTY: Number(item.ORDER_QTY ?? 0),
+              OUT_QTY: Number(item.OUT_QTY ?? 0),
+              IN_GOOD_QTY: Number(item.IN_GOOD_QTY ?? 0),
+              IN_BAD_QTY: Number(item.IN_BAD_QTY ?? 0),
+              IN_TOT_QTY: Number(item.IN_TOT_QTY ?? 0),
+              PENDING_QTY: Number(item.PENDING_QTY ?? 0),
+              IN_PROGRESS_RATE: Number(item.IN_PROGRESS_RATE ?? 0),
+            };
+          }
+          return {
+            ...item,
+            TOTAL_ORDER_QTY: Number(item.TOTAL_ORDER_QTY ?? 0),
+            TOTAL_OUT_QTY: Number(item.TOTAL_OUT_QTY ?? 0),
+            TOTAL_IN_GOOD_QTY: Number(item.TOTAL_IN_GOOD_QTY ?? 0),
+            TOTAL_IN_BAD_QTY: Number(item.TOTAL_IN_BAD_QTY ?? 0),
+            TOTAL_IN_QTY: Number(item.TOTAL_IN_QTY ?? 0),
+            PENDING_QTY: Number(item.PENDING_QTY ?? 0),
+            IN_PROGRESS_RATE: Number(item.IN_PROGRESS_RATE ?? 0),
+          };
+        });
 
         const pageNum = Number(
           response.pageNum ?? payload.pageNum ?? merged.pageNum ?? 1,
@@ -271,6 +291,16 @@ const StoreInventoryStatus: React.FC = () => {
       [field]: value,
       pageNum: field === 'pageSize' ? 1 : prev.pageNum,
     }));
+
+    // viewMode 변경 시 자동 조회
+    if (field === 'viewMode') {
+      setTimeout(() => {
+        executeSearchRef.current?.({
+          viewMode: value as 'MASTER' | 'RAW',
+          pageNum: 1,
+        });
+      }, 50);
+    }
   };
 
   // ✅ 폼 제출 처리기
@@ -328,21 +358,34 @@ const StoreInventoryStatus: React.FC = () => {
         totalOrderQty: 0,
         totalOutQty: 0,
         totalInQty: 0,
+        totalInGoodQty: 0,
+        totalInBadQty: 0,
         totalPendingQty: 0,
         averageProgress: 0,
       };
     }
 
     const totals = result.items.reduce(
-      (acc, item) => {
-        acc.totalOrderQty += Number(item.TOTAL_ORDER_QTY ?? 0);
-        acc.totalOutQty += Number(item.TOTAL_OUT_QTY ?? 0);
-        acc.totalInQty += Number(item.TOTAL_IN_QTY ?? 0);
-        acc.totalPendingQty += Number(item.PENDING_QTY ?? 0);
-        acc.progressSum += clampProgress(item.IN_PROGRESS_RATE);
+      (acc, item: any) => {
+        if (searchForm.viewMode === 'RAW') {
+          acc.totalOrderQty += Number(item.ORDER_QTY ?? 0);
+          acc.totalOutQty += Number(item.OUT_QTY ?? 0);
+          acc.totalInGoodQty += Number(item.IN_GOOD_QTY ?? 0);
+          acc.totalInBadQty += Number(item.IN_BAD_QTY ?? 0);
+          acc.totalInQty += Number(item.IN_TOT_QTY ?? 0);
+          acc.totalPendingQty += Number(item.PENDING_QTY ?? 0);
+        } else {
+          acc.totalOrderQty += Number(item.TOTAL_ORDER_QTY ?? 0);
+          acc.totalOutQty += Number(item.TOTAL_OUT_QTY ?? 0);
+          acc.totalInGoodQty += Number(item.TOTAL_IN_GOOD_QTY ?? 0);
+          acc.totalInBadQty += Number(item.TOTAL_IN_BAD_QTY ?? 0);
+          acc.totalInQty += Number(item.TOTAL_IN_QTY ?? 0);
+          acc.totalPendingQty += Number(item.PENDING_QTY ?? 0);
+        }
+        acc.progressSum += clampProgress(Number(item.IN_PROGRESS_RATE ?? 0));
         return acc;
       },
-      { totalOrderQty: 0, totalOutQty: 0, totalInQty: 0, totalPendingQty: 0, progressSum: 0 },
+      { totalOrderQty: 0, totalOutQty: 0, totalInQty: 0, totalInGoodQty: 0, totalInBadQty: 0, totalPendingQty: 0, progressSum: 0 },
     );
 
     const averageProgress =
@@ -354,10 +397,12 @@ const StoreInventoryStatus: React.FC = () => {
       totalOrderQty: totals.totalOrderQty,
       totalOutQty: totals.totalOutQty,
       totalInQty: totals.totalInQty,
+      totalInGoodQty: totals.totalInGoodQty,
+      totalInBadQty: totals.totalInBadQty,
       totalPendingQty: totals.totalPendingQty,
       averageProgress,
     };
-  }, [clampProgress, result.items]);
+  }, [clampProgress, result.items, searchForm.viewMode]);
 
   // ✅ 검색 조건 초기화
   const handleReset = useCallback(() => {
@@ -373,6 +418,27 @@ const StoreInventoryStatus: React.FC = () => {
       ...resetState,
     });
   }, [computeInitialForm]);
+
+  // ✅ 엑셀 내보내기 처리
+  const handleExportExcel = useCallback(() => {
+    if (result.items.length === 0) {
+      alert('내보낼 데이터가 없습니다.');
+      return;
+    }
+
+    const searchParams = {
+      inboundDateFrom: searchForm.inboundDateFrom,
+      inboundDateTo: searchForm.inboundDateTo,
+      outboundDateFrom: searchForm.outboundDateFrom,
+      outboundDateTo: searchForm.outboundDateTo,
+    };
+
+    if (searchForm.viewMode === 'RAW') {
+      exportRawToExcel(result.items as any[], searchParams);
+    } else {
+      exportMasterToExcel(result.items as any[], searchParams);
+    }
+  }, [result.items, searchForm]);
 
   // ✅ 행 고유 키 생성
   const getRowKey = useCallback(
@@ -495,12 +561,14 @@ const StoreInventoryStatus: React.FC = () => {
     totalOrderQty,
     totalOutQty,
     totalInQty,
+    totalInGoodQty,
+    totalInBadQty,
     totalPendingQty,
     averageProgress,
   } = summary;
 
   return (
-    <div className="olm-container order-in-status-page">
+    <div className="olm-container order-out-status-page">
       <div className="top-section">
         <h1 className="page-title">
           {currentTab?.menuIcon
@@ -510,6 +578,33 @@ const StoreInventoryStatus: React.FC = () => {
         </h1>
 
         <form className="search-conditions" onSubmit={handleSubmit}>
+          <div className="search-row">
+            <div className="search-item">
+              <label>조회 형식</label>
+              <div className="field-control radio-group">
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="viewMode"
+                    value="MASTER"
+                    checked={searchForm.viewMode === 'MASTER'}
+                    onChange={(e) => handleInputChange('viewMode', e.target.value as 'MASTER' | 'RAW')}
+                  />
+                  <span>마스터(집계)</span>
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    name="viewMode"
+                    value="RAW"
+                    checked={searchForm.viewMode === 'RAW'}
+                    onChange={(e) => handleInputChange('viewMode', e.target.value as 'MASTER' | 'RAW')}
+                  />
+                  <span>로우데이터(행)</span>
+                </label>
+              </div>
+            </div>
+          </div>
           <div className="search-row">
             <div className="search-item">
               <label htmlFor="inboundDateRange">입고일자</label>
@@ -643,6 +738,15 @@ const StoreInventoryStatus: React.FC = () => {
                 초기화
               </button>
               <button
+                type="button"
+                className="olm-btn olm-btn-success"
+                onClick={handleExportExcel}
+                disabled={isLoading || result.items.length === 0}
+              >
+                <i className="fas fa-file-excel"></i>
+                엑셀 다운로드
+              </button>
+              <button
                 type="submit"
                 className="olm-btn olm-btn-primary"
                 disabled={isLoading}
@@ -655,10 +759,10 @@ const StoreInventoryStatus: React.FC = () => {
         </form>
       </div>
 
-      <div className="olm-main-section">
+        <div className="olm-main-section">
         <h3>
           <i className="fas fa-warehouse"></i>
-          입고 현황 목록 ({formatNumber(result.totalCount)}건)
+          {searchForm.viewMode === 'RAW' ? '입고 현황 (로우데이터)' : '입고 현황 목록'} ({formatNumber(result.totalCount)}건)
         </h3>
 
         <div className="olm-grid-summary">
@@ -688,6 +792,79 @@ const StoreInventoryStatus: React.FC = () => {
               <i className="fas fa-inbox"></i>
               <p>조건에 해당하는 입고 데이터가 없습니다.</p>
             </div>
+          ) : searchForm.viewMode === 'RAW' ? (
+            <div className="order-out-status-table-wrapper">
+              <table className="order-out-status-table">
+                <thead>
+                  <tr>
+                    <th scope="col">발주번호</th>
+                    <th scope="col">순번</th>
+                    <th scope="col">매장</th>
+                    <th scope="col">납품업체</th>
+                    <th scope="col">상품코드</th>
+                    <th scope="col">상품명</th>
+                    <th scope="col">상품구분</th>
+                    <th scope="col">브랜드</th>
+                    <th scope="col">출고일</th>
+                    <th scope="col">입고일</th>
+                    <th scope="col">발주수량</th>
+                    <th scope="col">출고수량</th>
+                    <th scope="col">입고양호</th>
+                    <th scope="col">입고불량</th>
+                    <th scope="col">총입고</th>
+                    <th scope="col">미입고</th>
+                    <th scope="col">진행률</th>
+                    <th scope="col">상태</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.items.map((row: any) => {
+                    const progressValue = clampProgress(Number(row.IN_PROGRESS_RATE ?? 0));
+                    return (
+                      <tr key={`${row.ORDER_D}-${row.ORDER_SEQU}-${row.ORDER_NO}-${row.VENDOR_ID}`}>                        
+                        <td>{row.SLIP_NO}</td>
+                        <td className="numeric-cell">{row.ORDER_NO}</td>
+                        <td>{row.AGENT_NM}</td>
+                        <td>{row.VENDOR_NM}</td>
+                        <td>{row.GOODS_ID_BRAND || row.GOODS_ID || '-'}</td>
+                        <td>{row.GOODS_NM || '-'}</td>
+                        <td>{row.GOODS_GBN_NM || '-'}</td>
+                        <td>{row.BRAND_NM || '-'}</td>
+                        <td>{row.OUT_D || '-'}</td>
+                        <td>{row.IN_D || '-'}</td>
+                        <td className="numeric-cell">{formatNumber(Number(row.ORDER_QTY ?? 0))}</td>
+                        <td className="numeric-cell">{formatNumber(Number(row.OUT_QTY ?? 0))}</td>
+                        <td className="numeric-cell">{formatNumber(Number(row.IN_GOOD_QTY ?? 0))}</td>
+                        <td className="numeric-cell">{formatNumber(Number(row.IN_BAD_QTY ?? 0))}</td>
+                        <td className="numeric-cell">{formatNumber(Number(row.IN_TOT_QTY ?? 0))}</td>
+                        <td className="numeric-cell">{formatNumber(Number(row.PENDING_QTY ?? 0))}</td>
+                        <td>
+                          <div className="progress-indicator">
+                            <div className="progress-track">
+                              <span className="progress-fill" style={{ width: `${progressValue}%` }} />
+                            </div>
+                            <span className="progress-value">{progressValue}%</span>
+                          </div>
+                        </td>
+                        <td>
+                          <span className={`status-badge ${getStatusClass(row.IN_STATUS)}`}>{row.IN_STATUS}</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr className="summary-row">
+                    <td colSpan={10} style={{ textAlign: 'right', fontWeight: 'bold' }}>합계:</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalOrderQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalOutQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalInGoodQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalInBadQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalInQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalPendingQty)}</td>
+                    <td colSpan={2} style={{ textAlign: 'center', fontWeight: 'bold' }}>평균: {averageProgress.toFixed(1)}%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           ) : (
             <div className="order-out-status-table-wrapper">
               <table className="order-out-status-table">
@@ -713,7 +890,7 @@ const StoreInventoryStatus: React.FC = () => {
                     const isDetailLoading = detailLoadingRows.has(rowKey);
                     const detailErrorMessage = detailErrors.get(rowKey);
 
-                    const progressValue = clampProgress(item.IN_PROGRESS_RATE);
+                    const progressValue = clampProgress(Number(item.IN_PROGRESS_RATE ?? 0));
                     const inboundQty = Number(item.TOTAL_IN_QTY ?? 0);
 
                     return (
@@ -762,7 +939,7 @@ const StoreInventoryStatus: React.FC = () => {
                             </div>
                           </td>
                           <td className="numeric-cell">{formatNumber(item.TOTAL_ORDER_QTY)}</td>
-                          <td className="numeric-cell">{formatNumber(item.TOTAL_OUT_QTY)}</td>
+                          <td className="numeric-cell">{formatNumber(Number(item.TOTAL_OUT_QTY ?? 0))}</td>
                           <td className="numeric-cell">{formatNumber(inboundQty)}</td>
                           <td className="numeric-cell">{formatNumber(item.PENDING_QTY)}</td>
                           <td>
@@ -821,7 +998,7 @@ const StoreInventoryStatus: React.FC = () => {
                                     </li>
                                     <li>
                                       <strong>출고 수량</strong>
-                                      <span>{formatNumber(item.TOTAL_OUT_QTY)} 개</span>
+                                      <span>{formatNumber(Number(item.TOTAL_OUT_QTY ?? 0))} 개</span>
                                     </li>
                                     <li>
                                       <strong>입고 수량</strong>
@@ -925,6 +1102,14 @@ const StoreInventoryStatus: React.FC = () => {
                       </Fragment>
                     );
                   })}
+                  <tr className="summary-row">
+                    <td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>합계:</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalOrderQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalOutQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalInQty)}</td>
+                    <td className="numeric-cell" style={{ fontWeight: 'bold' }}>{formatNumber(totalPendingQty)}</td>
+                    <td colSpan={2} style={{ textAlign: 'center', fontWeight: 'bold' }}>평균: {averageProgress.toFixed(1)}%</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

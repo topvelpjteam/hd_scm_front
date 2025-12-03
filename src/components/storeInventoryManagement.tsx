@@ -12,12 +12,17 @@ import type {
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import DateRangePicker from './common/DateRangePicker';
+import Modal from './common/Modal';
+import './common/ConfirmationModal.css';
 import CommonMultiSelect from './CommonMultiSelect';
 import { RootState } from '../store/store';
 import {
   fetchStoreInventoryDetails,
-  saveStoreInventoryInbound,
   searchStoreInventorySummaries,
+  checkSaveInboundPossible,
+  saveStoreInventoryInboundGroup,
+  checkCancelInboundPossible,
+  cancelStoreInventoryInboundGroup,
   StoreInventoryDetail,
   StoreInventorySearchParams,
   StoreInventorySummary,
@@ -40,7 +45,7 @@ const defaultDateRange = () => {
   const today = new Date();
   const end = today.toISOString().slice(0, 10);
   const startDate = new Date(today);
-  startDate.setDate(startDate.getDate() - 7);
+  startDate.setDate(startDate.getDate() - 365);
   const start = startDate.toISOString().slice(0, 10);
   return { start, end };
 };
@@ -84,7 +89,28 @@ const StoreInventoryManagement: React.FC = () => {
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savingBulk, setSavingBulk] = useState(false);
+  // 공통 Modal 사용
+  const [modalState, setModalState] = useState<{
+    open: boolean;
+    title?: string;
+    content?: React.ReactNode;
+    footer?: React.ReactNode;
+  }>({ open: false });
+
+  const openModal = useCallback((title: string, content: React.ReactNode, footer?: React.ReactNode) => {
+    setModalState({ open: true, title, content, footer });
+  }, []);
+  const closeModal = useCallback(() => {
+    setModalState({ open: false });
+  }, []);
   const [selectedDetailKeys, setSelectedDetailKeys] = useState<Set<string>>(new Set());
+  // 각 상세 행의 원본 총입고수량을 기억
+  const [originalInTotQtys, setOriginalInTotQtys] = useState<Record<string, number>>({});
+  // 항상 최신 selectedDetailKeys를 참조하기 위한 useRef
+  const selectedDetailKeysRef = useRef(selectedDetailKeys);
+  useEffect(() => {
+    selectedDetailKeysRef.current = selectedDetailKeys;
+  }, [selectedDetailKeys]);
   const [isAllDetailsSelected, setIsAllDetailsSelected] = useState(false);
   // Bulk inbound date (for applying a single date to selected detail rows)
   const [bulkInboundDate, setBulkInboundDate] = useState<string>(new Date().toISOString().slice(0, 10));
@@ -263,6 +289,9 @@ const StoreInventoryManagement: React.FC = () => {
           params.data.agentId === selectedSummary.agentId
         );
       },
+      'status-completed': (params: RowClassParams<StoreInventorySummary>) => {
+        return params.data?.status === 'COMPLETED';
+      },
     }),
     [selectedSummary],
   );
@@ -291,8 +320,22 @@ const StoreInventoryManagement: React.FC = () => {
             agentId: loginAgentId,
           },
         );
-        setDetails(data);
-        return data;
+        // 각 상세에 summary의 orderD, orderSequ, vendorId를 할당 (히든 필드처럼)
+        const detailsWithKeys = data.map((d) => ({
+          ...d,
+          orderD: summary.orderD,
+          orderSequ: summary.orderSequ,
+          vendorId: Number(summary.vendorId),
+        }));
+        setDetails(detailsWithKeys);
+        // 원본 총입고수량 기억
+        const qtyMap: Record<string, number> = {};
+        detailsWithKeys.forEach((d) => {
+          const key = `${String(d.orderNo)}-${String(d.goodsId)}`;
+          qtyMap[key] = d.inTotQty ?? ((d.inGoodQty ?? 0) + (d.inBadQty ?? 0));
+        });
+        setOriginalInTotQtys(qtyMap);
+        return detailsWithKeys;
       } catch (error) {
         console.error('입고 상세 조회 중 오류 발생:', error);
         setErrorMessage('입고 상세 정보를 불러오는 데 실패했습니다.');
@@ -396,8 +439,8 @@ const StoreInventoryManagement: React.FC = () => {
       if (!Number.isFinite(normalized) || normalized < 0) {
         return;
       }
-      setDetails((prev) =>
-        prev.map((item, idx) => {
+      setDetails((prev) => {
+        const nextDetails = prev.map((item, idx) => {
           if (idx !== index) return item;
           const nextGood = field === 'inGoodQty' ? normalized : Number(item.inGoodQty ?? 0);
           const nextBad = field === 'inBadQty' ? normalized : Number(item.inBadQty ?? 0);
@@ -406,38 +449,76 @@ const StoreInventoryManagement: React.FC = () => {
             [field]: normalized,
             inTotQty: nextGood + nextBad,
           };
-        }),
-      );
+        });
+        // 체크박스 상태 갱신
+        const changedKeys = nextDetails
+          .map((item) => {
+            const key = `${String(item.orderNo)}-${String(item.goodsId)}`;
+            const original = originalInTotQtys[key] ?? 0;
+            const now = item.inTotQty ?? ((item.inGoodQty ?? 0) + (item.inBadQty ?? 0));
+            return now !== original ? key : null;
+          })
+          .filter(Boolean) as string[];
+        setSelectedDetailKeys(new Set(changedKeys));
+        return nextDetails;
+      });
     },
-    [],
+    [details],
   );
 
   const handleApplyAllGoodEqual = useCallback(() => {
-    setDetails((prev) =>
-      prev.map((detail) => {
+    setDetails((prev) => {
+      const nextDetails = prev.map((detail) => {
         const nextGood = detail.outQty ?? 0;
         return {
           ...detail,
           inGoodQty: nextGood,
           inTotQty: nextGood + (detail.inBadQty ?? 0),
         };
-      }),
-    );
-  }, []);
+      });
+      // 하나라도 바뀌면 전체 체크, 모두 원래 값이면 해제
+      const anyChanged = nextDetails.some((item) => {
+        const key = `${String(item.orderNo)}-${String(item.goodsId)}`;
+        const original = originalInTotQtys[key] ?? 0;
+        const now = item.inTotQty ?? ((item.inGoodQty ?? 0) + (item.inBadQty ?? 0));
+        return now !== original;
+      });
+      if (anyChanged) {
+        const allKeys = nextDetails.map((item) => `${String(item.orderNo)}-${String(item.goodsId)}`);
+        setSelectedDetailKeys(new Set(allKeys));
+      } else {
+        setSelectedDetailKeys(new Set());
+      }
+      return nextDetails;
+    });
+  }, [details, originalInTotQtys]);
 
   const handleApplyAllGoodReset = useCallback(() => {
-    setDetails((prev) =>
-      prev.map((detail) => ({
+    setDetails((prev) => {
+      const nextDetails = prev.map((detail) => ({
         ...detail,
         inGoodQty: 0,
         inTotQty: detail.inBadQty ?? 0,
-      })),
-    );
-  }, []);
+      }));
+      const anyChanged = nextDetails.some((item) => {
+        const key = `${String(item.orderNo)}-${String(item.goodsId)}`;
+        const original = originalInTotQtys[key] ?? 0;
+        const now = item.inTotQty ?? ((item.inGoodQty ?? 0) + (item.inBadQty ?? 0));
+        return now !== original;
+      });
+      if (anyChanged) {
+        const allKeys = nextDetails.map((item) => `${String(item.orderNo)}-${String(item.goodsId)}`);
+        setSelectedDetailKeys(new Set(allKeys));
+      } else {
+        setSelectedDetailKeys(new Set());
+      }
+      return nextDetails;
+    });
+  }, [details, originalInTotQtys]);
 
   const handleApplyAllBadEqual = useCallback(() => {
-    setDetails((prev) =>
-      prev.map((detail) => {
+    setDetails((prev) => {
+      const nextDetails = prev.map((detail) => {
         const baseOut = detail.outQty ?? 0;
         const currentGood = detail.inGoodQty ?? 0;
         const nextBad = Math.max(baseOut - currentGood, 0);
@@ -446,27 +527,55 @@ const StoreInventoryManagement: React.FC = () => {
           inBadQty: nextBad,
           inTotQty: currentGood + nextBad,
         };
-      }),
-    );
-  }, []);
+      });
+      const anyChanged = nextDetails.some((item) => {
+        const key = `${String(item.orderNo)}-${String(item.goodsId)}`;
+        const original = originalInTotQtys[key] ?? 0;
+        const now = item.inTotQty ?? ((item.inGoodQty ?? 0) + (item.inBadQty ?? 0));
+        return now !== original;
+      });
+      if (anyChanged) {
+        const allKeys = nextDetails.map((item) => `${String(item.orderNo)}-${String(item.goodsId)}`);
+        setSelectedDetailKeys(new Set(allKeys));
+      } else {
+        setSelectedDetailKeys(new Set());
+      }
+      return nextDetails;
+    });
+  }, [details, originalInTotQtys]);
 
   const handleApplyAllBadReset = useCallback(() => {
-    setDetails((prev) =>
-      prev.map((detail) => ({
+    setDetails((prev) => {
+      const nextDetails = prev.map((detail) => ({
         ...detail,
         inBadQty: 0,
         inTotQty: detail.inGoodQty ?? 0,
-      })),
-    );
-  }, []);
+      }));
+      const anyChanged = nextDetails.some((item) => {
+        const key = `${String(item.orderNo)}-${String(item.goodsId)}`;
+        const original = originalInTotQtys[key] ?? 0;
+        const now = item.inTotQty ?? ((item.inGoodQty ?? 0) + (item.inBadQty ?? 0));
+        return now !== original;
+      });
+      if (anyChanged) {
+        const allKeys = nextDetails.map((item) => `${String(item.orderNo)}-${String(item.goodsId)}`);
+        setSelectedDetailKeys(new Set(allKeys));
+      } else {
+        setSelectedDetailKeys(new Set());
+      }
+      return nextDetails;
+    });
+  }, [details, originalInTotQtys]);
 
+  /*
+  // 미사용: 선택된 상세 행에 일괄 입고일자 적용 함수
   const handleApplyBulkInboundDate = useCallback(() => {
     if (!bulkInboundDate) {
-      window.alert('적용할 입고일을 선택하세요.');
+      openModal('입고일 선택', '적용할 입고일을 선택하세요.');
       return;
     }
     if (selectedDetailKeys.size === 0) {
-      window.alert('입고일을 적용할 상세 행을 선택하세요.');
+      openModal('선택 필요', '입고일을 적용할 상세 행을 선택하세요.');
       return;
     }
     setDetails((prev) =>
@@ -479,6 +588,7 @@ const StoreInventoryManagement: React.FC = () => {
       }),
     );
   }, [bulkInboundDate, selectedDetailKeys]);
+  */
 
   const recalculateSummaryTotals = useCallback(
     (summary: StoreInventorySummary, detailList: StoreInventoryDetail[]) => {
@@ -511,55 +621,99 @@ const StoreInventoryManagement: React.FC = () => {
     [],
   );
 
-  const handleBulkSaveSelected = useCallback(async () => {
+
+  // YYYY-MM-DD 형식 및 유효한 날짜인지 검사
+  const isValidInboundDate = (dateStr: string | undefined | null) => {
+    if (!dateStr) return false;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
+    const d = new Date(dateStr);
+    return !isNaN(d.getTime()) && dateStr === d.toISOString().slice(0, 10);
+  };
+
+  // 입고확정 실제 처리 함수 (async)
+  const doBulkSaveSelected = useCallback(async () => {
+    const selectedKeys = selectedDetailKeysRef.current;
+    const checkedDetails = details.filter((detail) => {
+      const key = `${String(detail.orderNo)}-${String(detail.goodsId)}`;
+      return selectedKeys.has(key);
+    });
     if (!selectedSummary) {
-      window.alert('발주 건을 먼저 선택해주세요.');
+      openModal('발주 건 선택', '발주 건을 먼저 선택해주세요.');
       return;
     }
+    const checkedDetailsWithSummary = checkedDetails.map((d) => ({ ...d }));
+    if (checkedDetailsWithSummary.length === 0) {
+      openModal('선택 필요', '입고확정할 상세 행을 선택하세요.');
+      return;
+    }
+    const validDetails = checkedDetailsWithSummary.filter(
+      (d) =>
+        d.orderNo != null &&
+        d.goodsId != null && String(d.goodsId).trim() !== '' &&
+        d.inGoodQty != null && d.inBadQty != null && d.inTotQty != null
+    );
+    if (validDetails.length === 0) {
+      openModal('저장 불가', '선택된 상세 내역에 저장할 데이터가 없습니다.');
+      return;
+    }
+    if (validDetails.length !== checkedDetailsWithSummary.length) {
+      openModal('필수값 누락', '선택된 상세 내역 중 필수값이 누락된 라인이 있습니다.\n수량과 상품 정보를 모두 입력해 주세요.');
+      return;
+    }
+    // 입고일자 유효성 검사
+    if (!isValidInboundDate(bulkInboundDate)) {
+      openModal('입고일자 오류', '유효한 입고일자를 입력하세요. (YYYY-MM-DD)');
+      return;
+    }
+    const debugPayload = validDetails.map((d) => ({
+      orderNo: d.orderNo,
+      goodsId: d.goodsId,
+      orderD: d.orderD ?? selectedSummary.orderD,
+      orderSequ: d.orderSequ ?? selectedSummary.orderSequ,
+      vendorId: d.vendorId ?? selectedSummary.vendorId,
+      inMemo: d.inMemo || '',
+      inGoodQty: d.inGoodQty ?? 0,
+      inBadQty: d.inBadQty ?? 0,
+      inTotQty: d.inTotQty ?? ((d.inGoodQty ?? 0) + (d.inBadQty ?? 0)),
+    }));
     if (!loginUserId) {
-      window.alert('로그인 정보가 필요합니다. 다시 로그인해주세요.');
-      return;
-    }
-    if (!bulkInboundDate) {
-      window.alert('입고일자를 입력해주세요.');
-      return;
-    }
-    const targets = details.filter((d) => selectedDetailKeys.has(`${d.orderNo}-${d.goodsId}`));
-    if (targets.length === 0) {
-      window.alert('저장할 상세 항목을 선택해주세요.');
+      openModal('로그인 필요', '로그인 정보가 필요합니다. 다시 로그인해주세요.');
       return;
     }
     setSavingBulk(true);
-    let successCount = 0;
-    let failCount = 0;
-    for (const detail of targets) {
-      try {
-        const response = await saveStoreInventoryInbound(
-          {
-            orderDate: selectedSummary.orderD,
-            orderSequ: selectedSummary.orderSequ,
-            orderNo: detail.orderNo,
-            inDate: bulkInboundDate,
-            goodQty: detail.inGoodQty ?? 0,
-            badQty: detail.inBadQty ?? 0,
-          },
-          {
-            userId: loginUserId,
-            roleName: loginRoleName,
-            agentId: loginAgentId,
-          },
-        );
-        if (response.success) {
-          successCount += 1;
-        } else {
-          failCount += 1;
-        }
-      } catch (e) {
-        console.error('라인 저장 실패:', e);
-        failCount += 1;
-      }
-    }
     try {
+      const canSave = await checkSaveInboundPossible(
+        selectedSummary.orderD,
+        selectedSummary.orderSequ,
+        selectedSummary.vendorId,
+        {
+          userId: loginUserId,
+          roleName: loginRoleName,
+          agentId: loginAgentId,
+        },
+      );
+      if (!canSave) {
+        openModal('입고 불가', '이 발주 그룹에 이미 입고 확정된 항목이 있습니다.\n입고 취소 후 다시 시도해주세요.');
+        return;
+      }
+      const response = await saveStoreInventoryInboundGroup(
+        {
+          orderDate: selectedSummary.orderD,
+          orderSequ: selectedSummary.orderSequ,
+          vendorId: selectedSummary.vendorId,
+          inDate: bulkInboundDate,
+          details: debugPayload,
+        },
+        {
+          userId: loginUserId,
+          roleName: loginRoleName,
+          agentId: loginAgentId,
+        },
+      );
+      if (!response.success) {
+        openModal('입고 실패', response.message || '입고 처리 중 오류가 발생했습니다.');
+        return;
+      }
       const refreshedDetails = await loadDetails(selectedSummary);
       const totals = recalculateSummaryTotals(selectedSummary, refreshedDetails);
       setSummaries((prev) =>
@@ -574,13 +728,182 @@ const StoreInventoryManagement: React.FC = () => {
           ? { ...prev, ...totals }
           : prev,
       );
-    } catch (e) {
-      console.error('저장 후 상세 재조회 실패:', e);
+      const resultList = (response.details && response.details.length > 0)
+        ? response.details
+        : validDetails.map((d) => ({ ...d, status: '확정' } as any));
+      const contentNode = (
+        <div className="result-summary">
+          <p>{response.message || '입고 처리가 완료되었습니다.'}</p>
+          <div className="result-table-wrapper">
+            <table className="result-table">
+              <thead>
+                <tr>
+                  <th>순번</th>
+                  <th>상품코드</th>
+                  <th>상품명</th>
+                  <th>입고(양호)</th>
+                  <th>입고(불량)</th>
+                  <th>총입고</th>
+                  <th>메모</th>
+                  <th>상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {resultList.map((rd: any, idx: number) => {
+                  const matched = validDetails.find((v) => v.orderNo === rd.orderNo && String(v.goodsId) === String(rd.goodsId));
+                  const goodsNm = rd.goodsNm ?? matched?.goodsNm ?? '-';
+                  const inGood = rd.inGoodQty ?? matched?.inGoodQty ?? 0;
+                  const inBad = rd.inBadQty ?? matched?.inBadQty ?? 0;
+                  const inTot = rd.inTotQty ?? matched?.inTotQty ?? (inGood + inBad);
+                  const memo = rd.inMemo ?? matched?.inMemo ?? '';
+                  const status = rd.status ?? (rd.RESULT || '확정');
+                  return (
+                    <tr key={`${rd.orderNo}-${rd.goodsId}-${idx}`}>
+                      <td>{idx + 1}</td>
+                      <td>{String(rd.goodsId)}</td>
+                      <td>{goodsNm}</td>
+                      <td className="number">{new Intl.NumberFormat('ko-KR').format(inGood)}</td>
+                      <td className="number">{new Intl.NumberFormat('ko-KR').format(inBad)}</td>
+                      <td className="number">{new Intl.NumberFormat('ko-KR').format(inTot)}</td>
+                      <td>{memo}</td>
+                      <td>{String(status)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+      openModal('입고 완료', contentNode);
+    } catch (error) {
+      console.error('그룹 입고 처리 중 오류:', error);
+      openModal('입고 실패', '입고 처리 중 오류가 발생했습니다.');
     } finally {
       setSavingBulk(false);
     }
-    window.alert(`입고 저장 완료: 성공 ${successCount} / 실패 ${failCount}`);
-  }, [selectedSummary, loginUserId, loginRoleName, loginAgentId, details, selectedDetailKeys, bulkInboundDate, loadDetails, recalculateSummaryTotals]);
+  }, [selectedSummary, loginUserId, loginRoleName, loginAgentId, bulkInboundDate, loadDetails, recalculateSummaryTotals, details]);
+
+  // 입고확정 버튼 클릭 시: 확인 모달
+  const handleBulkSaveSelected = useCallback(() => {
+    openModal(
+      '입고 확정',
+      <div className="confirmation-content">
+        <div className="confirmation-icon">
+          <i className="fas fa-clipboard-check" style={{ color: '#2563eb' }}></i>
+        </div>
+        <div className="confirmation-message">
+          <p>선택된 항목을 <b>입고확정</b> 처리하시겠습니까?</p>
+        </div>
+      </div>,
+      <div className="confirmation-actions">
+        <button className="btn-confirmation-cancel" onClick={closeModal}>
+          <i className="fas fa-times"></i> 취소
+        </button>
+        <button className="btn-confirmation-confirm btn-confirm-update" onClick={() => { closeModal(); doBulkSaveSelected(); }}>
+          <i className="fas fa-clipboard-check"></i> 확정
+        </button>
+      </div>
+    );
+  }, [doBulkSaveSelected, closeModal]);
+
+  /**
+   * 그룹 단위 입고 취소 (새로운 방식)
+   * ORDER_D + ORDER_SEQU + VENDOR_ID 그룹 전체를 한 번에 취소
+   */
+
+  // 입고취소 실제 처리 함수 (async)
+  const doCancelInboundGroup = useCallback(async () => {
+    if (!selectedSummary) {
+      openModal('발주 건 선택', '발주 건을 먼저 선택해주세요.');
+      return;
+    }
+    if (!loginUserId) {
+      openModal('로그인 필요', '로그인 정보가 필요합니다. 다시 로그인해주세요.');
+      return;
+    }
+    // 입고일자 유효성 검사 (입고확정된 건에만 적용)
+    if (!isValidInboundDate(bulkInboundDate)) {
+      openModal('입고일자 오류', '유효한 입고일자를 입력하세요. (YYYY-MM-DD)');
+      return;
+    }
+    setSavingBulk(true);
+    try {
+      const canCancel = await checkCancelInboundPossible(
+        selectedSummary.orderD,
+        selectedSummary.orderSequ,
+        selectedSummary.vendorId,
+        {
+          userId: loginUserId,
+          roleName: loginRoleName,
+          agentId: loginAgentId,
+        },
+      );
+      if (!canCancel) {
+        openModal('취소 불가', '입고 확정된 항목이 없습니다. 취소할 항목이 없습니다.');
+        return;
+      }
+      const response = await cancelStoreInventoryInboundGroup(
+        {
+          orderDate: selectedSummary.orderD,
+          orderSequ: selectedSummary.orderSequ,
+          vendorId: selectedSummary.vendorId,
+        },
+        {
+          userId: loginUserId,
+          roleName: loginRoleName,
+          agentId: loginAgentId,
+        },
+      );
+      if (!response.success) {
+        openModal('입고 취소 실패', response.message || '입고 취소 중 오류가 발생했습니다.');
+        return;
+      }
+      const refreshedDetails = await loadDetails(selectedSummary);
+      const totals = recalculateSummaryTotals(selectedSummary, refreshedDetails);
+      setSummaries((prev) =>
+        prev.map((item) =>
+          item.orderD === selectedSummary.orderD && item.orderSequ === selectedSummary.orderSequ
+            ? { ...item, ...totals }
+            : item,
+        ),
+      );
+      setSelectedSummary((prev) =>
+        prev && prev.orderD === selectedSummary.orderD && prev.orderSequ === selectedSummary.orderSequ
+          ? { ...prev, ...totals }
+          : prev,
+      );
+      openModal('입고 취소 완료', response.message || '입고 취소가 완료되었습니다.');
+    } catch (error) {
+      console.error('그룹 입고 취소 중 오류:', error);
+      openModal('입고 취소 실패', '입고 취소 중 오류가 발생했습니다.');
+    } finally {
+      setSavingBulk(false);
+    }
+  }, [selectedSummary, loginUserId, loginRoleName, loginAgentId, loadDetails, recalculateSummaryTotals]);
+
+  // 입고취소 버튼 클릭 시: 확인 모달
+  const handleCancelInboundGroup = useCallback(() => {
+    openModal(
+      '입고 취소',
+      <div className="confirmation-content">
+        <div className="confirmation-icon">
+          <i className="fas fa-times-circle" style={{ color: '#ef4444' }}></i>
+        </div>
+        <div className="confirmation-message">
+          <p>이 발주건의 <b>입고확정</b>을 <span style={{color:'#ef4444'}}>취소</span>하시겠습니까?</p>
+        </div>
+      </div>,
+      <div className="confirmation-actions">
+        <button className="btn-confirmation-cancel" onClick={closeModal}>
+          <i className="fas fa-times"></i> 취소
+        </button>
+        <button className="btn-confirmation-confirm btn-confirm-delete" onClick={() => { closeModal(); doCancelInboundGroup(); }}>
+          <i className="fas fa-times-circle"></i> 취소확정
+        </button>
+      </div>
+    );
+  }, [doCancelInboundGroup, closeModal]);
 
   useEffect(() => {
     handleSearch().catch((error) => {
@@ -592,8 +915,11 @@ const StoreInventoryManagement: React.FC = () => {
     autoSizeSummaryColumns();
   }, [autoSizeSummaryColumns, summaries]);
 
+  // 입고확정(상세 중 inD가 하나라도 있으면) 시 대기수량은 0
   const pendingCount = useMemo(() => {
     if (details.length === 0) return 0;
+    // 하나라도 확정된 상세가 있으면 대기수량 0
+    if (details.some((d) => !!d.inD)) return 0;
     return details.reduce((acc, item) => {
       const orderQty = item.orderQty ?? 0;
       const total = item.inTotQty ?? (item.inGoodQty ?? 0) + (item.inBadQty ?? 0);
@@ -602,7 +928,7 @@ const StoreInventoryManagement: React.FC = () => {
   }, [details]);
 
   const toggleDetailSelection = useCallback((detail: StoreInventoryDetail) => {
-    const key = `${detail.orderNo}-${detail.goodsId}`;
+    const key = `${String(detail.orderNo)}-${String(detail.goodsId)}`;
     setSelectedDetailKeys((prev) => {
       const next = new Set(prev);
       if (next.has(key)) {
@@ -617,7 +943,7 @@ const StoreInventoryManagement: React.FC = () => {
   const toggleSelectAllDetails = useCallback(
     (nextChecked: boolean) => {
       if (nextChecked) {
-        const allKeys = details.map((detail) => `${detail.orderNo}-${detail.goodsId}`);
+        const allKeys = details.map((detail) => `${String(detail.orderNo)}-${String(detail.goodsId)}`);
         setSelectedDetailKeys(new Set(allKeys));
         setIsAllDetailsSelected(true);
       } else {
@@ -639,12 +965,16 @@ const StoreInventoryManagement: React.FC = () => {
       }
       return;
     }
-    const allKeys = details.map((detail) => `${detail.orderNo}-${detail.goodsId}`);
+    const allKeys = details.map((detail) => `${String(detail.orderNo)}-${String(detail.goodsId)}`);
     const everySelected = allKeys.every((key) => selectedDetailKeys.has(key));
     if (everySelected !== isAllDetailsSelected) {
       setIsAllDetailsSelected(everySelected);
     }
   }, [details, selectedDetailKeys, isAllDetailsSelected]);
+
+  // 상세 중 한 건이라도 inD(입고일자)가 있으면 true
+  const anyConfirmed = details.some((d) => !!d.inD);
+  const allPending = details.length > 0 && details.every((d) => !d.inD);
 
   return (
     <div className="order-confirm order-confirm--inventory">
@@ -790,7 +1120,7 @@ const StoreInventoryManagement: React.FC = () => {
                 onGridReady={handleSummaryGridReady}
                 onRowDoubleClicked={(event) => {
                   if (!event.data) return;
-                  console.debug('[Inventory] Row double click', event.data);
+                  //console.debug('[Inventory] Row double click', event.data);
                   setSelectedSummary(event.data);
                   setDetails([]);
                   void loadDetails(event.data).then((result) => {
@@ -868,26 +1198,27 @@ const StoreInventoryManagement: React.FC = () => {
                         value={bulkInboundDate}
                         onChange={(e) => setBulkInboundDate(e.target.value)}
                         className="detail-bulk-date"
-                        title="선택된 행 입고일"
+                        title="입고일자"
                         required
+                        disabled={anyConfirmed}
                       />
-                      <button
-                        type="button"
-                        className="detail-apply-btn"
-                        onClick={handleApplyBulkInboundDate}
-                        disabled={!bulkInboundDate || selectedDetailKeys.size === 0}
-                        title="선택된 상세 행에 입고일 적용"
-                      >
-                        적용
-                      </button>
                       <button
                         type="button"
                         className="detail-save-btn"
                         onClick={handleBulkSaveSelected}
-                        disabled={selectedDetailKeys.size === 0 || savingBulk || isDetailLoading}
-                        title="선택된 행 일괄 저장"
+                        disabled={!selectedSummary || savingBulk || isDetailLoading || anyConfirmed || details.length === 0}
+                        title="발주 그룹 전체 입고 처리"
                       >
-                        {savingBulk ? '확정중...' : <><i className="fas fa-clipboard-check" /> 입고확정 ({selectedDetailKeys.size})</>}
+                        {savingBulk ? '확정중...' : <><i className="fas fa-clipboard-check" /> 입고확정</>}
+                      </button>
+                      <button
+                        type="button"
+                        className="detail-cancel-btn"
+                        onClick={handleCancelInboundGroup}
+                        disabled={!selectedSummary || savingBulk || isDetailLoading || allPending}
+                        title="발주 그룹 전체 입고 취소"
+                      >
+                        {savingBulk ? '취소중...' : <><i className="fas fa-times" /> 입고취소</>}
                       </button>
                     </div>
                   </div>
@@ -909,6 +1240,7 @@ const StoreInventoryManagement: React.FC = () => {
                           <th scope="col">브랜드</th>
                           <th scope="col">발주수량</th>
                           <th scope="col">출고수량</th>
+                          <th scope="col">유통기한</th>
                           <th scope="col" className="inventory-col-narrow">
                             <div className="inventory-header-actions">
                               <span>입고수량(양호)</span>
@@ -918,6 +1250,7 @@ const StoreInventoryManagement: React.FC = () => {
                                   className="inventory-mini-btn"
                                   onClick={() => handleApplyAllGoodEqual()}
                                   title="모든 행을 출고수량과 동일하게"
+                                  disabled={anyConfirmed}
                                 >
                                   =
                                 </button>
@@ -926,6 +1259,7 @@ const StoreInventoryManagement: React.FC = () => {
                                   className="inventory-mini-btn"
                                   onClick={() => handleApplyAllGoodReset()}
                                   title="모든 행을 0으로 초기화"
+                                  disabled={anyConfirmed}
                                 >
                                   ≠
                                 </button>
@@ -941,6 +1275,7 @@ const StoreInventoryManagement: React.FC = () => {
                                   className="inventory-mini-btn"
                                   onClick={() => handleApplyAllBadEqual()}
                                   title="모든 행을 남은 수량으로 설정"
+                                  disabled={anyConfirmed}
                                 >
                                   =
                                 </button>
@@ -949,6 +1284,7 @@ const StoreInventoryManagement: React.FC = () => {
                                   className="inventory-mini-btn"
                                   onClick={() => handleApplyAllBadReset()}
                                   title="모든 행을 0으로 초기화"
+                                  disabled={anyConfirmed}
                                 >
                                   ≠
                                 </button>
@@ -956,9 +1292,11 @@ const StoreInventoryManagement: React.FC = () => {
                             </div>
                           </th>
                           <th scope="col">총입고</th>
+                          <th scope="col">입고금액</th>
+                          <th scope="col">입고메모</th>
                           <th scope="col" className="inventory-col-hidden">LOT</th>
                           <th scope="col" className="inventory-col-hidden">유통기한</th>
-                          <th scope="col" />
+                          {/* <th scope="col" /> 삭제: 합계 라인과 컬럼수 맞춤 */}
                         </tr>
                       </thead>
                       <tbody>
@@ -976,8 +1314,12 @@ const StoreInventoryManagement: React.FC = () => {
                           </tr>
                         ) : (
                           details.map((detail, index) => {
-                            const detailKey = `${detail.orderNo}-${detail.goodsId}`;
+                            const detailKey = `${String(detail.orderNo)}-${String(detail.goodsId)}`;
                             const isDetailSelected = selectedDetailKeys.has(detailKey);
+                            // 입고금액 계산: inTotQty * inPrice (inPrice가 없으면 0)
+                            const inTotQty = detail.inTotQty ?? (detail.inGoodQty ?? 0) + (detail.inBadQty ?? 0);
+                            const inPrice = detail.sobijaDan ?? 0;
+                            const inboundAmount = inTotQty * inPrice;
                             return (
                               <tr key={detailKey} className={isDetailSelected ? 'is-active-row' : undefined}>
                                 <td className="select-cell">
@@ -998,6 +1340,7 @@ const StoreInventoryManagement: React.FC = () => {
                                 <td className="number">
                                   {new Intl.NumberFormat('ko-KR').format(detail.outQty || 0)}
                                 </td>
+                                <td>{detail.inExpD || '-'}</td>
                                 <td className="inventory-col-narrow">
                                   <div className="inventory-inline-actions">
                                     <input
@@ -1008,8 +1351,9 @@ const StoreInventoryManagement: React.FC = () => {
                                         handleDetailQuantityChange(index, 'inGoodQty', event.target.value)
                                       }
                                       className="inventory-input is-number"
+                                      disabled={!!detail.inD}
                                     />
-                                  <div className="inventory-mini-actions">
+                                    <div className="inventory-mini-actions">
                                       <button
                                         type="button"
                                         className="inventory-mini-btn"
@@ -1021,6 +1365,7 @@ const StoreInventoryManagement: React.FC = () => {
                                           )
                                         }
                                         title="출고수량과 동일하게"
+                                        disabled={!!detail.inD}
                                       >
                                         =
                                       </button>
@@ -1031,6 +1376,7 @@ const StoreInventoryManagement: React.FC = () => {
                                           handleDetailQuantityChange(index, 'inGoodQty', '0')
                                         }
                                         title="0으로 설정"
+                                        disabled={!!detail.inD}
                                       >
                                         ≠
                                       </button>
@@ -1047,6 +1393,7 @@ const StoreInventoryManagement: React.FC = () => {
                                         handleDetailQuantityChange(index, 'inBadQty', event.target.value)
                                       }
                                       className="inventory-input is-number"
+                                      disabled={!!detail.inD}
                                     />
                                     <div className="inventory-mini-actions">
                                       <button
@@ -1054,6 +1401,7 @@ const StoreInventoryManagement: React.FC = () => {
                                         className="inventory-mini-btn"
                                         onClick={() => handleDetailQuantityChange(index, 'inBadQty', '0')}
                                         title="0으로 설정"
+                                        disabled={!!detail.inD}
                                       >
                                         =
                                       </button>
@@ -1062,6 +1410,7 @@ const StoreInventoryManagement: React.FC = () => {
                                         className="inventory-mini-btn"
                                         onClick={() => handleDetailQuantityChange(index, 'inBadQty', '0')}
                                         title="0으로 설정"
+                                        disabled={!!detail.inD}
                                       >
                                         ≠
                                       </button>
@@ -1069,9 +1418,23 @@ const StoreInventoryManagement: React.FC = () => {
                                   </div>
                                 </td>
                                 <td className="number">
-                                  {new Intl.NumberFormat('ko-KR').format(
-                                    detail.inTotQty ?? (detail.inGoodQty ?? 0) + (detail.inBadQty ?? 0),
-                                  )}
+                                  {new Intl.NumberFormat('ko-KR').format(inTotQty)}
+                                </td>
+                                <td className="number">
+                                  {new Intl.NumberFormat('ko-KR').format(inboundAmount)}
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    value={detail.inMemo || ''}
+                                    maxLength={100}
+                                    onChange={e => {
+                                      const value = e.target.value;
+                                      setDetails(prev => prev.map((item, idx) => idx === index ? { ...item, inMemo: value } : item));
+                                    }}
+                                    placeholder="입고메모 입력"
+                                    style={{ width: '100%' }}
+                                  />
                                 </td>
                                 <td className="inventory-col-hidden">{detail.lotNo || '-'}</td>
                                 <td className="inventory-col-hidden">{detail.expD || '-'}</td>
@@ -1081,6 +1444,32 @@ const StoreInventoryManagement: React.FC = () => {
                           })
                         )}
                       </tbody>
+                        {/* 합계 라인 (tfoot) */}
+                        <tfoot>
+                          <tr style={{ background: '#f8fafc', fontWeight: 700 }}>
+                            <td colSpan={7} style={{ textAlign: 'right' }}>합계</td>
+                            <td className="inventory-col-narrow number">
+                              {new Intl.NumberFormat('ko-KR').format(details.reduce((sum, d) => sum + (d.inGoodQty ?? 0), 0))}
+                            </td>
+                            <td className="inventory-col-narrow number">
+                              {new Intl.NumberFormat('ko-KR').format(details.reduce((sum, d) => sum + (d.inBadQty ?? 0), 0))}
+                            </td>
+                            <td className="number">
+                              {new Intl.NumberFormat('ko-KR').format(details.reduce((sum, d) => sum + ((d.inTotQty ?? ((d.inGoodQty ?? 0) + (d.inBadQty ?? 0)))), 0))}
+                            </td>
+                            <td className="number">
+                              {new Intl.NumberFormat('ko-KR').format(details.reduce((sum, d) => {
+                                const inTotQty = d.inTotQty ?? (d.inGoodQty ?? 0) + (d.inBadQty ?? 0);
+                                const inPrice = d.sobijaDan ?? 0;
+                                return sum + (inTotQty * inPrice);
+                              }, 0))}
+                            </td>
+                            {/* <td></td> 삭제: 합계 라인과 컬럼수 맞춤 */}
+                            <td className="inventory-col-hidden"></td>
+                            <td className="inventory-col-hidden"></td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
                     </table>
                   </div>
                 </div>
@@ -1094,6 +1483,26 @@ const StoreInventoryManagement: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={modalState.open}
+        onClose={closeModal}
+        title={modalState.title}
+        size="small"
+        showCloseButton={true}
+      >
+        <div>{modalState.content}</div>
+        {modalState.footer ? (
+          <div>{modalState.footer}</div>
+        ) : (
+          <div className="confirmation-actions">
+            <button type="button" className="btn-confirmation-cancel" onClick={closeModal}>
+              <i className="fas fa-times"></i> 확인
+            </button>
+          </div>
+        )}
+      </Modal>
+
     </div>
   );
 };

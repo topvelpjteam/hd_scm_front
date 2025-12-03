@@ -58,7 +58,7 @@ export interface ExcelPreviewModalProps {
   data: ExcelDataRow[];
   onSave: (selectedRows: ExcelDataRow[]) => void;
   onCancel: () => void;
-  type?: 'product' | 'agent'; // 상품 또는 거래처 구분
+  type?: 'product' | 'agent' | 'productPrice'; // 상품, 거래처, 상품가격관리 구분
 }
 
 const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
@@ -76,6 +76,16 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
   const hasAutoCheckedRef = useRef(false);
 
   // 타입에 따른 헤더 정의
+  const getProductPriceHeaders = () => [
+    { key: '브랜드', label: '브랜드*', required: true },
+    { key: '상품코드', label: '상품코드*', required: true },
+    { key: '상품명', label: '상품명', required: false },
+    { key: '현재적용일자', label: '현재적용일자*', required: true },
+    { key: '현재종료일자', label: '현재종료일자', required: false },
+    { key: '현재소비자가', label: '현재소비자가*', required: true },
+    { key: '적요', label: '적요', required: false },
+  ];
+
   const getHeaders = () => {
     if (type === 'agent') {
       return [
@@ -113,6 +123,8 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
         { key: '거래시작일자', label: '거래시작일자', required: false },
         { key: '거래종료일자', label: '거래종료일자', required: false }
       ];
+    } else if (type === 'productPrice') {
+      return getProductPriceHeaders();
     } else {
       // 상품 기본 헤더
       return [
@@ -136,7 +148,6 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
       const updatedData = await Promise.all(
         previewData.map(async (row) => {
           if (row.hasError) return row;
-          
           if (type === 'agent') {
             // 거래처 중복 확인
             const agentName = (row as any).거래처명 ? String((row as any).거래처명).trim() : '';
@@ -174,10 +185,13 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
                 duplicateInfo: `확인 실패: ${error instanceof Error ? error.message : '알 수 없는 오류'}`
               };
             }
+          } else if (type === 'productPrice') {
+            // 상품가격관리: 중복체크 없음 또는 별도 로직(여기선 미구현, 필요시 추가)
+            return row;
           } else {
             // 상품 중복 확인 (기존 로직)
             const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
-            const userId = userInfo.userId || 'ADMIN';
+            const userId = userInfo.userId != null ? String(userInfo.userId) : 'ADMIN';
             
             // 데이터 검증 및 타입 변환
             const brandId = (row.브랜드 !== null && row.브랜드 !== undefined) ? String(row.브랜드).trim() : '';
@@ -226,7 +240,7 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [previewData]);
+  }, [previewData, type]);
 
   useEffect(() => {
     console.log('📊 ExcelPreviewModal - 받은 데이터:', data);
@@ -307,13 +321,12 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
   return (
     <Modal
       isOpen={isOpen}
-      onClose={handleModalClose}
-      title="엑셀 데이터 미리보기"
-      size="large"
+      onClose={onClose}
+      title={type === 'agent' ? '거래처 엑셀 데이터 미리보기' : type === 'productPrice' ? '상품가격 엑셀 데이터 미리보기' : '엑셀 데이터 미리보기'}
+      size={type === 'agent' ? 'medium' : 'large'}
       className="excel-preview-modal"
-      closeOnOverlayClick={false}
     >
-      <div className="preview-content">
+      <div className="excel-preview-content">
         {/* 상단 통계 및 액션 */}
         <div className="preview-header">
           <div className="preview-stats">
@@ -424,8 +437,14 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
                     )}
                   </td>
                   {getHeaders().map((header) => (
-                    <td key={header.key} title={`${header.label}: ${(row as any)[header.key]}`}>
-                      {(row as any)[header.key] || '-'}
+                    <td key={header.key} title={`${header.label}: ${
+                      header.key === '현재소비자가' && type === 'productPrice'
+                        ? (row as any)['소비자단가'] ?? '-'
+                        : (row as any)[header.key] ?? '-'
+                    }`}>
+                      {header.key === '현재소비자가' && type === 'productPrice'
+                        ? (row as any)['소비자단가'] ?? '-'
+                        : (row as any)[header.key] ?? '-'}
                     </td>
                   ))}
                   <td className="duplicate-info">

@@ -9,3 +9,46 @@
 .order-in-status-page .page-title i {
   color: #1f3c88;
 }
+
+/* 라디오 버튼 그룹 스타일 */
+.radio-group {
+  display: flex;
+  flex-direction: row !important;
+  gap: 20px;
+  align-items: center;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.radio-label input[type="radio"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.radio-label span {
+  color: #333;
+}
+
+.radio-label:hover span {
+  color: #1f3c88;
+}
+
+/* 순증감 수량 색상 */
+.net-qty.positive {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.net-qty.negative {
+  color: #c62828;
+  font-weight: 600;
+}

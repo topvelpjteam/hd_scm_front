@@ -41,20 +41,40 @@ export interface StoreInventorySummary {
  * 매장 입고 상세 정보
  */
 export interface StoreInventoryDetail {
+    orderD?: string;
+    orderSequ?: number;
   orderNo: number;
   goodsId: string;
   goodsNm: string;
   brandId: string;
   brandNm: string;
+  vendorId?: number;
   orderQty: number | null;
   outQty: number | null;
   inGoodQty: number | null;
   inBadQty: number | null;
   inTotQty: number | null;
   inD?: string | null;
+  inMemo?: string | null;
   lotNo?: string | null;
   expD?: string | null;
   orderMemo?: string | null;
+  orderTot?: number | null;
+  inTot?: number | null;
+  sobijaDan?: number | null;
+  // 출고 유통기한 정보
+  outExpSequ?: number | null;
+  outExpD?: string | null;
+  outExpQty?: number | null;
+  outLotNo?: string | null;
+  // 입고 유통기한 정보
+  inSequ?: number | null;
+  inExpD?: string | null;
+  inExpQty?: number | null;
+  inExpGoodQty?: number | null;
+  inExpBadQty?: number | null;
+  inLotNo?: string | null;
+  inGrade?: string | null;
 }
 
 interface StoreInventoryLoginContext {
@@ -168,6 +188,7 @@ export const saveStoreInventoryInbound = async (
     inDate?: string;
     goodQty: number;
     badQty: number;
+    inMemo?: string;
   },
   login: StoreInventoryLoginContext,
 ): Promise<StoreInventoryHandleResponse> => {
@@ -180,6 +201,7 @@ export const saveStoreInventoryInbound = async (
       inputInDate: toPayloadDate(payload.inDate),
       inputInGoodQty: payload.goodQty,
       inputInBadQty: payload.badQty,
+      inputInMemo: payload.inMemo?.trim() || null,
       loginUserId: login.userId,
       loginRoleName: login.roleName,
       loginAgentId: login.agentId ?? null,
@@ -187,4 +209,165 @@ export const saveStoreInventoryInbound = async (
     '입고 정보를 저장 중입니다...',
   );
 };
+
+/**
+ * 입고 취소
+ */
+export const cancelStoreInventoryInbound = async (
+  payload: {
+    orderDate: string;
+    orderSequ: number;
+    orderNo: number;
+  },
+  login: StoreInventoryLoginContext,
+): Promise<StoreInventoryHandleResponse> => {
+  return postHandle(
+    {
+      mode: 'CANCEL_INBOUND',
+      targetOrderD: toPayloadDate(payload.orderDate),
+      targetOrderSequ: payload.orderSequ,
+      targetOrderNo: payload.orderNo,
+      loginUserId: login.userId,
+      loginRoleName: login.roleName,
+      loginAgentId: login.agentId ?? null,
+    },
+    '입고를 취소하는 중입니다...',
+  );
+};
+
+/**
+ * 그룹 입고 가능 여부 확인 (SAVE_INBOUND_CHK)
+ * ORDER_D + ORDER_SEQU + VENDOR_ID 그룹이 입고 가능한지 체크
+ */
+export const checkSaveInboundPossible = async (
+  orderD: string,
+  orderSequ: number,
+  vendorId: number | string,
+  login: StoreInventoryLoginContext,
+): Promise<boolean> => {
+  try {
+    const response = await postHandle(
+      {
+        mode: 'SAVE_INBOUND_CHK',
+        targetOrderD: toPayloadDate(orderD),
+        targetOrderSequ: orderSequ,
+        targetVendorId: vendorId,
+        loginUserId: login.userId,
+        loginRoleName: login.roleName,
+        loginAgentId: login.agentId ?? null,
+      },
+      '',
+    );
+    // 응답의 success 필드 또는 result.RESULT 필드로 확인
+    const resultString = response.result?.RESULT || (response.success ? 'SUCCESS' : 'ERROR');
+    return resultString === 'SUCCESS';
+  } catch (error) {
+    console.error('입고 가능 체크 중 오류:', error);
+    return false;
+  }
+};
+
+/**
+ * 그룹 취소 가능 여부 확인 (CANCEL_INBOUND_CHK)
+ * ORDER_D + ORDER_SEQU + VENDOR_ID 그룹이 취소 가능한지 체크
+ */
+export const checkCancelInboundPossible = async (
+  orderD: string,
+  orderSequ: number,
+  vendorId: number | string,
+  login: StoreInventoryLoginContext,
+): Promise<boolean> => {
+  try {
+    const response = await postHandle(
+      {
+        mode: 'CANCEL_INBOUND_CHK',
+        targetOrderD: toPayloadDate(orderD),
+        targetOrderSequ: orderSequ,
+        targetVendorId: vendorId,
+        loginUserId: login.userId,
+        loginRoleName: login.roleName,
+        loginAgentId: login.agentId ?? null,
+      },
+      '',
+    );
+    // 응답의 success 필드 또는 result.RESULT 필드로 확인
+    const resultString = response.result?.RESULT || (response.success ? 'SUCCESS' : 'ERROR');
+    return resultString === 'SUCCESS';
+  } catch (error) {
+    console.error('취소 가능 체크 중 오류:', error);
+    return false;
+  }
+};
+
+/**
+ * 그룹 단위 입고 처리 (SAVE_INBOUND)
+ * ORDER_D + ORDER_SEQU + VENDOR_ID 그룹의 모든 미입고 항목을 일괄 처리
+ */
+export const saveStoreInventoryInboundGroup = async (
+  payload: {
+    orderDate: string;
+    orderSequ: number;
+    vendorId: number | string;
+    inDate: string;
+    details: Array<{
+      orderNo: number;
+      goodsId: string;
+      inMemo?: string;
+      inGoodQty: number;
+      inBadQty: number;
+      inTotQty: number;
+    }>;
+  },
+  login: StoreInventoryLoginContext,
+): Promise<StoreInventoryHandleResponse> => {
+  return postHandle(
+    {
+      mode: 'SAVE_INBOUND',
+      targetOrderD: toPayloadDate(payload.orderDate),
+      targetOrderSequ: payload.orderSequ,
+      targetVendorId: payload.vendorId,
+      inputInDate: toPayloadDate(payload.inDate),
+      details: payload.details?.map(d => ({
+        orderNo: d.orderNo,
+        goodsId: d.goodsId,
+        inMemo: d.inMemo?.trim() || null,
+        inGoodQty: d.inGoodQty,
+        inBadQty: d.inBadQty,
+        inTotQty: d.inTotQty,
+      })),
+      loginUserId: login.userId,
+      loginRoleName: login.roleName,
+      loginAgentId: login.agentId ?? null,
+    },
+    '입고 그룹을 처리하는 중입니다...',
+  );
+};
+
+/**
+ * 그룹 단위 입고 취소 (CANCEL_INBOUND)
+ * ORDER_D + ORDER_SEQU + VENDOR_ID 그룹의 모든 항목 입고 취소
+ */
+export const cancelStoreInventoryInboundGroup = async (
+  payload: {
+    orderDate: string;
+    orderSequ: number;
+    vendorId: number | string;
+  },
+  login: StoreInventoryLoginContext,
+): Promise<StoreInventoryHandleResponse> => {
+  return postHandle(
+    {
+      mode: 'CANCEL_INBOUND',
+      targetOrderD: toPayloadDate(payload.orderDate),
+      targetOrderSequ: payload.orderSequ,
+      targetVendorId: payload.vendorId,
+      loginUserId: login.userId,
+      loginRoleName: login.roleName,
+      loginAgentId: login.agentId ?? null,
+    },
+    '입고 그룹을 취소하는 중입니다...',
+  );
+};
+
+
 

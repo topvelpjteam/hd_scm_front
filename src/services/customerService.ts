@@ -72,9 +72,10 @@ class CustomerService {
       const response = await apiClient.postJson<CustomerSearchResult[]>(
         '/api/customers/search',
         {
+          agentId: searchCondition.agentId ? Number(searchCondition.agentId) : null,
           custName: searchCondition.custName || '',
           custGbn: searchCondition.custGbn || [],
-          genderGbn: searchCondition.genderGbn || '',
+          // 성별 검색조건 제거: backend에서 필요하지 않음
           openDateFrom: searchCondition.openDateFrom || '',
           openDateTo: searchCondition.openDateTo || '',
           phoneOrEmail: searchCondition.phoneOrEmail || ''

@@ -5,6 +5,8 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import CommonMultiSelect from './CommonMultiSelect';
 import { commonCodeService, CommonCodeOption } from '../services/commonCodeService';
+import customerService from '../services/customerService';
+import { agentService, type AgentData as AgentServiceData } from '../services/agentService';
 import { 
   ValidationModal, 
   ConfirmationModal, 
@@ -53,6 +55,13 @@ const CustRegistration: React.FC = () => {
   // 공통코드 옵션 상태
   const [custGbnOptions, setCustGbnOptions] = useState<CommonCodeOption[]>([]);
   const [nationGbnOptions, setNationGbnOptions] = useState<CommonCodeOption[]>([]);
+  // 소속 매장 목록
+  const [agents, setAgents] = useState<AgentServiceData[]>([]);
+
+  // ref for agent select to focus when validation fails
+  const agentSelectRef = React.useRef<HTMLSelectElement | null>(null);
+  // ref for 가입일자 input to focus when validation fails
+  const joinDateRef = React.useRef<HTMLInputElement | null>(null);
 
   // 원본 데이터 저장 (변경 추적용)
   const [_originalData, setOriginalData] = useState<CustomerData | null>(null);
@@ -61,6 +70,8 @@ const CustRegistration: React.FC = () => {
   const [validationModal, setValidationModal] = useState<{
     isOpen: boolean;
     errors: ValidationError[];
+    title?: string;
+    mainMessage?: string;
   }>({ isOpen: false, errors: [] });
   
   const [confirmationModal, setConfirmationModal] = useState<{
@@ -79,6 +90,7 @@ const CustRegistration: React.FC = () => {
     type: 'save' | 'update' | 'delete';
     message?: string;
     details?: string;
+    changedFields?: Array<{ field: string; name: string; oldValue: any; newValue: any }>;
   }>({ isOpen: false, type: 'save' });
 
   // 공통코드 로드 함수
@@ -92,11 +104,83 @@ const CustRegistration: React.FC = () => {
       setCustGbnOptions(custGbnData);
       setNationGbnOptions(nationGbnData);
       
+      // 고객구분 공통코드의 첫 항목을 기본 선택값으로 설정
+      if (custGbnData && custGbnData.length > 0) {
+        const firstCustGbn = custGbnData[0].value;
+        try {
+          // 현재 고객 데이터가 비어있거나 기본값('Z' 또는 '')인 경우에만 적용
+          const current = (customerData && (customerData as any).CUST_GBN) || '';
+          if (!current || current === 'Z' || current === '') {
+            dispatch(setSelectedCustomer({ ...(selectedCustomer || {} as any), CUST_GBN: firstCustGbn } as any));
+            dispatch(setCustomerData({ ...(customerData || {} as any), CUST_GBN: firstCustGbn } as any));
+          }
+        } catch (e) {
+          // 안전하게 무시
+          console.warn('기본 고객구분 설정 중 오류:', e);
+        }
+      }
+
       console.log('공통코드 로드 완료:', { custGbnData, nationGbnData });
     } catch (error) {
       console.error('공통코드 로드 오류:', error);
     }
   }, []);
+
+  // 에이전트 목록 로드
+  const loadAgents = useCallback(async () => {
+    try {
+      // 고객등록 화면에서는 채널이 매장인 것(chann_gbn = 1)만 사용
+      const data = await agentService.searchAgents({ channGbn: '1', excludeTerminated: true });
+      const list = data || [];
+
+      // 로그인 사용자 정보 확인 (sessionStorage에 저장된 user 객체 사용)
+      const userStr = sessionStorage.getItem('user');
+      let isAgentFixedLocal = false;
+      let userAgentId: any = undefined;
+      let roleName: string | undefined = undefined;
+      let roleLevel: any = undefined;
+      if (userStr) {
+        try {
+          const u = JSON.parse(userStr);
+          roleName = u.roleName || u.ROLE_NAME || u.role || u.role_name;
+          roleLevel = u.roleLevel || u.ROLE_LEVEL || u.role_level;
+          userAgentId = u.agentId || u.AGENT_ID || u.agent_id || u.storeId || u.store_id;
+        } catch (e) {
+          // ignore parse error
+        }
+      }
+
+      // 매장직원(rolename에 '매장' 포함)인 경우 자기 소속 매장만 보이도록 고정
+      // role_level === 4 : 매장 직원 (refer to sql-script/00.role_구분.txt)
+      const isStoreStaff = (roleName && String(roleName).includes('매장')) || (roleLevel && Number(roleLevel) === 4);
+      if (isStoreStaff && userAgentId) {
+        // 문자열/숫자 타입 정규화하여 비교
+        const found = list.find(a => String(a.AGENT_ID) === String(userAgentId));
+        if (found) {
+          setAgents([found]);
+          // 고객 상세 및 검색조건에 기본값으로 설정
+          dispatch(setCustomerData({ AGENT_ID: Number(found.AGENT_ID) }));
+          dispatch(setSearchCondition({ agentId: found.AGENT_ID }));
+          isAgentFixedLocal = true;
+        } else {
+          // 해당 매장이 목록에 없으면 빈리스트로 처리
+          setAgents([]);
+          isAgentFixedLocal = true;
+        }
+      } else {
+        // 일반 사용자: 전체 매장 리스트를 노출
+        setAgents(list);
+      }
+      setIsAgentFixed(isAgentFixedLocal);
+      console.log('에이전트 목록 로드:', list.length, '고정여부:', isAgentFixedLocal);
+    } catch (err) {
+      console.error('에이전트 목록 로드 실패:', err);
+      setAgents([]);
+    }
+  }, []);
+
+  // 에이전트 선택 고정 여부
+  const [isAgentFixed, setIsAgentFixed] = useState(false);
 
   // 이메일 관련 상태
   const [emailId, setEmailId] = useState('');
@@ -226,16 +310,24 @@ const CustRegistration: React.FC = () => {
     { 
       headerName: '고객구분명', 
       field: 'CUST_GBN_NM', 
-      width: 90, 
-      minWidth: 80,
+      width: 80, 
+      minWidth: 60,
+      sortable: true,
+      filter: true
+    },
+    {
+      headerName: '소속매장',
+      field: 'AGENT_NM',
+      width: 140,
+      minWidth: 100,
       sortable: true,
       filter: true
     },
     { 
       headerName: '고객명', 
       field: 'CUST_NM', 
-      width: 150, 
-      minWidth: 120, 
+      width: 120, 
+      minWidth: 100, 
       flex: 1,
       sortable: true,
       filter: true
@@ -243,8 +335,8 @@ const CustRegistration: React.FC = () => {
     { 
       headerName: '성별', 
       field: 'GENDER_GBN', 
-      width: 70, 
-      minWidth: 60,
+      width: 60, 
+      minWidth: 50,
       sortable: true,
       filter: true,
       valueFormatter: (params: any) => params.value === 'M' ? '남성' : params.value === 'F' ? '여성' : ''
@@ -252,24 +344,24 @@ const CustRegistration: React.FC = () => {
     { 
       headerName: '휴대폰', 
       field: 'C_HP', 
-      width: 120, 
-      minWidth: 100,
+      width: 100, 
+      minWidth: 90,
       sortable: true,
       filter: true
     },
     { 
       headerName: '이메일', 
       field: 'C_EMAIL', 
-      width: 180, 
-      minWidth: 150,
+      width: 140, 
+      minWidth: 120,
       sortable: true,
       filter: true
     },
     { 
       headerName: '가입일자', 
       field: 'CUST_OPEN_D', 
-      width: 100, 
-      minWidth: 90,
+      width: 90, 
+      minWidth: 80,
       sortable: true,
       filter: true,
       valueFormatter: (params: any) => {
@@ -295,7 +387,7 @@ const CustRegistration: React.FC = () => {
   useEffect(() => {
     const initializeData = async () => {
       try {
-        await loadCommonCodes();
+        await Promise.all([loadCommonCodes(), loadAgents()]);
         setTimeout(() => {
           setIsGridReady(true);
         }, 100);
@@ -330,7 +422,7 @@ const CustRegistration: React.FC = () => {
       DM_CHK: 'N',
       SMS_CHK: 'N',
       CALL_CHK: 'N',
-      GENDER_GBN: 'M',
+      GENDER_GBN: '',
       MNG_STAFF: ''
     }));
     
@@ -338,7 +430,7 @@ const CustRegistration: React.FC = () => {
       CUST_ID: 0,
       CUST_NM: '',
       CUST_GBN: 'Z',
-      GENDER_GBN: 'M',
+      GENDER_GBN: '',
       EMAIL_CHK: 'N',
       DM_CHK: 'N',
       SMS_CHK: 'N',
@@ -352,9 +444,22 @@ const CustRegistration: React.FC = () => {
   // 변경사항 확인 함수
   const hasUnsavedChanges = useCallback(() => {
     if (!customerData) return false;
-    if (!isNewMode) return false;
-    
-    // 의미있는 데이터가 입력되었는지 체크 (기본값 제외)
+
+    // If we have an original snapshot (editing existing), compare relevant fields
+    if (_originalData) {
+      const keysToCompare = [
+        'CUST_NM','C_HP','C_EMAIL','ZIP_ID','C_ADDR1','C_ADDR2','CUST_BIRTH_D',
+        'CUST_GBN','GENDER_GBN','EMAIL_CHK','DM_CHK','SMS_CHK','CALL_CHK','CUST_HOBB','CUST_DATA','MNG_STAFF','AGENT_ID'
+      ];
+      for (const k of keysToCompare) {
+        const a = (customerData as any)[k] == null ? '' : String((customerData as any)[k]);
+        const b = (_originalData as any)[k] == null ? '' : String((_originalData as any)[k]);
+        if (a !== b) return true;
+      }
+      return false;
+    }
+
+    // No original snapshot (new mode) — detect any meaningful input
     const hasData = (customerData.CUST_NM?.trim() && customerData.CUST_NM !== '') || 
                    (customerData.C_HP?.trim() && customerData.C_HP !== '') || 
                    (customerData.C_EMAIL?.trim() && customerData.C_EMAIL !== '') ||
@@ -367,50 +472,59 @@ const CustRegistration: React.FC = () => {
                    (customerData.CUST_BIRTH_D && customerData.CUST_BIRTH_D !== '') ||
                    // 기본값이 아닌 경우만 체크
                    (customerData.CUST_GBN && customerData.CUST_GBN !== 'Z') ||
-                   (customerData.GENDER_GBN && customerData.GENDER_GBN !== 'M') ||
+                   (customerData.GENDER_GBN && customerData.GENDER_GBN !== '') ||
                    (customerData.EMAIL_CHK === 'Y') ||
                    (customerData.DM_CHK === 'Y') ||
                    (customerData.SMS_CHK === 'Y') ||
                    (customerData.CALL_CHK === 'Y');
-    
     return hasData;
-  }, [customerData, isNewMode]);
+  }, [customerData, _originalData]);
 
   // 신규 작업 수행
   const performNew = useCallback(() => {
     dispatch(setIsNewMode(true));
-    
-    dispatch(setSelectedCustomer({
+
+    // Preserve agent selection when agent is fixed (매장 직원) — otherwise clear
+    const preservedAgent = isAgentFixed ? (customerData?.AGENT_ID ?? (agents && agents.length > 0 ? agents[0].AGENT_ID : undefined)) : undefined;
+
+    const defaultCustGbn = (custGbnOptions && custGbnOptions.length > 0) ? custGbnOptions[0].value : 'Z';
+
+    const clearedCustomer = {
       CUST_ID: 0,
+      AGENT_ID: preservedAgent,
       CUST_NM: '',
-      CUST_GBN: 'Z',
-      GENDER_GBN: 'M',
+      CUST_GBN: defaultCustGbn,
+      NATION_ID: '',
+      C_HP: '',
+      C_EMAIL: '',
+      ZIP_ID: '',
+      C_ADDR1: '',
+      C_ADDR2: '',
+      CUST_BIRTH_D: '',
+      CUST_D_GBN: 'S',
+      CUST_OPEN_D: new Date().toISOString().split('T')[0],
+      CUST_HOBB: '',
+      CUST_DATA: '',
       EMAIL_CHK: 'N',
       DM_CHK: 'N',
       SMS_CHK: 'N',
       CALL_CHK: 'N',
-      CUST_OPEN_D: new Date().toISOString().split('T')[0]
-    }));
-    
-    dispatch(setCustomerData({
-      CUST_ID: 0,
-      CUST_NM: '',
-      CUST_GBN: 'Z',
-      GENDER_GBN: 'M',
-      EMAIL_CHK: 'N',
-      DM_CHK: 'N',
-      SMS_CHK: 'N',
-      CALL_CHK: 'N',
-      CUST_OPEN_D: new Date().toISOString().split('T')[0]
-    }));
-    
-    setOriginalData(null);
-    
-    // 이메일 필드 초기화
+      GENDER_GBN: '',
+      MNG_STAFF: ''
+    } as any;
+
+    dispatch(setSelectedCustomer(clearedCustomer));
+    dispatch(setCustomerData(clearedCustomer));
+
+    // 초기화 후에는 현재 상태를 기준 스냅샷으로 저장하여
+    // 바로 다시 '초기화'를 눌러도 미저장 변경 확인이 나오지 않게 함
+    setOriginalData(clearedCustomer as CustomerData);
+
+    // 이메일 필드 초기화 (local state)
     setEmailId('');
     setEmailDomain('');
     setIsCustomDomain(false);
-  }, [dispatch]);
+  }, [dispatch, isAgentFixed, customerData, agents, custGbnOptions]);
 
   // 신규 버튼 클릭
   const handleNew = useCallback(() => {
@@ -425,7 +539,13 @@ const CustRegistration: React.FC = () => {
   }, [hasUnsavedChanges, performNew]);
 
   // 검색 조건 변경 핸들러
-  const handleSearchConditionChange = (field: keyof SearchCondition, value: string | string[]) => {
+  const handleSearchConditionChange = (field: keyof SearchCondition, value: any) => {
+    // agentId는 숫자 또는 빈값으로 관리
+    if (field === 'agentId') {
+      const v = value === '' || value == null ? '' : Number(value);
+      dispatch(setSearchCondition({ [field]: v }));
+      return;
+    }
     dispatch(setSearchCondition({ [field]: value }));
   };
 
@@ -438,25 +558,31 @@ const CustRegistration: React.FC = () => {
   };
 
   // 검색 실행 (백엔드 연동은 나중에 구현)
-  const handleSearch = async () => {
+  const handleSearch = async (suppressError: boolean = false) => {
     try {
       setIsLoading(true);
       console.log('검색 조건:', searchCondition);
-      
-      // TODO: 백엔드 API 호출
-      // const results = await customerService.searchCustomers(searchCondition);
-      // dispatch(setGridData(results));
-      
-      // 임시: 빈 배열 설정
-      dispatch(setGridData([]));
-      
+      // 실제 백엔드 호출
+      try {
+        const results = await customerService.searchCustomers(searchCondition);
+        dispatch(setGridData(results || []));
+      } catch (err) {
+        console.error('검색 API 오류', err);
+        dispatch(setGridData([]));
+        if (!suppressError) throw err;
+        return;
+      }
       console.log('검색 완료');
     } catch (error) {
       console.error('검색 실패:', error);
-      setValidationModal({
-        isOpen: true,
-        errors: [{ field: 'general', message: `검색에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}` }]
-      });
+      if (!suppressError) {
+        setValidationModal({
+          isOpen: true,
+          title: '검색 오류',
+          mainMessage: `검색에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`,
+          errors: [{ field: 'general', message: `검색에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}` }]
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -469,29 +595,44 @@ const CustRegistration: React.FC = () => {
       return;
     }
 
-    // 필수입력 체크
-    const requiredFields = [
-      { field: 'CUST_NM', name: '고객명' }
-    ];
-
+    // 테이블 DDL 기준 필수입력 체크
     const errors: ValidationError[] = [];
-    
-    requiredFields.forEach(({ field, name }) => {
-      const value = (customerData as any)[field];
-      if (!value || (typeof value === 'string' && value.trim() === '')) {
-        errors.push({
-          field,
-          fieldName: name,
-          message: `${name}은(는) 필수 입력 항목입니다.`
-        });
-      }
-    });
+
+    // 고객명 (CUST_NM) - NOT NULL
+    if (!customerData.CUST_NM || (typeof customerData.CUST_NM === 'string' && customerData.CUST_NM.trim() === '')) {
+      errors.push({ field: 'CUST_NM', fieldName: '고객명', message: '고객명은 필수 입력 항목입니다.' });
+    }
+
+    // 고객구분 (CUST_GBN) - NOT NULL
+    if (!customerData.CUST_GBN || (typeof customerData.CUST_GBN === 'string' && customerData.CUST_GBN.trim() === '')) {
+      errors.push({ field: 'CUST_GBN', fieldName: '고객구분', message: '고객구분은 필수 선택 항목입니다.' });
+    }
+
+    // 소속매장 (AGENT_ID) - NOT NULL
+    const agentIdNum = customerData.AGENT_ID == null ? undefined : Number(customerData.AGENT_ID);
+    if (!agentIdNum || Number.isNaN(agentIdNum) || agentIdNum <= 0) {
+      errors.push({ field: 'AGENT_ID', fieldName: '소속매장', message: '소속매장은 필수 선택 항목입니다.' });
+    }
+
+    // 가입일자 (CUST_OPEN_D) - NOT NULL
+    if (!customerData.CUST_OPEN_D || (typeof customerData.CUST_OPEN_D === 'string' && customerData.CUST_OPEN_D.trim() === '')) {
+      errors.push({ field: 'CUST_OPEN_D', fieldName: '가입일자', message: '가입일자는 필수 입력 항목입니다.' });
+    }
 
     if (errors.length > 0) {
       setValidationModal({
         isOpen: true,
         errors
       });
+      // If AGENT_ID missing, focus the select so user can correct quickly
+      const hasAgentError = errors.some(err => err.field === 'AGENT_ID');
+      if (hasAgentError && agentSelectRef.current) {
+        setTimeout(() => agentSelectRef.current && agentSelectRef.current.focus(), 50);
+      }
+      const hasJoinDateError = errors.some(err => err.field === 'CUST_OPEN_D');
+      if (hasJoinDateError && joinDateRef.current) {
+        setTimeout(() => joinDateRef.current && joinDateRef.current.focus(), 50);
+      }
       return;
     }
 
@@ -512,34 +653,112 @@ const CustRegistration: React.FC = () => {
     
     try {
       console.log('고객 저장 시작:', customerData);
-      
-      // TODO: 백엔드 API 호출
-      // const result = await customerService.saveCustomer({
-      //   ...customerData,
-      //   USER_ID: currentUserId
-      // });
-      
-      // 임시: 성공 처리
+      const userStr = sessionStorage.getItem('user');
+      let userId: any = undefined;
+      try {
+        if (userStr) {
+          const u = JSON.parse(userStr);
+          userId = u.userId || u.USER_ID || u.agentId || u.AGENT_ID;
+        }
+      } catch (e) {}
+
+      const payload = { ...customerData, USER_ID: userId };
+      const result: any = await customerService.saveCustomer(payload as any);
+      // Normalize success check: backend may return boolean or numeric (1/0)
+      const isSuccess = !!(result && result.success);
       const isUpdate = customerData.CUST_ID && Number(customerData.CUST_ID) > 0;
-      
-      setSuccessModal({
-        isOpen: true,
-        type: isUpdate ? 'update' : 'save',
-        message: '고객이 성공적으로 저장되었습니다.',
-        details: isUpdate ? '고객 정보가 업데이트되었습니다.' : '새로운 고객이 등록되었습니다.'
-      });
-      
+      console.debug('[CustRegistration] performSave result:', { result, isSuccess, isUpdate, customerData, original: _originalData });
       setConfirmationModal({ isOpen: false, type: 'save', onConfirm: () => {} });
-      
-      if (isNewMode) {
-        await handleSearch();
+      if (isSuccess) {
+        // Build a change summary for the popup
+        const labelMap: any = {
+          CUST_NM: '고객명', CUST_GBN: '고객구분', AGENT_ID: '소속매장', NATION_ID: '국가', C_HP: '휴대폰', C_EMAIL: '이메일', ZIP_ID: '우편번호', C_ADDR1: '주소1', C_ADDR2: '주소2', CUST_BIRTH_D: '생년월일', CUST_D_GBN: '구분', CUST_OPEN_D: '가입일', CUST_HOBB: '취미', CUST_DATA: '비고', EMAIL_CHK: '이메일수신', DM_CHK: 'DM수신', SMS_CHK: 'SMS수신', CALL_CHK: '전화수신', GENDER_GBN: '성별', MNG_STAFF: '담당자'
+        };
+
+        let details = '';
+        if (isUpdate) {
+          // compare _originalData and customerData
+          if (_originalData) {
+              const changes: string[] = [];
+              const changedFields: Array<{ field: string; name: string; oldValue: any; newValue: any }> = [];
+              // Only compare meaningful fields (defined in labelMap) to avoid spurious differences
+              Object.keys(labelMap).forEach((key) => {
+                const newVal = (customerData as any)[key];
+                const oldVal = (_originalData as any)[key];
+                // treat undefined/null/'' equivalently
+                const a = newVal == null ? '' : String(newVal);
+                const b = oldVal == null ? '' : String(oldVal);
+                if (a !== b) {
+                  const label = labelMap[key] || key;
+                  changes.push(`${label}: "${b}" → "${a}"`);
+                  changedFields.push({ field: key, name: label, oldValue: b, newValue: a });
+                }
+              });
+            if (changes.length === 0) details = '변경된 항목이 없습니다.';
+            else details = changes.join('\n');
+            // attach changedFields to modal
+            setSuccessModal({
+              isOpen: true,
+              type: 'update',
+              message: result.message || '고객이 수정되었습니다.',
+              details,
+              changedFields
+            });
+            // update original data and continue
+            setOriginalData({ ...customerData });
+            await handleSearch(true);
+            return;
+          } else {
+            details = '수정이 완료되었습니다.';
+          }
+        } else {
+          // New record - show created values
+          const created: string[] = [];
+          Object.keys(customerData).forEach((key) => {
+            const val = (customerData as any)[key];
+            if (val != null && String(val).trim() !== '') {
+              const label = labelMap[key] || key;
+              created.push(`${label}: "${String(val)}"`);
+            }
+          });
+          details = created.join('\n');
+        }
+
+        console.debug('[CustRegistration] showing success modal', { isUpdate, details });
+        setSuccessModal({
+          isOpen: true,
+          type: isUpdate ? 'update' : 'save',
+          message: result.message || (isUpdate ? '고객이 수정되었습니다.' : '고객이 등록되었습니다.'),
+          details
+        });
+
+        // 신규 등록 시 DB에서 생성된 키를 화면에 반영
+        if (!isUpdate && result && result.newId) {
+          try {
+            dispatch(setCustomerData({ CUST_ID: result.newId } as any));
+            dispatch(setIsNewMode(false));
+            setOriginalData({ ...customerData, CUST_ID: result.newId } as any);
+          } catch (e) {}
+        } else {
+          // For update, refresh originalData to current values
+          setOriginalData({ ...customerData });
+        }
+
+        await handleSearch(true);
       } else {
-        await handleSearch();
+        setValidationModal({
+          isOpen: true,
+          title: '저장 실패',
+          mainMessage: result ? result.message : '저장 실패',
+          errors: [{ field: 'general', message: result ? result.message : '저장 실패' }]
+        });
       }
     } catch (error) {
       console.error('저장 오류:', error);
       setValidationModal({
         isOpen: true,
+        title: '저장 오류',
+        mainMessage: `저장 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`,
         errors: [{ field: 'general', message: `저장 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}` }]
       });
       setConfirmationModal({ isOpen: false, type: 'save', onConfirm: () => {} });
@@ -551,6 +770,8 @@ const CustRegistration: React.FC = () => {
     if (isNewMode) {
       setValidationModal({
         isOpen: true,
+        title: '동작 불가',
+        mainMessage: '신규 등록 모드에서는 삭제할 수 없습니다.',
         errors: [{ field: 'general', message: '신규 등록 모드에서는 삭제할 수 없습니다.' }]
       });
       return;
@@ -572,33 +793,50 @@ const CustRegistration: React.FC = () => {
 
     try {
       console.log('고객 삭제 시작:', customerData.CUST_ID);
-      
-      // TODO: 백엔드 API 호출
-      // const result = await customerService.deleteCustomer(customerData.CUST_ID, currentUserId);
-      
-      setSuccessModal({
-        isOpen: true,
-        type: 'delete',
-        message: '고객이 성공적으로 삭제되었습니다.'
-      });
-      
+      const userStr = sessionStorage.getItem('user');
+      let userId: any = undefined;
+      try {
+        if (userStr) {
+          const u = JSON.parse(userStr);
+          userId = u.userId || u.USER_ID || u.agentId || u.AGENT_ID;
+        }
+      } catch (e) {}
+      const result: any = await customerService.deleteCustomer(customerData.CUST_ID, userId);
       setConfirmationModal({ isOpen: false, type: 'save', onConfirm: () => {} });
-      await handleSearch();
-      
-      dispatch(setIsNewMode(true));
-      dispatch(setCustomerData({
-        CUST_NM: '',
-        CUST_GBN: 'Z',
-        GENDER_GBN: 'M',
-        EMAIL_CHK: 'N',
-        DM_CHK: 'N',
-        SMS_CHK: 'N',
-        CALL_CHK: 'N'
-      }));
+      const isSuccess = !!(result && result.success);
+      if (isSuccess) {
+        const details = `삭제된 고객: ${customerData.CUST_ID || ''} ${customerData.CUST_NM ? '/ ' + customerData.CUST_NM : ''}`;
+        setSuccessModal({ isOpen: true, type: 'delete', message: result.message || '고객이 성공적으로 삭제되었습니다.', details });
+        await handleSearch(true);
+        dispatch(setIsNewMode(true));
+        const defaultCustGbn = (custGbnOptions && custGbnOptions.length > 0) ? custGbnOptions[0].value : 'Z';
+        const clearedAfterDelete = {
+          CUST_NM: '',
+          CUST_GBN: defaultCustGbn,
+          GENDER_GBN: '',
+          EMAIL_CHK: 'N',
+          DM_CHK: 'N',
+          SMS_CHK: 'N',
+          CALL_CHK: 'N',
+          CUST_OPEN_D: new Date().toISOString().split('T')[0]
+        } as any;
+        dispatch(setCustomerData(clearedAfterDelete));
+        // 삭제 후 리셋 상태를 기준 스냅샷으로 저장
+        setOriginalData(clearedAfterDelete as CustomerData);
+      } else {
+        setValidationModal({
+          isOpen: true,
+          title: '삭제 실패',
+          mainMessage: result ? result.message : '삭제 실패',
+          errors: [{ field: 'general', message: result ? result.message : '삭제 실패' }]
+        });
+      }
     } catch (error) {
       console.error('삭제 오류:', error);
       setValidationModal({
         isOpen: true,
+        title: '삭제 오류',
+        mainMessage: `삭제 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`,
         errors: [{ field: 'general', message: `삭제 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}` }]
       });
       setConfirmationModal({ isOpen: false, type: 'save', onConfirm: () => {} });
@@ -615,15 +853,42 @@ const CustRegistration: React.FC = () => {
     try {
       const selectedData = event.data;
       console.log('선택된 고객:', selectedData);
-      
-      // TODO: 백엔드에서 상세 정보 조회
-      // const detailData = await customerService.getCustomerDetail(selectedData.CUST_ID);
-      
-      // 임시: 그리드 데이터 사용
-      dispatch(setSelectedCustomer(selectedData));
-      dispatch(setCustomerData(selectedData));
-      dispatch(setIsNewMode(false));
-      setOriginalData({ ...selectedData });
+      try {
+        const detailData = await customerService.getCustomerDetail(selectedData.CUST_ID);
+        if (detailData) {
+          dispatch(setSelectedCustomer(detailData));
+          dispatch(setCustomerData(detailData));
+          dispatch(setIsNewMode(false));
+          setOriginalData({ ...detailData });
+          // 이메일 파싱
+          if (detailData.C_EMAIL) {
+            const emailParts = detailData.C_EMAIL.split('@');
+            if (emailParts.length === 2) {
+              setEmailId(emailParts[0]);
+              const domain = emailParts[1];
+              const domainExists = emailDomainOptions.some(opt => opt.value === domain);
+              if (domainExists) {
+                setEmailDomain(domain);
+                setIsCustomDomain(false);
+              } else {
+                setEmailDomain(domain);
+                setIsCustomDomain(true);
+              }
+            }
+          }
+        } else {
+          dispatch(setSelectedCustomer(selectedData));
+          dispatch(setCustomerData(selectedData));
+          dispatch(setIsNewMode(false));
+          setOriginalData({ ...selectedData });
+        }
+      } catch (err) {
+        console.error('상세 조회 실패, 그리드 데이터 사용', err);
+        dispatch(setSelectedCustomer(selectedData));
+        dispatch(setCustomerData(selectedData));
+        dispatch(setIsNewMode(false));
+        setOriginalData({ ...selectedData });
+      }
 
       // 이메일 파싱
       if (selectedData.C_EMAIL) {
@@ -672,15 +937,17 @@ const CustRegistration: React.FC = () => {
                 placeholder="고객구분을 선택하세요"
               />
             </div>
-            <div className="cust-search-item">
-              <label>성별</label>
+            <div className="cust-search-item narrow-gap">
+              <label>소속매장</label>
               <select
-                value={searchCondition.genderGbn || ''}
-                onChange={(e) => handleSearchConditionChange('genderGbn', e.target.value)}
+                value={searchCondition.agentId ?? ''}
+                onChange={(e) => handleSearchConditionChange('agentId', e.target.value === '' ? '' : Number(e.target.value))}
+                disabled={isAgentFixed}
               >
                 <option value="">전체</option>
-                <option value="M">남성</option>
-                <option value="F">여성</option>
+                {agents.map(a => (
+                  <option key={String(a.AGENT_ID)} value={a.AGENT_ID ?? ''}>{a.AGENT_NM}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -696,7 +963,7 @@ const CustRegistration: React.FC = () => {
                 onChange={(e) => handleSearchConditionChange('custName', e.target.value)}
               />
             </div>
-            <div className="cust-search-item">
+            <div className="cust-search-item narrow-gap">
               <label>휴대폰/이메일</label>
               <input
                 type="text"
@@ -720,7 +987,7 @@ const CustRegistration: React.FC = () => {
               </button>
               <button 
                 className="cust-btn-search" 
-                onClick={handleSearch}
+                onClick={() => handleSearch()}
                 disabled={isLoading}
               >
                 <i className={isLoading ? "fas fa-spinner fa-spin" : "fas fa-search"}></i> 
@@ -807,16 +1074,18 @@ const CustRegistration: React.FC = () => {
                     value={customerData.CUST_NM || ''}
                     onChange={(e) => handleCustomerDataChange('CUST_NM', e.target.value)}
                     placeholder="고객명을 입력하세요"
+                    required
                   />
                 </div>
               </div>
               
               <div className="cust-form-row">
-                <div className="cust-form-item">
-                  <label>고객구분</label>
+                <div className="cust-form-item required">
+                  <label>고객구분 <span className="required-mark">*</span></label>
                   <select 
                     value={customerData.CUST_GBN || ''}
                     onChange={(e) => handleCustomerDataChange('CUST_GBN', e.target.value)}
+                          required
                   >
                     <option value="">선택하세요</option>
                     {custGbnOptions.map((item: CommonCodeOption) => (
@@ -826,21 +1095,31 @@ const CustRegistration: React.FC = () => {
                     ))}
                   </select>
                 </div>
-                <div className="cust-form-item">
-                  <label>국가</label>
-                  <select 
-                    value={customerData.NATION_ID || ''}
-                    onChange={(e) => handleCustomerDataChange('NATION_ID', e.target.value)}
-                  >
-                    <option value="">선택하세요</option>
-                    {nationGbnOptions.map((item: CommonCodeOption) => (
-                      <option key={item.value} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {/* 국가 선택은 주소 정보 섹션으로 이동함 */}
               </div>
+
+                <div className="cust-form-row">
+                  <div className="cust-form-item required">
+                        <label>소속매장 <span className="required-mark">*</span></label>
+                        <select
+                          ref={agentSelectRef}
+                          value={customerData.AGENT_ID ?? ''}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            handleCustomerDataChange('AGENT_ID', v === '' ? undefined : Number(v));
+                          }}
+                          disabled={isAgentFixed}
+                          required
+                        >
+                          <option value="">선택하세요</option>
+                          {agents.map((a: AgentServiceData) => (
+                            <option key={String(a.AGENT_ID)} value={a.AGENT_ID ?? ''}>
+                              {a.AGENT_NM}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                </div>
 
               <div className="cust-form-row">
                 <div className="cust-form-item">
@@ -989,6 +1268,20 @@ const CustRegistration: React.FC = () => {
                     </button>
                   </div>
                 </div>
+                <div className="cust-form-item">
+                  <label>국가</label>
+                  <select 
+                    value={customerData.NATION_ID || ''}
+                    onChange={(e) => handleCustomerDataChange('NATION_ID', e.target.value)}
+                  >
+                    <option value="">선택하세요</option>
+                    {nationGbnOptions.map((item: CommonCodeOption) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               
               <div className="cust-form-row">
@@ -1070,12 +1363,14 @@ const CustRegistration: React.FC = () => {
             <div className="cust-detail-section">
               <h4>기타 정보</h4>
               <div className="cust-form-row">
-                <div className="cust-form-item">
-                  <label>가입일자</label>
+                <div className="cust-form-item required">
+                  <label>가입일자 <span className="required-mark">*</span></label>
                   <input
+                    ref={joinDateRef}
                     type="date"
                     value={customerData.CUST_OPEN_D || ''}
                     onChange={(e) => handleCustomerDataChange('CUST_OPEN_D', e.target.value)}
+                    required
                   />
                 </div>
                 <div className="cust-form-item">
@@ -1135,7 +1430,9 @@ const CustRegistration: React.FC = () => {
       <ValidationModal
         isOpen={validationModal.isOpen}
         errors={validationModal.errors}
-        onClose={() => setValidationModal({ isOpen: false, errors: [] })}
+        title={validationModal.title}
+        mainMessage={validationModal.mainMessage}
+        onClose={() => setValidationModal({ isOpen: false, errors: [], title: undefined, mainMessage: undefined })}
       />
       
       <ConfirmationModal
@@ -1162,6 +1459,7 @@ const CustRegistration: React.FC = () => {
         type={successModal.type}
         message={successModal.message}
         details={successModal.details}
+        changedFields={successModal.changedFields}
         onClose={() => {
           setSuccessModal({ isOpen: false, type: 'save', details: undefined });
           setConfirmationModal({ isOpen: false, type: 'save', onConfirm: () => {} });

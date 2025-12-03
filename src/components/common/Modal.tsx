@@ -50,9 +50,16 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
+  // className이 confirmation-modal 또는 confirmation-타입이면 modal-container에 항상 붙도록 보장
+  const containerClass = [
+    'modal-container',
+    `modal-${size}`,
+    ...(className ? className.split(' ') : [])
+  ].join(' ');
+
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className={`modal-container modal-${size} ${className}`}>
+      <div className={containerClass}>
         {/* 모달 헤더 */}
         {(title || showCloseButton) && (
           <div className="modal-header">

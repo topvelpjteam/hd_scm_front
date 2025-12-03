@@ -193,14 +193,17 @@ const authSlice = createSlice({
       state.user = null;
       state.loginAttempts = 0;
       state.error = null;
-      // sessionStorage에서 사용자 정보 제거
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('last_activity');
-      sessionStorage.removeItem('session_start');
+      
+      // sessionStorage 전체 정리 (메뉴, 권한 캐시 포함)
+      sessionStorage.clear();
+      
       // localStorage도 정리 (혹시 모를 경우를 대비)
       localStorage.removeItem('user');
       localStorage.removeItem('last_activity');
       localStorage.removeItem('session_start');
+      localStorage.removeItem('sidebar-scroll-position'); // 사이드바 스크롤 위치도 초기화
+      
+      console.log('✅ 로그아웃: 모든 캐시 데이터 정리 완료');
     },
     
     // 전체 상태 초기화 (로그아웃 시 모든 상태 정리)

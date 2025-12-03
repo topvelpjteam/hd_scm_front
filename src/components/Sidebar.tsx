@@ -19,6 +19,94 @@ interface SidebarProps {
   isMobile: boolean;
 }
 
+// 메뉴 아이템 컴포넌트 (Sidebar 외부에 정의하여 재생성 방지)
+const MenuItemWithPermission = React.memo<{
+  item: any;
+  level: number;
+  onMenuClick: (itemId: string, component: string, menuName: string, menuUrl?: string, menuIcon?: string) => void;
+  onToggle: (itemId: string) => void;
+  expandedItems: string[];
+  collapsed: boolean;
+  isMobile: boolean;
+  allPermissions: any[];
+  permissionsLoading: boolean;
+}>(({ item, level, onMenuClick, onToggle, expandedItems, collapsed, isMobile, allPermissions, permissionsLoading }) => {
+  const itemId = item.id || item.menu_id;
+  const menuName = item.name || item.menu_name;
+  
+  // 권한 체크 (allPermissions에서 해당 메뉴 권한 찾기)
+  const menuPermission = allPermissions.find(p => p.menuId === item.menu_id);
+  const canAccess = menuPermission && (
+    menuPermission.permissions.viewPermission === 'Y' ||
+    menuPermission.permissions.savePermission === 'Y' ||
+    menuPermission.permissions.deletePermission === 'Y' ||
+    menuPermission.permissions.exportPermission === 'Y' ||
+    menuPermission.permissions.personalInfoPermission === 'Y'
+  );
+
+  // 권한 로딩 중이면 로딩 표시
+  if (permissionsLoading) {
+    return null;
+  }
+
+  // 권한이 없으면 메뉴를 렌더링하지 않음
+  if (!canAccess) {
+    return null;
+  }
+
+  const hasChildren = item.children && item.children.length > 0;
+  const isExpanded = expandedItems.includes(itemId);
+
+  return (
+    <div className="menu-item-wrapper">
+      <div
+        className={`menu-item level-${level} ${isExpanded ? 'expanded' : ''} ${hasChildren ? 'has-children' : ''}`}
+        onClick={() => {
+          if (hasChildren) {
+            onToggle(itemId);
+          } else {
+            const componentName = item.menu_name.replace(/\s+/g, '');
+            onMenuClick(item.menu_id.toString(), componentName, item.menu_name, item.menu_url, item.menu_icon);
+          }
+        }}
+      >
+        <div className="menu-item-content">
+          {React.createElement(getMenuIcon(item.menu_icon), { className: "menu-icon", size: 18 })}
+          {!collapsed && <span className="menu-name">{menuName} ({itemId})</span>}
+          {!collapsed && hasChildren && (
+            <ChevronRight 
+              className={`expand-icon ${isExpanded ? 'expanded' : ''}`} 
+              size={16} 
+            />
+          )}
+        </div>
+      </div>
+
+      {/* 하위 메뉴 렌더링 */}
+      {hasChildren && !collapsed && (
+        <div className={`submenu ${isExpanded ? 'expanded' : 'collapsed'}`}>
+          {item.children.map((child: any) => (
+            <MenuItemWithPermission
+              key={child.id || child.menu_id}
+              item={child}
+              level={level + 1}
+              onMenuClick={onMenuClick}
+              onToggle={onToggle}
+              expandedItems={expandedItems}
+              collapsed={collapsed}
+              isMobile={isMobile}
+              allPermissions={allPermissions}
+              permissionsLoading={permissionsLoading}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+});
+
+MenuItemWithPermission.displayName = 'MenuItemWithPermission';
+
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onClose, isMobile }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
@@ -88,117 +176,35 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onClose, isMobil
     };
   }, [isMobile]);
 
-  // 사용자 메뉴 데이터 가져오기
+  // 사용자 메뉴 데이터 가져오기 (최초 1회만)
   useEffect(() => {
+    // 이미 메뉴가 로드되어 있으면 다시 조회하지 않음
+    if (menus && menus.length > 0) {
+      console.log('메뉴가 이미 로드되어 있음. 재조회 생략:', menus.length, '개');
+      return;
+    }
+
     console.log('사용자 정보 확인:', user);
     if (user && user.userId !== undefined && user.userId !== null) {
-      console.log('메뉴 데이터 요청:', user.userId);
+      console.log('메뉴 데이터 최초 요청:', user.userId);
       dispatch(fetchUserMenus(user.userId));
     } else {
-      console.log('사용자 정보가 없어서 메뉴 데이터를 요청하지 않음 - 샘플 메뉴만 표시');
+      console.log('사용자 정보가 없어서 메뉴 데이터를 요청하지 않음');
     }
-  }, [dispatch, user]);
+  }, [dispatch, user?.userId]); // user 전체가 아닌 userId만 의존
 
   // 메뉴 데이터 처리 (권한 체크 포함)
   const processedMenus = React.useMemo(() => {
-    //console.log('메뉴 데이터 처리 시작:', { menus, user });
-    //console.log('사용자 역할 레벨:', user?.roleLevel, '시스템 관리자 여부:', isSystemAdmin(user?.roleLevel || 0));
-    
     if (!menus || menus.length === 0) {
-      //console.log('메뉴 데이터가 없음 - 빈 배열 반환');
       return [];
     }
     
-    // 메뉴 계층 구조 구성
+    // 메뉴 계층 구조 구성 (한 번만 실행)
     const hierarchicalMenus = buildMenuHierarchy(menus);
-    //console.log('계층 구조 메뉴:', hierarchicalMenus);
-    //console.log('처리된 메뉴 개수:', hierarchicalMenus.length);
+    console.log('✅ 메뉴 계층 구조 생성:', hierarchicalMenus.length, '개');
 
     return hierarchicalMenus;
-  }, [menus, user?.roleLevel]);
-
-  // 권한 체크가 적용된 메뉴 아이템 컴포넌트
-  const MenuItemWithPermission: React.FC<{
-    item: any;
-    level: number;
-    onMenuClick: (itemId: string, component: string, menuName: string, menuUrl?: string, menuIcon?: string) => void;
-    onToggle: (itemId: string) => void;
-    expandedItems: string[];
-    collapsed: boolean;
-    isMobile: boolean;
-  }> = ({ item, level, onMenuClick, onToggle, expandedItems, collapsed, isMobile }) => {
-    const itemId = item.id || item.menu_id;
-    const menuName = item.name || item.menu_name;
-    // 권한 체크 (allPermissions에서 해당 메뉴 권한 찾기)
-    const menuPermission = allPermissions.find(p => p.menuId === item.menu_id);
-    const canAccess = menuPermission && (
-      menuPermission.permissions.viewPermission === 'Y' ||
-      menuPermission.permissions.savePermission === 'Y' ||
-      menuPermission.permissions.deletePermission === 'Y' ||
-      menuPermission.permissions.exportPermission === 'Y' ||
-      menuPermission.permissions.personalInfoPermission === 'Y'
-    );
-
-    // 권한 로딩 중이면 로딩 표시
-    if (permissionsLoading) {
-      return null; // 로딩 중에는 메뉴를 표시하지 않음
-    }
-
-    // 권한이 없으면 메뉴를 렌더링하지 않음 (보안 강화)
-    if (!canAccess) {
-      // 접근 차단 콘솔 출력 제거 (요청사항)
-      // 필요시 디버그: console.debug(`[ACL] deny menu`, { menuName, itemId });
-      return null;
-    }
-
-    const hasChildren = item.children && item.children.length > 0;
-    const isExpanded = expandedItems.includes(itemId);
-
-    return (
-      <div className="menu-item-wrapper">
-        <div
-          className={`menu-item level-${level} ${isExpanded ? 'expanded' : ''} ${hasChildren ? 'has-children' : ''}`}
-          onClick={() => {
-            if (hasChildren) {
-              onToggle(itemId);
-            } else {
-              const componentName = item.menu_name.replace(/\s+/g, '');
-              onMenuClick(item.menu_id.toString(), componentName, item.menu_name, item.menu_url, item.menu_icon);
-            }
-          }}
-        >
-          <div className="menu-item-content">
-            {React.createElement(getMenuIcon(item.menu_icon), { className: "menu-icon", size: 18 })}
-            {!collapsed && <span className="menu-name">{menuName} ({itemId})</span>}
-            {!collapsed && hasChildren && (
-              <ChevronRight 
-                className={`expand-icon ${isExpanded ? 'expanded' : ''}`} 
-                size={16} 
-              />
-            )}
-          </div>
-        </div>
-
-        {/* 하위 메뉴 렌더링 */}
-        {hasChildren && !collapsed && (
-          <div className={`submenu ${isExpanded ? 'expanded' : 'collapsed'}`}>
-            {item.children.map((child: any) => (
-              <MenuItemWithPermission
-                key={child.id || child.menu_id}
-                item={child}
-                level={level + 1}
-                onMenuClick={onMenuClick}
-                onToggle={onToggle}
-                expandedItems={expandedItems}
-                collapsed={collapsed}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
+  }, [menus]); // user.roleLevel 의존성 제거
 
   // 샘플 메뉴 (맨 하단에 표시) - 주석처리
   /*
@@ -482,6 +488,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, onClose, isMobil
                 expandedItems={expandedItems}
                 collapsed={collapsed}
                 isMobile={isMobile}
+                allPermissions={allPermissions}
+                permissionsLoading={permissionsLoading}
               />
             ))}
           </div>

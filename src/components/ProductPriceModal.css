@@ -1,0 +1,807 @@
+/* 팝업 하단 저장 버튼 영역 */
+.modal-bottom-buttons .modal-btn.save {
+  border-color: #7be495 !important;
+  color: #22b573 !important;
+  background: #fff !important;
+}
+.modal-bottom-buttons .modal-btn.save i {
+  color: #22b573 !important;
+}
+.modal-bottom-buttons .modal-btn.save:hover {
+  background: #e6f9ef !important;
+  border-color: #22b573 !important;
+  color: #178a4c !important;
+}
+/* 바텀의 조회(파랑) 버튼 스타일을 재검색 버튼에 적용 */
+.product-price-modal-root .modal-btn.search {
+  border-color: #b6d4fe !important;
+  color: #2196f3 !important;
+}
+.product-price-modal-root .modal-btn.search i {
+  color: #2196f3 !important;
+}
+.product-price-modal-root .modal-btn.search:hover {
+  background: #e3f0fd !important;
+  border-color: #2196f3 !important;
+  color: #1565c0 !important;
+}
+/* 팝업 내 모든 컨트롤(입력, 버튼, 그룹 등) 간격 최소화 */
+.product-price-modal-root .modal-search-row,
+.product-price-modal-root .price-bulk-row-practical {
+  gap: 6px !important;
+  margin-bottom: 2px !important;
+}
+.product-price-modal-root .modal-search-row > *,
+.product-price-modal-root .price-bulk-row-practical > * {
+  margin-right: 4px !important;
+  margin-bottom: 2px !important;
+}
+.product-price-modal-root .modal-btn,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn {
+  margin-right: 2px !important;
+  margin-bottom: 0 !important;
+}
+.product-price-modal-root .price-bulk-group {
+  margin-right: 6px !important;
+  margin-bottom: 2px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+.product-price-modal-root .modal-section {
+  padding: 10px 10px 6px 10px !important;
+  margin-bottom: 10px !important;
+}
+.product-price-modal-root .modal-section-title,
+.sticky-grid-title {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  margin-bottom: 1px !important;
+}
+.product-price-modal-root .modal-table th,
+.product-price-modal-root .modal-table td {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+  height: 22px !important;
+}
+.product-price-modal-root .modal-table tr {
+  min-height: 22px !important;
+  height: 22px !important;
+}
+/* 모든 줄간격(행, 셀, 그룹 등) 최소화 - 컴팩트 스타일 */
+.product-price-modal-root .modal-table th,
+.product-price-modal-root .modal-table td {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  height: 26px !important;
+}
+.product-price-modal-root .modal-table tr {
+  min-height: 26px !important;
+  height: 26px !important;
+}
+.product-price-modal-root .modal-section-title,
+.sticky-grid-title {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 2px !important;
+}
+.product-price-modal-root .price-bulk-group {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 4px !important;
+}
+.product-price-modal-root .modal-search-row,
+.product-price-modal-root .price-bulk-row-practical {
+  margin-bottom: 4px !important;
+}
+/* 모든 컬럼 좌측 정렬 */
+.product-price-modal-root .modal-table th,
+.product-price-modal-root .modal-table td {
+  text-align: left !important;
+}
+/* 상품 가격 목록 테이블 스크롤 고정 (헤더/타이틀 고정, 데이터만 스크롤) */
+.scrollable-table-area {
+  max-height: 340px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+/* 상품 가격 목록 테이블 헤더(브랜드, 상품코드 등) 고정 및 검정색 */
+.sticky-table-header th {
+  position: sticky;
+  top: 0;
+  z-index: 11;
+  background: #fff !important;
+  color: #111 !important;
+  font-weight: 700;
+  border-bottom: 2px solid #cbd5e1;
+}
+/* 상품 가격 목록 타이틀 고정 (sticky) */
+.sticky-grid-title {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #f4f6fb;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid #e0e7ef;
+}
+/* 샘플 버튼 스타일(파랑, 초록, 빨강, 보라, 회색) 적용 */
+.product-price-modal-root .modal-btn,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1.5px solid #b6d4fe !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  color: #2196f3 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.2s;
+  height: 32px !important;
+  box-sizing: border-box;
+  box-shadow: none !important;
+}
+.product-price-modal-root .modal-btn i,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn i {
+  font-size: 15px;
+  margin-right: 4px;
+  color: #2196f3 !important;
+}
+.product-price-modal-root .modal-btn:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn:hover {
+  background: #e3f0fd !important;
+  border-color: #2196f3 !important;
+  color: #1565c0 !important;
+}
+.product-price-modal-root .modal-btn.save,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.save {
+  border-color: #7be495 !important;
+  color: #22b573 !important;
+}
+.product-price-modal-root .modal-btn.save i,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.save i {
+  color: #22b573 !important;
+}
+.product-price-modal-root .modal-btn.save:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.save:hover {
+  background: #e6f9ef !important;
+  border-color: #22b573 !important;
+  color: #178a4c !important;
+}
+.product-price-modal-root .modal-btn.delete,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.delete {
+  border-color: #ffbdbd !important;
+  color: #e53935 !important;
+}
+.product-price-modal-root .modal-btn.delete i,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.delete i {
+  color: #e53935 !important;
+}
+.product-price-modal-root .modal-btn.delete:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.delete:hover {
+  background: #fff0f0 !important;
+  border-color: #e53935 !important;
+  color: #b71c1c !important;
+}
+.product-price-modal-root .modal-btn.export,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.export {
+  border-color: #d1b3ff !important;
+  color: #8e24aa !important;
+}
+.product-price-modal-root .modal-btn.export i,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.export i {
+  color: #8e24aa !important;
+}
+.product-price-modal-root .modal-btn.export:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.export:hover {
+  background: #f7f0ff !important;
+  border-color: #8e24aa !important;
+  color: #5e1672 !important;
+}
+.product-price-modal-root .modal-btn.refresh,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.refresh {
+  border-color: #cfd8dc !important;
+  color: #607d8b !important;
+}
+.product-price-modal-root .modal-btn.refresh i,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.refresh i {
+  color: #607d8b !important;
+}
+.product-price-modal-root .modal-btn.refresh:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.refresh:hover {
+  background: #f5f7fa !important;
+  border-color: #607d8b !important;
+  color: #37474f !important;
+}
+/* 메인페이지(상품가격관리) 바텀 샘플 버튼 스타일 적용 */
+.product-price-modal-root .modal-btn,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #adb5bd !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  color: #495057 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 26px !important;
+  box-sizing: border-box;
+}
+.product-price-modal-root .modal-btn:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn:hover {
+  background: #f8f9fa !important;
+  border-color: #adb5bd !important;
+  transform: translateY(-1px);
+  box-shadow: 0 1.5px 4px rgba(0,0,0,0.10);
+}
+.product-price-modal-root .modal-btn.price-btn-save,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.price-btn-save {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+  border-color: #17a2b8 !important;
+}
+.product-price-modal-root .modal-btn.price-btn-save:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.price-btn-save:hover {
+  background-color: #138496 !important;
+  color: #fff !important;
+  border-color: #138496 !important;
+}
+.product-price-modal-root .modal-btn.price-btn-batch,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.price-btn-batch {
+  background-color: #28a745 !important;
+  color: #fff !important;
+  border-color: #28a745 !important;
+}
+.product-price-modal-root .modal-btn.price-btn-batch:hover,
+.product-price-modal-root .modal-btn-outline.price-bulk-btn.price-btn-batch:hover {
+  background-color: #218838 !important;
+  color: #fff !important;
+  border-color: #218838 !important;
+}
+
+
+/* 발주리스트관리 스타일 참조: 카드형, 파스텔 노랑/하늘 번갈아, subtle border, shadow */
+
+.product-price-modal-root .modal-table tr {
+  transition: background 0.2s, box-shadow 0.2s !important;
+}
+.product-price-modal-root .modal-table tr:nth-child(odd) {
+  background-color: #fffbf0 !important;
+  border-left: 4px solid #fff3cd !important;
+}
+.product-price-modal-root .modal-table tr:nth-child(even) {
+  background-color: #f0f8ff !important;
+  border-left: 4px solid #d1ecf1 !important;
+}
+.product-price-modal-root .modal-table tr:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10) !important;
+  z-index: 2 !important;
+}
+.product-price-modal-root .modal-table td {
+  border-bottom: 1px solid #e9ecef !important;
+  background: inherit !important;
+}
+.product-price-modal-root .modal-table {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+/* Modern, high-contrast, trendy style for ProductPriceModal */
+.product-price-modal-root {
+  background: #f4f6fb !important;
+  color: #222 !important;
+  font-family: 'Pretendard', 'Noto Sans KR', 'Segoe UI', Arial, sans-serif;
+}
+
+.product-price-modal-root .modal-section-title {
+  color: #374151;
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.product-price-modal-root .modal-section {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.07);
+  padding: 18px 18px 10px 18px;
+  margin-bottom: 18px;
+  border: 1px solid #e0e7ef;
+}
+
+.product-price-modal-root .price-bulk-label {
+  color: #374151;
+  font-weight: 600;
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.product-price-modal-root .price-bulk-group {
+  background: #f1f5f9;
+  border-radius: 7px;
+  padding: 8px 14px 8px 10px;
+  margin-right: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(30, 41, 59, 0.04);
+}
+
+.product-price-modal-root .price-bulk-input,
+.product-price-modal-root .price-bulk-datepicker {
+  background: #fff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 5px !important;
+  font-size: 13px !important;
+  color: #222 !important;
+  box-shadow: none !important;
+  margin-right: 7px;
+  transition: border 0.2s;
+}
+.product-price-modal-root .price-bulk-input:focus,
+.product-price-modal-root .price-bulk-datepicker:focus {
+  border: 1.5px solid #2563eb !important;
+  background: #e0e7ff !important;
+}
+
+.product-price-modal-root .modal-btn-outline.price-bulk-btn {
+  background: #fff !important;
+  border: 1.5px solid #2563eb !important;
+  color: #2563eb !important;
+  font-weight: 600;
+  border-radius: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
+}
+.product-price-modal-root .modal-btn-outline.price-bulk-btn:hover {
+  background: #2563eb !important;
+  color: #fff !important;
+}
+.product-price-modal-root .modal-btn-outline.price-bulk-btn[style*='color: #444'] {
+  color: #64748b !important;
+  border-color: #cbd5e1 !important;
+  background: #f8fafc !important;
+}
+.product-price-modal-root .modal-btn-outline.price-bulk-btn[style*='color: #444']:hover {
+  background: #e2e8f0 !important;
+  color: #222 !important;
+}
+
+.product-price-modal-root .modal-table {
+  background: #fff;
+  border-radius: 8px;
+  border: 1.5px solid #e0e7ef;
+  box-shadow: 0 1px 4px rgba(30, 41, 59, 0.06);
+  font-size: 13px;
+  color: #222;
+}
+.product-price-modal-root .modal-table th {
+  background: #f1f5f9;
+  color: #374151;
+  font-weight: 700;
+  border-bottom: 2px solid #cbd5e1;
+  font-size: 13px;
+}
+.product-price-modal-root .modal-table td {
+  background: #fff;
+  color: #222;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+.product-price-modal-root .modal-table tr.brand-row-highlight {
+  background: #f0fdfa !important;
+}
+
+.product-price-modal-root .modal-btn-primary {
+  background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%) !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+  transition: background 0.2s;
+}
+.product-price-modal-root .modal-btn-primary:hover {
+  background: linear-gradient(90deg, #1d4ed8 60%, #38bdf8 100%) !important;
+}
+
+.product-price-modal-root input[type='checkbox'] {
+  accent-color: #2563eb;
+}
+
+.product-price-modal-root .ag-theme-alpine {
+  background: #fff !important;
+}
+/* 실무형 일괄적용 한줄 배치 */
+.product-price-modal-root .price-bulk-row-practical {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 0;
+}
+.product-price-modal-root .price-bulk-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1 1 0;
+  min-width: 160px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  padding-right: 8px;
+}
+.product-price-modal-root .price-bulk-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  min-width: 80px;
+  text-align: left;
+  white-space: nowrap;
+}
+.product-price-modal-root .price-bulk-datepicker {
+  width: 110px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input {
+  width: 70px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-group:last-child .price-bulk-input {
+  width: 200px !important;
+}
+.product-price-modal-root .price-bulk-input[placeholder] {
+  color: #adb5bd !important;
+}
+.product-price-modal-root .price-bulk-btn {
+  min-width: 60px;
+  height: 28px !important;
+  font-size: 13px !important;
+  padding: 0 10px !important;
+  margin-right: 2px;
+}
+/* 일괄적용 타이틀-컨트롤 1:1 정렬 */
+.product-price-modal-root .price-bulk-align-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.product-price-modal-root .price-bulk-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 140px;
+  flex: 1 1 0;
+}
+.product-price-modal-root .price-bulk-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 2px;
+  text-align: center;
+}
+.product-price-modal-root .price-bulk-control-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+/* make small bulk buttons more compact */
+.product-price-modal-root .olm-btn-sm {
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+  height: 28px !important;
+}
+
+/* make remark input a bit wider by default and especially for the last group */
+.product-price-modal-root .price-bulk-input {
+  width: 180px !important;
+}
+.product-price-modal-root .price-bulk-group:last-child .price-bulk-input {
+  width: 260px !important;
+}
+.product-price-modal-root .price-bulk-datepicker {
+  width: 110px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input {
+  width: 70px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input[placeholder] {
+  color: #adb5bd !important;
+}
+.product-price-modal-root .price-bulk-btn {
+  min-width: 60px;
+  height: 28px !important;
+  font-size: 13px !important;
+  padding: 0 10px !important;
+  margin-right: 2px;
+}
+/* 일괄적용 타이틀/컨트롤 2단 배치 */
+.product-price-modal-root .price-bulk-label-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+.product-price-modal-root .price-bulk-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2563eb;
+  min-width: 110px;
+  text-align: center;
+}
+.product-price-modal-root .price-bulk-control-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.product-price-modal-root .price-bulk-datepicker {
+  width: 110px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input {
+  width: 70px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input[placeholder] {
+  color: #adb5bd !important;
+}
+.product-price-modal-root .price-bulk-btn {
+  min-width: 60px;
+  height: 28px !important;
+  font-size: 13px !important;
+  padding: 0 10px !important;
+  margin-right: 2px;
+}
+/* 일괄적용 2줄 그룹 */
+.product-price-modal-root .price-bulk-2row-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.product-price-modal-root .price-bulk-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  font-size: 13px;
+}
+.product-price-modal-root .price-bulk-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2563eb;
+  min-width: 70px;
+  text-align: right;
+}
+.product-price-modal-root .price-bulk-datepicker {
+  width: 110px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input {
+  width: 70px !important;
+  font-size: 13px !important;
+  height: 28px !important;
+  padding: 2px 6px !important;
+}
+.product-price-modal-root .price-bulk-input[placeholder] {
+  color: #adb5bd !important;
+}
+.product-price-modal-root .price-bulk-btn {
+  min-width: 60px;
+  height: 28px !important;
+  font-size: 13px !important;
+  padding: 0 10px !important;
+  margin-right: 2px;
+}
+/* DatePicker placeholder 폰트 크기 축소 */
+.modern-table .ant-picker input::placeholder {
+  font-size: 11px;
+  color: #b0b4bb;
+}
+.modern-table td input[type="text"] {
+  font-size: 15px;
+}
+.modern-table input[type="text"] {
+  text-align: right;
+}
+/* ---- 모던 팝업 파트별 구분 ---- */
+.modal-section {
+  background: #f8fafc;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 8px;
+  padding: 7px 10px 4px 10px;
+}
+.modal-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal-search-row {
+  background: #e0e7ef;
+  border-radius: 8px;
+  padding: 4px 8px 2px 8px;
+  margin-bottom: 6px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.modal-table-wrapper {
+  margin-top: 8px;
+}
+.modal-btn {
+  border-radius: 6px !important;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 2px 10px;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.08);
+  border: none;
+}
+.modal-btn-primary {
+  background: linear-gradient(90deg,#2563eb 60%,#38bdf8 100%);
+  color: #fff;
+}
+.modal-btn-primary:hover {
+  background: linear-gradient(90deg,#1d4ed8 60%,#0ea5e9 100%);
+  color: #fff;
+}
+.modal-btn-outline {
+  background: #fff;
+  color: #2563eb;
+  border: 1.5px solid #2563eb;
+}
+.modal-btn-outline:hover {
+  background: #e0e7ef;
+  color: #1d4ed8;
+}
+.modal-btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+.modal-table th {
+  background: #e0e7ef;
+  color: #222;
+}
+.modal-table tr.selected-row {
+  background: #dbeafe !important;
+}
+.modal-table input, .modal-table .ant-picker {
+  border-radius: 5px;
+  border: 1px solid #cbd5e1;
+  background: #f9fafb;
+}
+.modal-table input:focus, .modal-table .ant-picker-focused {
+  border-color: #2563eb;
+  background: #fff;
+}
+.modal-table td {
+  background: #fff;
+}
+/* 브랜드별 라인 색상 예시 (BRAND_ID 값에 따라 색상 지정) */
+.brand-row-1 { background: #f0f9ff; }
+.brand-row-2 { background: #fef9c3; }
+.brand-row-3 { background: #f0fdf4; }
+.brand-row-4 { background: #fef2f2; }
+.brand-row-5 { background: #f3f0ff; }
+.brand-row-6 { background: #fff7ed; }
+.brand-row-7 { background: #f5f5f5; }
+/* 필요시 브랜드ID별로 추가 색상 지정 */
+/*
+  ProductPriceModal 전용 스타일. 기존 프로젝트 팝업 스타일에 맞게 조정 필요.
+*/
+/* 모던 스타일 + 헤더 고정 + 폰트 축소 + 팝업 확대 */
+.modern-modal .ant-modal-content {
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 0;
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+}
+.modern-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  width: 100%;
+  margin: 0;
+}
+.modern-table-wrapper {
+  max-height: 520px;
+  overflow-y: auto;
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #e5e7eb;
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+  background: #fff;
+  min-width: 1000px;
+}
+.modern-table th, .modern-table td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 2px 5px;
+  text-align: center;
+}
+.modern-table th {
+  background: #f1f5f9;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+.modern-table tr:last-child td {
+  border-bottom: none;
+}
+.modern-table input, .modern-table .ant-picker {
+  font-size: 12px;
+}
+.modern-table input[type="number"]::-webkit-inner-spin-button,
+.modern-table input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

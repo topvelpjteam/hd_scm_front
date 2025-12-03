@@ -10,7 +10,7 @@ let loadingCount = 0;
 let loadingContext: ReturnType<typeof useGlobalLoading> | null = null;
 
 // 로딩 지연 타이머
-let loadingTimer: NodeJS.Timeout | null = null;
+let loadingTimer: ReturnType<typeof setTimeout> | null = null;
 const LOADING_DELAY = 2000; // 2초 후 로딩 표시
 
 /**

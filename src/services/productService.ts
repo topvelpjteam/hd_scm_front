@@ -1,3 +1,10 @@
+import { apiClient } from './apiClient';
+// GOODS_LIST 호출 (상품목록 조회)
+export async function getGoodsList(params: any = {}) {
+  // 상품 신규등록용 목록 (GOODS_LIST 모드)
+  const response = await apiClient.postJson<any[]>('/api/product-prices/goods-list', params);
+  return response;
+}
 // 상품 검색 서비스
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -103,14 +110,22 @@ export const getAllProducts = async (): Promise<Product[]> => {
 };
 
 // 상품 저장/업데이트
-export const saveProduct = async (productData: any, userId: string): Promise<{success: boolean, message: string}> => {
+export const saveProduct = async (productData: any, userId: string, agentId?: string): Promise<{success: boolean, message: string}> => {
   try {
+    const body: any = { ...productData, userId };
+    // 전달된 agentId 우선 사용, 없으면 productData 내부의 SEARCH_AGENT_ID 사용 (있어도 userId를 대체하지 않음)
+    if (agentId) {
+      body.SEARCH_AGENT_ID = agentId;
+    } else if (productData && productData.SEARCH_AGENT_ID) {
+      body.SEARCH_AGENT_ID = productData.SEARCH_AGENT_ID;
+    }
+
     const response = await fetch(`${API_BASE_URL}/products/save`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...productData, userId }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
@@ -127,14 +142,19 @@ export const saveProduct = async (productData: any, userId: string): Promise<{su
 };
 
 // 상품 삭제
-export const deleteProduct = async (productId: number, userId: string): Promise<{success: boolean, message: string}> => {
+export const deleteProduct = async (productId: number, userId: string, agentId?: string): Promise<{success: boolean, message: string}> => {
   try {
+    const body: any = { productId, userId };
+    if (agentId) {
+      body.SEARCH_AGENT_ID = agentId;
+    }
+
     const response = await fetch(`${API_BASE_URL}/products/delete`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ productId, userId }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
@@ -151,14 +171,19 @@ export const deleteProduct = async (productId: number, userId: string): Promise<
 };
 
 // 상품 중복 체크
-export const checkProductExists = async (brandId: string, goodsIdBrand: string, userId: string): Promise<{exists: boolean, productData?: any}> => {
+export const checkProductExists = async (brandId: string, goodsIdBrand: string, userId: string, agentId?: string): Promise<{exists: boolean, productData?: any}> => {
   try {
+    const body: any = { brandId, goodsIdBrand, userId };
+    if (agentId) {
+      body.SEARCH_AGENT_ID = agentId;
+    }
+
     const response = await fetch(`${API_BASE_URL}/products/check-exists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ brandId, goodsIdBrand, userId }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
@@ -175,15 +200,15 @@ export const checkProductExists = async (brandId: string, goodsIdBrand: string, 
 
 // ProductService 클래스로 모든 메서드들을 그룹화
 export class ProductService {
-  static async saveProduct(productData: any, userId: string) {
-    return saveProduct(productData, userId);
+  static async saveProduct(productData: any, userId: string, agentId?: string) {
+    return saveProduct(productData, userId, agentId);
   }
 
-  static async deleteProduct(productId: number, userId: string) {
-    return deleteProduct(productId, userId);
+  static async deleteProduct(productId: number, userId: string, agentId?: string) {
+    return deleteProduct(productId, userId, agentId);
   }
 
-  static async checkProductExists(brandId: string, goodsIdBrand: string, userId: string) {
-    return checkProductExists(brandId, goodsIdBrand, userId);
+  static async checkProductExists(brandId: string, goodsIdBrand: string, userId: string, agentId?: string) {
+    return checkProductExists(brandId, goodsIdBrand, userId, agentId);
   }
 }

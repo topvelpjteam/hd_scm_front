@@ -1872,6 +1872,7 @@ const AgentRegistration: React.FC = () => {
                     value={agentData.AGENT_NM || ''}
                     onChange={(e) => handleAgentDataChange('AGENT_NM', e.target.value)}
                     placeholder="거래처명을 입력하세요"
+                    required
                   />
                 </div>
               </div>
@@ -1903,6 +1904,7 @@ const AgentRegistration: React.FC = () => {
                    <select 
                      value={agentData.AGENT_GBN || ''}
                      onChange={(e) => handleAgentDataChange('AGENT_GBN', e.target.value)}
+                     required
                    >
                      <option value="">선택하세요</option>
                      {agentGbnOptions.map((item: CommonCodeOption) => (
@@ -1917,6 +1919,7 @@ const AgentRegistration: React.FC = () => {
                    <select 
                      value={agentData.CHANN_GBN || ''}
                      onChange={(e) => handleAgentDataChange('CHANN_GBN', e.target.value)}
+                     required
                    >
                      <option value="">선택하세요</option>
                                                           {channGbnOptions.map((item: CommonCodeOption) => (

@@ -7,13 +7,15 @@ export interface BatchUploadModalProps {
   onClose: () => void;
   onTemplateDownload: () => void;
   onFileUpload: (file: File) => void;
+  title?: string;
 }
 
 const BatchUploadModal: React.FC<BatchUploadModalProps> = ({
   isOpen,
   onClose,
   onTemplateDownload,
-  onFileUpload
+  onFileUpload,
+  title = '일괄등록'
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,13 +58,14 @@ const BatchUploadModal: React.FC<BatchUploadModalProps> = ({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    onClose();
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="상품코드 일괄등록"
+      title={title}
       size="medium"
       className="batch-upload-modal"
       closeOnOverlayClick={false}

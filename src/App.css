@@ -1,3 +1,148 @@
+/* 공통 모달/버튼/아이콘 스타일 */
+.modal-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8rem;
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+.olm-btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 28px;
+}
+.olm-btn {
+  min-width: 92px;
+  padding: 10px 0;
+  border-radius: 8px;
+  border: 1.5px solid #d0d0d0;
+  background: #fff;
+  color: #222;
+  font-size: 1.08rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border 0.15s, box-shadow 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.olm-btn svg {
+  font-size: 1.2em;
+}
+.olm-btn-primary {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+}
+.olm-btn-primary:hover {
+  background: #1749b1;
+  border-color: #1749b1;
+}
+.olm-btn-danger {
+  background: #fff;
+  color: #ef4444;
+  border-color: #ef4444;
+}
+.olm-btn-danger:hover {
+  background: #fff0f0;
+  border-color: #d32f2f;
+  color: #d32f2f;
+}
+.modal-body-custom {
+  text-align: center;
+}
+/* Modal UI 개선 */
+.modal-container {
+  padding: 32px 32px 24px 32px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  min-width: 340px;
+  max-width: 420px;
+}
+.modal-header {
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.modal-body-custom {
+  font-size: 1.08rem;
+  color: #333;
+  margin-bottom: 0;
+  min-height: 48px;
+}
+.modal-body-custom p {
+  margin: 0 0 12px 0;
+}
+.modal-body-custom .olm-btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+/* 버튼 스타일 개선 */
+.olm-btn {
+  min-width: 64px;
+  padding: 7px 18px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  background: #f8f8f8;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border 0.15s;
+}
+.olm-btn:hover {
+  background: #e6f0ff;
+  border-color: #7bb6fa;
+}
+.olm-btn-primary {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+.olm-btn-primary:hover {
+  background: #1749b1;
+  border-color: #1749b1;
+}
+/* 2줄 헤더용 스타일 */
+.inventory-header-actions--vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.inventory-mini-actions--vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  gap: 4px;
+}
 /* 전체 앱 컨테이너 */
 .App {
   height: 100vh;
@@ -49,4 +194,44 @@
 
 .content-area {
   display: none;
+}
+
+/* Required field visual: pale yellow background for inputs/selects/textareas inside .required */
+.required input,
+.required select,
+.required textarea,
+.required input[required],
+.required select[required],
+.required textarea[required] {
+  background: #fff8cc !important; /* 연한 노랑 - 우선순위 강화 */
+}
+
+.required input:focus,
+.required select:focus,
+.required textarea:focus,
+.required input[required]:focus,
+.required select[required]:focus,
+.required textarea[required]:focus {
+  outline: 2px solid rgba(255,193,7,0.25) !important;
+  box-shadow: 0 0 0 3px rgba(255,193,7,0.06) !important;
+}
+
+.required label .required-mark {
+  color: #d97706; /* 진한 주황으로 강조 */
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+/* Also highlight native required fields (useful when components use HTML 'required' attribute) */
+input[required],
+select[required],
+textarea[required] {
+  background: #fff8cc !important;
+}
+
+input[required]:focus,
+select[required]:focus,
+textarea[required]:focus {
+  outline: 2px solid rgba(255,193,7,0.25) !important;
+  box-shadow: 0 0 0 3px rgba(255,193,7,0.06) !important;
 }

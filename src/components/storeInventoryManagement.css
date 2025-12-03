@@ -1,3 +1,8 @@
+/* 입고완료(녹색글씨) */
+.ag-theme-alpine .ag-row.status-completed {
+  color: #22c55e !important;
+  font-weight: 600;
+}
 .order-confirm--inventory .order-products-header {
   display: flex;
   align-items: center;
@@ -35,6 +40,9 @@
 
 .order-confirm--inventory .detail-inline-tools .detail-date-label .required-mark {
   color: #ef4444;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
   font-weight: 700;
   font-size: 16px;
 }
@@ -44,15 +52,22 @@
   height: 30px;
   padding: 4px 8px;
   font-size: 14px;
-  border: 2px solid #ef4444;
+  border: 2px solid #fbbf24;
   border-radius: 6px;
-  background: #fef2f2;
+  background: #fef3c7;
 }
 
 .order-confirm--inventory .detail-inline-tools .detail-bulk-date:focus {
-  outline: 2px solid #dc2626;
+  outline: 2px solid #f59e0b;
   outline-offset: 1px;
-  background: #ffffff;
+  background: #fffbeb;
+}
+
+.order-confirm--inventory .detail-inline-tools .detail-bulk-date:disabled {
+  background: #f5f5f5;
+  border-color: #cbd5e1;
+  color: #9ca3af;
+  cursor: not-allowed;
 }
 
 .order-confirm--inventory .detail-inline-tools .detail-apply-btn,
@@ -204,6 +219,28 @@
 .order-confirm--inventory .inventory-col-narrow {
   width: 80px;
 }
+
+.order-confirm--inventory .inventory-col-total-qty {
+  width: 55px;
+}
+
+.order-confirm--inventory .inventory-col-memo {
+  width: 180px;
+}
+
+.order-confirm--inventory .inventory-col-qty {
+  width: 45px;
+}
+
+.order-confirm--inventory .inventory-col-compact {
+  width: 50px;
+  white-space: nowrap;
+}
+
+.order-confirm--inventory .select-cell {
+  width: 35px;
+  text-align: center;
+}
 .order-confirm--inventory {
   display: flex;
   flex-direction: column;
@@ -234,13 +271,13 @@
 }
 
 .order-confirm--inventory .inventory-left-section {
-  flex: 0.89;
-  min-width: 360px;
+  flex: 0 0 30%;
+  min-width: 300px;
 }
 
 .order-confirm--inventory .inventory-right-section {
-  flex: 1.31;
-  min-width: 540px;
+  flex: 0 0 70%;
+  min-width: 500px;
 }
 
 .order-confirm--inventory .left-section h3,
@@ -431,16 +468,18 @@
   background: #f8f9fa;
   color: #495057;
   font-weight: 700;
-  padding: 6px 8px;
+  padding: 4px 6px;
   border: 1px solid #dee2e6;
   white-space: nowrap;
+  font-size: 11px;
 }
 
 .order-confirm--inventory .inventory-detail-table tbody td {
-  padding: 6px 8px;
+  padding: 4px 6px;
   border: 1px solid #edeff2;
   vertical-align: middle;
   color: #334155;
+  font-size: 11px;
 }
 
 .order-confirm--inventory .inventory-detail-table tbody tr:hover {
@@ -459,15 +498,16 @@
 }
 
 .order-confirm--inventory .inventory-input {
-  width: 100%;
-  height: 24px;
-  padding: 2px 6px;
+  width: 60px;
+  height: 20px;
+  padding: 1px 3px;
   border: 1px solid #adb5bd;
   border-radius: 3px;
-  font-size: 12px;
+  font-size: 11px;
   color: #475569;
   background: #ffffff;
   box-sizing: border-box;
+  flex: 0 0 auto;
 }
 
 .order-confirm--inventory .inventory-input:focus {
@@ -516,25 +556,41 @@
 .order-confirm--inventory .inventory-inline-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0;
+  flex: 0 0 auto;
+}
+
+.order-confirm--inventory .inventory-inline-actions .inventory-input {
+  width: 60px;
+  flex: 0 0 60px;
+}
+
+/* 입고메모 입력 필드 */
+.order-confirm--inventory .inventory-col-memo .inventory-input {
+  width: 100%;
+  max-width: 170px;
+  height: 20px;
+  padding: 2px 4px;
+  font-size: 11px;
 }
 
 .order-confirm--inventory .inventory-mini-actions {
   display: inline-flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
+  margin-left: 1px;
 }
 
 .order-confirm--inventory .inventory-mini-btn {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 14px;
   border: 1px solid #cbd5f5;
   background: linear-gradient(135deg, #ecf2ff 0%, #d6e4ff 100%);
   color: #1e3a8a;
   font-size: 10px;
   font-weight: 700;
-  line-height: 1;
-  border-radius: 3px;
+  line-height: 1.2;
+  border-radius: 2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -560,9 +616,24 @@
 
 .order-confirm--inventory .inventory-header-actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.order-confirm--inventory .inventory-header-actions span {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  width: 100%;
+}
+
+.order-confirm--inventory .inventory-header-actions .inventory-mini-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  margin-top: 1px;
 }
 
 .order-confirm--inventory .inventory-mini-actions.horizontal {
@@ -642,3 +713,113 @@
   background: #edf2ff;
 }
 
+.order-confirm--inventory .inventory-action-btn {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid #94a3b8;
+  background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  color: #334155;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.order-confirm--inventory .inventory-action-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+}
+
+.order-confirm--inventory .inventory-action-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.order-confirm--inventory .inventory-action-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.order-confirm--inventory .inventory-action-btn.cancel-btn {
+  border-color: #fca5a5;
+  background: linear-gradient(180deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+}
+
+.order-confirm--inventory .inventory-action-btn.cancel-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fecaca 0%, #fca5a5 100%);
+}
+
+.order-confirm--inventory .inventory-action-btn.cancel-btn i {
+  font-size: 12px;
+}
+
+.order-confirm--inventory .detail-cancel-btn {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #f87171;
+  background: linear-gradient(180deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.order-confirm--inventory .detail-cancel-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fecaca 0%, #fca5a5 100%);
+}
+
+.order-confirm--inventory .detail-cancel-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.order-confirm--inventory .detail-cancel-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.order-confirm--inventory .inventory-detail-table input[type="text"] {
+  width: 100px;
+  height: 20px;
+  padding: 1px 3px;
+  border: 1px solid #adb5bd;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #475569;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.order-confirm--inventory .inventory-detail-table input[type="text"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+/* ag-grid 좌측 그리드 PENDING 상태 스타일 */
+.order-confirm--inventory .ag-theme-alpine .ag-row.is-pending {
+  color: #16a34a;
+}
+
+.order-confirm--inventory .ag-theme-alpine .ag-row.is-pending .ag-cell {
+  color: #16a34a;
+  font-weight: 500;
+}
+
+/* ag-grid 좌측 그리드 COMPLETED 상태 스타일 (입고 완료 - 녹색) */
+.order-confirm--inventory .ag-theme-alpine .ag-row.status-completed {
+  color: #059669;
+  background-color: #ecfdf5;
+}
+
+.order-confirm--inventory .ag-theme-alpine .ag-row.status-completed .ag-cell {
+  color: #059669;
+  font-weight: 500;
+}

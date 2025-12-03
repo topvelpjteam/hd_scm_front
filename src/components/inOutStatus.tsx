@@ -45,11 +45,12 @@ type InOutStatusResult = {
   pageSize: number;
 };
 
-// ✅ 입출고 상태 옵션 리스트
+// ✅ 입출고 상태 옵션 리스트 (저장프로시저의 IO_TYPE 값과 매핑)
 const STATUS_TYPE_OPTIONS = [
-  { value: '입고', label: '입고' },
-  { value: '출고', label: '출고' },
   { value: '전체', label: '전체' },
+  { value: '발주', label: '발주' },
+  { value: '출고', label: '출고' },
+  { value: '입고', label: '입고' },
 ];
 
 // ✅ 기본 날짜 생성 헬퍼
@@ -59,11 +60,12 @@ const createDefaultDate = (offsetDays: number) => {
   return date.toISOString().slice(0, 10);
 };
 
-// ✅ 검색 파라미터 정규화 함수
+// ✅ 검색 파라미터 정규화 함수 (백엔드 InOutStatusRequest에 맞게 변환)
 const normalizeSearchParams = (
   params: SearchFormState,
 ): InOutStatusSearchParams => {
   const normalized: InOutStatusSearchParams = {
+    // 발주일자 범위
     dateFrom: params.dateFrom || undefined,
     dateTo: params.dateTo || undefined,
     searchText: params.searchText.trim() || undefined,
@@ -71,6 +73,7 @@ const normalizeSearchParams = (
     pageSize: params.pageSize,
   };
 
+  // 입출고 상태 유형 필터
   if (params.statusType.length > 0) {
     normalized.statusType = params.statusType;
   }
@@ -152,12 +155,6 @@ const InOutStatus: React.FC = () => {
     );
   }, []);
 
-  // ✅ 진행률 클램프 헬퍼 (0~100)
-  const clampProgress = useCallback((progress: number) => {
-    if (!Number.isFinite(progress)) return 0;
-    return Math.max(0, Math.min(100, Number(progress)));
-  }, []);
-
   // ✅ 검색 실행 함수
   const executeSearch = useCallback(
     async (override?: Partial<SearchFormState>) => {
@@ -195,12 +192,15 @@ const InOutStatus: React.FC = () => {
           return;
         }
 
-        // ✅ 수치 데이터 정규화
+        // ✅ 수치 데이터 정규ud654 (실제 SP 필드명 사용)
         const items = (response.items || []).map((item) => ({
           ...item,
-          TOTAL_QTY: Number(item.TOTAL_QTY ?? 0),
-          OUT_QTY: Number(item.OUT_QTY ?? 0),
-          IN_QTY: Number(item.IN_QTY ?? 0),
+          TOTAL_ORDER_QTY: Number(item.TOTAL_ORDER_QTY ?? item.TOTAL_QTY ?? 0),
+          TOTAL_OUT_QTY: Number(item.TOTAL_OUT_QTY ?? item.OUT_QTY ?? 0),
+          TOTAL_IN_QTY: Number(item.TOTAL_IN_QTY ?? item.IN_QTY ?? 0),
+          PENDING_QTY: Number(item.PENDING_QTY ?? 0),
+          PROGRESS_RATE: Number(item.PROGRESS_RATE ?? 0),
+          IN_STATUS: item.IN_STATUS ?? item.STATUS ?? '',
         }));
 
         const pageNum = Number(
@@ -305,7 +305,7 @@ const InOutStatus: React.FC = () => {
     executeSearchRef.current?.();
   }, [user]);
 
-  // ✅ 요약 정보 계산
+  // ✅ 요약 정보 계산 (실제 SP 필드명 사용)
   const summary = useMemo(() => {
     if (!result.items.length) {
       return {
@@ -319,18 +319,18 @@ const InOutStatus: React.FC = () => {
 
     const totals = result.items.reduce(
       (acc, item) => {
-        const total = Number(item.TOTAL_QTY ?? 0);
-        const out = Number(item.OUT_QTY ?? 0);
-        const inn = Number(item.IN_QTY ?? 0);
-        const pending = Math.max(0, total - (out + inn));
+        // 실제 SP 필드명 사용 (TOTAL_ORDER_QTY, TOTAL_OUT_QTY, TOTAL_IN_QTY, PENDING_QTY)
+        const orderQty = Number(item.TOTAL_ORDER_QTY ?? item.TOTAL_QTY ?? 0);
+        const outQty = Number(item.TOTAL_OUT_QTY ?? item.OUT_QTY ?? 0);
+        const inQty = Number(item.TOTAL_IN_QTY ?? item.IN_QTY ?? 0);
+        const pendingQty = Number(item.PENDING_QTY ?? Math.max(0, orderQty - inQty));
+        const progressRate = Number(item.PROGRESS_RATE ?? 0);
 
-        acc.totalOrderQty += total;
-        acc.totalOutQty += out;
-        acc.totalInQty += inn;
-        acc.totalPendingQty += pending;
-
-        const progress = total > 0 ? ((out + inn) / total) * 100 : 0;
-        acc.progressSum += clampProgress(progress);
+        acc.totalOrderQty += orderQty;
+        acc.totalOutQty += outQty;
+        acc.totalInQty += inQty;
+        acc.totalPendingQty += pendingQty;
+        acc.progressSum += progressRate;
         return acc;
       },
       { totalOrderQty: 0, totalOutQty: 0, totalInQty: 0, totalPendingQty: 0, progressSum: 0 },
@@ -348,7 +348,7 @@ const InOutStatus: React.FC = () => {
       totalPendingQty: totals.totalPendingQty,
       averageProgress,
     };
-  }, [clampProgress, result.items]);
+  }, [result.items]);
 
   // ✅ 검색 조건 초기화
   const handleReset = useCallback(() => {
@@ -367,15 +367,28 @@ const InOutStatus: React.FC = () => {
 
   // ✅ 행 고유 키 생성
   const getRowKey = useCallback(
-    (item: InOutStatusItem) =>
-      `${item.ORDER_D}-${item.ORDER_SEQU}-${item.IO_TYPE}`,
+    (item: InOutStatusItem, index?: number) => {
+      // 가능한 모든 고유 식별자를 조합하여 중복 방지
+      const parts = [
+        item.ORDER_D,
+        item.ORDER_SEQU,
+        item.IO_TYPE ?? 'none',
+        item.SLIP_NO ?? '',
+        item.AGENT_ID ?? '',
+      ];
+      // index가 제공되면 추가하여 완전한 고유성 보장
+      if (index !== undefined) {
+        parts.push(String(index));
+      }
+      return parts.join('-');
+    },
     [],
   );
 
   // ✅ 상세 조회 실행
   const loadRowDetails = useCallback(
-    async (item: InOutStatusItem) => {
-      const rowKey = getRowKey(item);
+    async (item: InOutStatusItem, index: number) => {
+      const rowKey = getRowKey(item, index);
       if (detailMap.has(rowKey) || detailLoadingRows.has(rowKey)) {
         return;
       }
@@ -397,6 +410,7 @@ const InOutStatus: React.FC = () => {
           await fetchInOutStatusDetails({
             orderDate: item.ORDER_D,
             orderSequ: item.ORDER_SEQU,
+            vendorId: item.VENDOR_ID ?? 0,
           });
 
         if (!response.success) {
@@ -446,8 +460,8 @@ const InOutStatus: React.FC = () => {
 
   // ✅ 행 확장 토글
   const handleToggleRow = useCallback(
-    (item: InOutStatusItem) => {
-      const rowKey = getRowKey(item);
+    (item: InOutStatusItem, index: number) => {
+      const rowKey = getRowKey(item, index);
       const isExpanded = expandedRows.has(rowKey);
 
       setExpandedRows((prev) => {
@@ -461,7 +475,7 @@ const InOutStatus: React.FC = () => {
       });
 
       if (!isExpanded) {
-        void loadRowDetails(item);
+        void loadRowDetails(item, index);
       }
     },
     [expandedRows, getRowKey, loadRowDetails],
@@ -651,26 +665,47 @@ const InOutStatus: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {result.items.map((item) => {
-                    const rowKey = getRowKey(item);
+                  {(() => {
+                    // 발주번호별 그룹 인덱스 계산 (같은 발주번호끼리 같은 색상)
+                    const orderGroupMap = new Map<string, number>();
+                    let groupIndex = 0;
+                    let prevOrderKey = '';
+                    
+                    result.items.forEach((item) => {
+                      const orderKey = `${item.ORDER_D}-${item.ORDER_SEQU}`;
+                      if (!orderGroupMap.has(orderKey)) {
+                        // 이전 발주번호와 다르면 그룹 인덱스 증가
+                        if (prevOrderKey !== '' && prevOrderKey !== orderKey) {
+                          groupIndex++;
+                        }
+                        orderGroupMap.set(orderKey, groupIndex);
+                        prevOrderKey = orderKey;
+                      }
+                    });
+
+                    return result.items.map((item, index) => {
+                    const rowKey = getRowKey(item, index);
                     const isExpanded = expandedRows.has(rowKey);
                     const detailItems = detailMap.get(rowKey) ?? [];
                     const isDetailLoading = detailLoadingRows.has(rowKey);
                     const detailErrorMessage = detailErrors.get(rowKey);
+                    
+                    // 발주번호 그룹 인덱스로 짝수/홀수 구분
+                    const orderKey = `${item.ORDER_D}-${item.ORDER_SEQU}`;
+                    const orderGroupIdx = orderGroupMap.get(orderKey) ?? 0;
+                    const isEvenGroup = orderGroupIdx % 2 === 0;
 
                     return (
                       <Fragment key={rowKey}>
                         <tr
-                          className={
-                            isExpanded ? 'ios-row-expandable is-expanded' : 'ios-row-expandable'
-                          }
-                          onClick={() => handleToggleRow(item)}
+                          className={`ios-row-expandable${isExpanded ? ' is-expanded' : ''}${isEvenGroup ? ' ios-row-even-group' : ' ios-row-odd-group'}`}
+                          onClick={() => handleToggleRow(item, index)}
                           role="button"
                           tabIndex={0}
                           onKeyDown={(event) => {
                             if (event.key === 'Enter' || event.key === ' ') {
                               event.preventDefault();
-                              handleToggleRow(item);
+                              handleToggleRow(item, index);
                             }
                           }}
                           aria-expanded={isExpanded}
@@ -709,10 +744,10 @@ const InOutStatus: React.FC = () => {
                               </span>
                             </div>
                           </td>
-                          <td className="ios-numeric-cell">{formatNumber(item.TOTAL_QTY)}</td>
+                          <td className="ios-numeric-cell">{formatNumber(item.TOTAL_ORDER_QTY ?? item.TOTAL_QTY ?? 0)}</td>
                           <td>
-                            <span className={`ios-status-badge ${getStatusClass(item.STATUS)}`}>
-                              {item.STATUS}
+                            <span className={`ios-status-badge ${getStatusClass(item.IN_STATUS ?? item.STATUS ?? '')}`}>
+                              {item.IN_STATUS ?? item.STATUS ?? '-'}
                             </span>
                           </td>
                         </tr>
@@ -766,20 +801,24 @@ const InOutStatus: React.FC = () => {
                                   <ul>
                                     <li>
                                       <strong>발주 수량</strong>
-                                      <span>{formatNumber(item.TOTAL_QTY)}</span>
+                                      <span>{formatNumber(item.TOTAL_ORDER_QTY ?? item.TOTAL_QTY ?? 0)}</span>
                                     </li>
-                                    {item.OUT_QTY !== undefined && (
-                                      <li>
-                                        <strong>출고 수량</strong>
-                                        <span>{formatNumber(item.OUT_QTY)}</span>
-                                      </li>
-                                    )}
-                                    {item.IN_QTY !== undefined && (
-                                      <li>
-                                        <strong>입고 수량</strong>
-                                        <span>{formatNumber(item.IN_QTY)}</span>
-                                      </li>
-                                    )}
+                                    <li>
+                                      <strong>출고 수량</strong>
+                                      <span>{formatNumber(item.TOTAL_OUT_QTY ?? item.OUT_QTY ?? 0)}</span>
+                                    </li>
+                                    <li>
+                                      <strong>입고 수량</strong>
+                                      <span>{formatNumber(item.TOTAL_IN_QTY ?? item.IN_QTY ?? 0)}</span>
+                                    </li>
+                                    <li>
+                                      <strong>미입고 수량</strong>
+                                      <span>{formatNumber(item.PENDING_QTY ?? 0)}</span>
+                                    </li>
+                                    <li>
+                                      <strong>입고율</strong>
+                                      <span>{item.PROGRESS_RATE ?? 0}%</span>
+                                    </li>
                                   </ul>
                                 </div>
                               </div>
@@ -810,6 +849,8 @@ const InOutStatus: React.FC = () => {
                                         <th scope="col">발주</th>
                                         <th scope="col">출고</th>
                                         <th scope="col">입고</th>
+                                        <th scope="col">단가</th>
+                                        <th scope="col">금액</th>
                                         <th scope="col">출고일</th>
                                         <th scope="col">입고일</th>
                                       </tr>
@@ -831,6 +872,12 @@ const InOutStatus: React.FC = () => {
                                             <td className="ios-numeric-cell">
                                               {formatNumber(Number(detail.IN_QTY ?? 0))}
                                             </td>
+                                            <td className="ios-numeric-cell">
+                                              {formatNumber(Number(detail.SOBIJA_DAN ?? 0))}
+                                            </td>
+                                            <td className="ios-numeric-cell">
+                                              {formatNumber(Number(detail.SOBIJA_TOT ?? 0))}
+                                            </td>
                                             <td>{detail.OUT_D || '-'}</td>
                                             <td>{detail.IN_D || '-'}</td>
                                           </tr>
@@ -845,7 +892,8 @@ const InOutStatus: React.FC = () => {
                         )}
                       </Fragment>
                     );
-                  })}
+                  });
+                  })()}
                 </tbody>
               </table>
             </div>

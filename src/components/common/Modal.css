@@ -65,9 +65,17 @@
 }
 
 .modal-large {
-  width: 800px;
-  min-width: 600px;
+  width: 1400px;
+  min-width: 1200px;
+  max-width: 99vw;
   max-height: 85vh;
+}
+
+/* 모달 컨테이너 크기 */
+.modal-container.modal-large {
+  width: 1400px !important;
+  min-width: 1200px !important;
+  max-width: 99vw !important;
 }
 
 /* 모달 헤더 */

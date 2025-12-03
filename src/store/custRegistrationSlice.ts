@@ -7,6 +7,7 @@ interface CustomerData {
   AGENT_ID?: number;
   CUST_NM: string;
   CUST_GBN?: string;
+  CUST_GBN_NM?: string; // Optional customer group name
   NATION_ID?: string;
   C_HP?: string;
   C_EMAIL?: string;
@@ -36,7 +37,8 @@ interface CustomerData {
 interface SearchCondition {
   custName: string;
   custGbn: string[];
-  genderGbn: string;
+  // gender removed from search conditions by requirement
+  agentId?: string | number;
   openDateFrom: string;
   openDateTo: string;
   phoneOrEmail: string;
@@ -77,7 +79,8 @@ const initialState: CustRegistrationState = {
   searchCondition: {
     custName: '',
     custGbn: [],
-    genderGbn: '',
+    
+    agentId: '',
     openDateFrom: '',
     openDateTo: '',
     phoneOrEmail: ''

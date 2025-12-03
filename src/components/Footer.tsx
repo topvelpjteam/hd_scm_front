@@ -72,14 +72,14 @@ const Footer: React.FC = () => {
           <span>{formatTime(currentTime)} {formatDate(currentTime)}</span>
         </div>
         
-        <div className="status-indicator">
+        {/* <div className="status-indicator">
           <Zap size={14} />
           <span>시스템 정상</span>
           <div className="status-dot"></div>
-        </div>
+        </div> */}
       </div>
 
-      {/* 중앙 영역 - 액션 버튼들 */}
+      {/* 중앙 영역 - 액션 버튼들 (주석처리됨)
       <div className="footer-center">
         <button className="footer-button primary" onClick={handleSearch} title="조회">
           <Search size={14} />
@@ -106,6 +106,7 @@ const Footer: React.FC = () => {
           <span>새로고침</span>
         </button>
       </div>
+      */}
 
       {/* 우측 영역 - 버전 정보 */}
       <div className="footer-right">

@@ -113,12 +113,28 @@ export const useAllMenuPermissions = () => {
       return;
     }
 
+    // 캐시된 권한 데이터 확인 (세션 동안 유지)
+    const cacheKey = `menu_permissions_${user.userId}`;
+    const cachedData = sessionStorage.getItem(cacheKey);
+    
+    if (cachedData) {
+      try {
+        const permissions = JSON.parse(cachedData);
+        console.log(`✅ [권한 훅] 캐시된 권한 데이터 사용 - userId: ${user.userId}, 권한 개수: ${permissions.length}`);
+        setAllPermissions(permissions);
+        setLoading(false);
+        return;
+      } catch (e) {
+        console.warn('캐시 데이터 파싱 실패, API 재호출');
+      }
+    }
+
     try {
       setLoading(true);
       setError(null);
 
       // 실제 API 호출로 권한 데이터 가져오기
-      //console.log(`🔍 [권한 훅] 전체 권한 조회 시작 - userId: ${user.userId}`);
+      console.log(`🔍 [권한 훅] 전체 권한 조회 시작 - userId: ${user.userId}`);
       const permissions = await permissionService.getAllUserMenuPermissions(user.userId);
       
       // console.log(`🔍 [권한 훅] API 응답 원본 데이터:`, permissions);
@@ -134,20 +150,12 @@ export const useAllMenuPermissions = () => {
       // });
       
       if (permissions && permissions.length > 0) {
-        //console.log(`✅ [권한 훅] 전체 권한 조회 성공 - userId: ${user.userId}, 권한 개수: ${permissions.length}`);
-        // console.log(`📊 [권한 훅] 권한 목록:`, permissions.map(p => ({
-        //   menuId: p.menuId,
-        //   menuName: p.menuName,
-        //   source: p.permissionSource,
-        //   canView: p.permissions?.viewPermission === 'Y',
-        //   permissions: p.permissions
-        // })));
+        console.log(`✅ [권한 훅] 전체 권한 조회 성공 - userId: ${user.userId}, 권한 개수: ${permissions.length}`);
+        // 권한 데이터 캐싱 (세션 동안 유지)
+        sessionStorage.setItem(cacheKey, JSON.stringify(permissions));
         setAllPermissions(permissions);
       } else {
         // 권한 데이터가 없으면 빈 배열 (접근 차단)
-        // 접근 차단 콘솔 출력 제거 (요청사항)
-        // 디버그 필요시 주석 해제:
-        // console.warn(`[ACL] no permissions for user`, { userId: user.userId, permissions });
         setAllPermissions([]);
       }
       

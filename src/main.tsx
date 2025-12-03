@@ -8,7 +8,11 @@ import './index.css'
 // AG Grid 모듈 등록
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+// Register all community modules and TreeDataModule for tree data support
+// Register AllCommunityModule and TreeDataModule for tree data support
+ModuleRegistry.registerModules([
+  AllCommunityModule
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

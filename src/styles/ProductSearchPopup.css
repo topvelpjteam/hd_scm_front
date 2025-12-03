@@ -1,0 +1,272 @@
+/* 상품검색 팝업 - ExcelPreviewModal 스타일 참조, 접두어: .product-search-popup- */
+.product-search-popup-modal .ant-modal-content {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(102,126,234,0.10); /* purple-tint to match sales */
+  padding: 0;
+  overflow: hidden;
+  border: 1.5px solid #e0e7ef;
+  background: #fff;
+}
+
+/* Ensure plain sales popup div uses same outer frame as Ant modal */
+.sales-product-search-modal {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(59,130,246,0.10);
+  border: 1.5px solid #e0e7ef;
+  background: #fff;
+  overflow: hidden;
+}
+.sales-product-search-modal .sales-product-search-modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* sales-product-search modal styles (copied/adapted from salesRegistration inline styles) */
+.sales-product-search-modal .sales-product-search-modal-content {
+  background: transparent;
+}
+.sales-product-search-modal-header {
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 10px 12px 6px 12px; /* 패딩 축소 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start; /* 제목 왼쪽 정렬 */
+  width: 100%;
+}
+.sales-product-search-modal-header span,
+.sales-product-search-modal-header h3 {
+  color: #ffffff !important; /* 제목 흰색 */
+  text-align: left;
+  width: 100%;
+  font-size: 18px;
+  line-height: 1.05;
+}
+.sales-product-search-modal-header i {
+  color: #ffffff !important;
+}
+.product-search-popup-modal .ant-modal-header {
+  display: none !important; /* 기본 Ant 헤더 숨기고 커스텀 헤더 사용 */
+}
+.product-search-popup-modal .ant-modal-close .ant-modal-close-x,
+.product-search-popup-modal .ant-modal-close {
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Darken overlay and add slight blur for modal backdrop */
+.product-search-popup-wrap {
+  /* 배경 완전 투명 - 뒤 화면이 선명하게 보임 */
+  background: rgba(0,0,0,0) !important;
+  backdrop-filter: none !important;
+  display: flex !important;
+  align-items: center !important; /* 수직 가운데 정렬 */
+  justify-content: center !important; /* 수평 가운데 정렬 */
+  min-height: 100vh; /* 뷰포트 전체 높이를 확보해서 정확히 가운데 배치 */
+  padding: 16px; /* 작은 화면에서 여유 공간 확보 */
+}
+
+/* When revealing underlying UI (after double-click), reduce overlay and remove blur briefly */
+.product-search-popup-wrap.reveal-underlay {
+  background: rgba(0,0,0,0) !important;
+  backdrop-filter: none !important;
+}
+
+/* 강제 중앙 배치를 위해 모달 요소 위치 보정 */
+.product-search-popup-wrap .ant-modal {
+  margin: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  max-height: 86vh !important; /* 화면에 맞추어 스크롤 가능하게 */
+}
+.sales-product-search-modal-body {
+  background: #f4f6fb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 10px 12px 10px 12px; /* 패딩 축소 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 줄간격 축소 */
+  font-size: 13px; /* 전체 폰트 크기 축소 */
+}
+.sales-product-search-input {
+  border-radius: 4px !important;
+  border: 1.2px solid #cbd5e1 !important;
+  font-size: 13px !important; /* 작게 */
+  background: #fff !important;
+  height: 32px !important; /* 작게 */
+  padding-left: 8px !important;
+}
+.sales-product-search-btn-modal {
+  font-size: 13px !important;
+  padding: 4px 10px !important;
+  min-width: auto !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 32px !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+}
+.sales-product-search-grid-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-search-popup-modal .ant-modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff !important; /* 타이틀을 흰색으로 */
+  letter-spacing: -0.5px;
+  text-align: left; /* 왼쪽 정렬 */
+}
+
+/* purple accent bar under header to match sales popup */
+.product-search-popup-modal .ant-modal-header::after,
+.sales-product-search-modal-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(103,110,234,1) 0%, rgba(118,75,162,1) 100%);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.product-search-popup-modal .ant-modal-close {
+  top: 18px;
+  right: 18px;
+}
+
+.product-search-popup-modal .ant-modal-body {
+  padding: 18px 24px 18px 24px;
+  background: #f4f6fb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Required field visual hint */
+.required-field {
+  box-shadow: 0 0 0 2px rgba(220,38,38,0.08) inset, 0 0 0 2px rgba(220,38,38,0.12);
+  border-color: rgba(220,38,38,0.6) !important;
+}
+
+.product-search-popup-searchbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.product-search-popup-table {
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  border: 1.2px solid #e0e7ef;
+  box-shadow: 0 1px 4px rgba(30,41,59,0.06);
+  font-size: 12px; /* 작게 */
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.product-search-popup-modal .ant-table-wrapper {
+  background: #fff;
+  border-radius: 8px;
+}
+
+.product-search-popup-modal .ant-table-thead > tr > th {
+  background: #f1f5f9;
+  color: #667eea;
+  font-weight: 700;
+  border-bottom: 2px solid #cbd5e1;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 8px 10px;
+}
+
+.product-search-popup-modal .ant-table-tbody > tr > td {
+  background: #fff;
+  color: #222;
+  font-size: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 10px;
+}
+
+.product-search-popup-modal .ant-table-tbody > tr:hover > td {
+  background: #f4f6fb;
+}
+
+.product-search-popup-modal .ant-btn-primary {
+  background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 6px rgba(102,126,234,0.10);
+  font-size: 14px;
+}
+.product-search-popup-modal .ant-btn-primary:hover {
+  background: linear-gradient(135deg,#5b63e0 0%,#6f57c9 100%);
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .product-search-popup-modal .ant-modal-content {
+    border-radius: 8px;
+    padding: 0;
+    min-width: 0;
+    max-width: 100vw;
+  }
+  .product-search-popup-modal .ant-modal-header,
+  .product-search-popup-modal .ant-modal-body {
+    padding: 12px 8px;
+  }
+  .product-search-popup-table {
+    min-width: 0;
+    max-width: 100vw;
+  }
+}
+
+/* Compact variant for Sales popup: smaller fonts, tighter paddings, smaller controls */
+.sales-product-search-modal.compact .sales-product-search-modal-body {
+  font-size: 10px;
+  padding: 4px 6px;
+  gap: 4px;
+}
+.sales-product-search-modal.compact .sales-product-search-modal-header h3,
+.sales-product-search-modal.compact .sales-product-search-modal-header span {
+  font-size: 13px;
+}
+.sales-product-search-modal.compact .sales-product-search-btn-modal {
+  font-size: 10px !important;
+  padding: 3px 8px !important;
+  height: 30px !important; /* match input height */
+}
+.sales-product-search-modal.compact .product-search-popup-table,
+.product-search-popup-modal.compact .ant-table-wrapper {
+  font-size: 10px;
+}
+.product-search-popup-modal.compact .ant-table-thead > tr > th {
+  font-size: 10px;
+  padding: 4px 6px;
+}
+.product-search-popup-modal.compact .ant-table-tbody > tr > td {
+  font-size: 10px;
+  padding: 4px 6px;
+}
+.sales-product-search-modal.compact .sales-product-search-modal-footer .modal-btn {
+  height: 34px !important;
+  min-width: 60px !important;
+  font-size: 12px !important;
+}
+
+/* tighten row spacing and line-height globally in compact */
+.sales-product-search-modal.compact .ant-table-tbody > tr > td,
+.sales-product-search-modal.compact .ant-table-thead > tr > th {
+  line-height: 1.1 !important;
+}
+

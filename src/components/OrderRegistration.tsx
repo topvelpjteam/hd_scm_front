@@ -38,6 +38,7 @@ import OrderSendModal from './common/OrderSendModal';
 import { popupSearchService } from '../services/popupSearchService';
 import { getPreviousOrders, getOrderDetails, OrderService } from '../services/orderService';
 import { orderService } from '../services/orderService';
+import { agentService } from '../services/agentService';
 import { calculatePricesRounded, PriceCalculationInput } from '../utils/priceCalculationUtils';
 import ConfirmationModal from './common/ConfirmationModal';
 import SuccessModal from './common/SuccessModal';
@@ -151,7 +152,7 @@ const OrderRegistration: React.FC = () => {
   const [btypeOptions, setBtypeOptions] = useState<CommonCodeOption[]>([]);
   const [modalPosition, setModalPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [dragOffset, setDragOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const dragOffsetRef = React.useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   
   // 모달 관련 상태들 (팝업 관련 - 상태관리 제외)
   const [showResetConfirmModal, setShowResetConfirmModal] = useState<boolean>(false);
@@ -1674,15 +1675,16 @@ const OrderRegistration: React.FC = () => {
   const handleMouseDown = (e: React.MouseEvent) => {
     // 헤더 영역에서만 드래그 시작 (닫기 버튼 제외)
     const target = e.target as HTMLElement;
-    if (target.closest('.order-product-search-popup-header') && !target.closest('.order-popup-close-btn')) {
+    const header = target.closest('.order-product-search-popup-header');
+    if (header && !target.closest('.order-popup-close-btn')) {
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(true);
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      setDragOffset({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
+      // 현재 position state를 기준으로 오프셋 계산
+      dragOffsetRef.current = {
+        x: e.clientX - modalPosition.x,
+        y: e.clientY - modalPosition.y
+      };
     }
   };
 
@@ -1692,8 +1694,8 @@ const OrderRegistration: React.FC = () => {
       
       // requestAnimationFrame으로 성능 최적화 - 리플로우 방지
       requestAnimationFrame(() => {
-        const newX = e.clientX - dragOffset.x;
-        const newY = e.clientY - dragOffset.y;
+        const newX = e.clientX - dragOffsetRef.current.x;
+        const newY = e.clientY - dragOffsetRef.current.y;
         
         // 화면 경계 내에서만 이동 가능
         const maxX = window.innerWidth - 1000; // 팝업 최대 너비
@@ -1709,7 +1711,7 @@ const OrderRegistration: React.FC = () => {
         });
       });
     }
-  }, [isDragging, dragOffset]);
+  }, [isDragging]);
 
   const handleMouseUp = React.useCallback(() => {
     setIsDragging(false);
@@ -2600,9 +2602,24 @@ const OrderRegistration: React.FC = () => {
       dispatch(setCodeData({ storeOptions: stores as any }));
       // 매장 목록 데이터 로드 완료
       
-      // 로그인한 유저의 store_id가 있으면 자동으로 선택
+      // 로그인한 유저의 store_id가 있으면 자동으로 선택하고 주소도 가져오기
       if (safeTrim(currentStoreId) !== '') {
-        dispatch(setMasterData({ storeCode: safeTrim(currentStoreId) }));
+        const storeId = safeTrim(currentStoreId);
+        dispatch(setMasterData({ storeCode: storeId }));
+        
+        // 소속매장의 주소 자동 가져오기
+        try {
+          const agentDetail = await agentService.getAgentDetail(storeId, true);
+          if (agentDetail) {
+            const fullAddress = [agentDetail.AGENT_ADDR1, agentDetail.AGENT_ADDR2]
+              .filter(Boolean).join(' ').trim();
+            if (fullAddress) {
+              dispatch(setMasterData({ address: fullAddress }));
+            }
+          }
+        } catch (err) {
+          console.warn('소속매장 주소 조회 실패:', err);
+        }
       }
     } catch (error) {
       console.error('매장 목록 데이터 로드 실패:', error);
@@ -2791,7 +2808,29 @@ const OrderRegistration: React.FC = () => {
               <label>매장코드 <span className="order-required">*</span></label>
               <select 
                 value={storeCode}
-                onChange={(e) => dispatch(setMasterData({ storeCode: e.target.value }))}
+                onChange={async (e) => {
+                  const newStoreCode = e.target.value;
+                  dispatch(setMasterData({ storeCode: newStoreCode }));
+                  
+                  // 매장코드 선택 시 해당 매장의 주소 가져오기
+                  if (newStoreCode) {
+                    try {
+                      const agentDetail = await agentService.getAgentDetail(newStoreCode, true);
+                      if (agentDetail) {
+                        // AGENT_ADDR1 + AGENT_ADDR2를 결합하여 주소 설정
+                        const fullAddress = [agentDetail.AGENT_ADDR1, agentDetail.AGENT_ADDR2]
+                          .filter(Boolean)
+                          .join(' ')
+                          .trim();
+                        if (fullAddress) {
+                          dispatch(setMasterData({ address: fullAddress }));
+                        }
+                      }
+                    } catch (err) {
+                      console.warn('매장 주소 조회 실패:', err);
+                    }
+                  }
+                }}
                 className="order-master-form-control order-master-form-control-required"
                 required
                 disabled={!!(safeTrim(currentStoreId) !== '') || isMasterFieldsDisabled || isStoreCodeDisabled}

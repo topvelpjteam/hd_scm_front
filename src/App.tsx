@@ -8,6 +8,10 @@ import { setLoadingContext } from './services/apiClient';
 import LoginPage from './components/LoginPage';
 import MainLayout from './components/MainLayout';
 import './App.css';
+import { ConfigProvider } from 'antd';
+import koKR from './antd-ko';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 
 // 로딩 컨텍스트 설정을 위한 내부 컴포넌트
 const AppContent: React.FC = () => {
@@ -37,11 +41,15 @@ const AppContent: React.FC = () => {
   );
 };
 
+dayjs.locale('ko');
+
 const App: React.FC = () => {
   return (
-    <LoadingProvider>
-      <AppContent />
-    </LoadingProvider>
+    <ConfigProvider locale={koKR}>
+      <LoadingProvider>
+        <AppContent />
+      </LoadingProvider>
+    </ConfigProvider>
   );
 };
 

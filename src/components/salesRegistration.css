@@ -16,10 +16,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 4px 10px; /* further reduced padding */
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  height: 44px; /* smaller header height */
 }
 
 .sales-header-left {
@@ -29,42 +30,104 @@
 }
 
 .sales-icon {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
 }
 
 .sales-icon svg {
   color: white;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .sales-title {
-  font-size: 18px;
+  font-size: 14px; /* more compact */
   font-weight: 600;
   margin: 0;
   color: white;
+  line-height: 1;
 }
 
 .sales-header-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 6px; /* even tighter gap */
+}
+
+/* 매장 선택(헤더) 가시성 개선 */
+.sales-header .sales-store-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sales-header .sales-store-select label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.9);
+  margin-right: 6px;
+}
+.sales-header .sales-store-select select {
+  height: 28px;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1e293b;
+  min-width: 140px;
+}
+.sales-header .sales-store-badge {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #6b46c1 0%, #7c3aed 100%);
+  border-radius: 6px;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(124,58,237,0.12);
+}
+
+/* ensure select text is dark and readable */
+.sales-header .sales-store-select select {
+  color: #1e293b !important;
 }
 
 .sales-date-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background-color: rgba(255, 255, 255, 0.15);
+  gap: 4px;
+  padding: 2px 6px; /* further reduced padding */
+  background-color: rgba(255, 255, 255, 0.10);
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 11px; /* smaller */
+}
+
+/* 매장(헤더) 래퍼: 판매일자와 유사한 스타일로 감싸서 가독성 향상 */
+.sales-store-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px; /* further reduced padding */
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 6px;
+  font-size: 11px;
+}
+.sales-store-info .sales-store-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.9);
+  margin-right: 6px;
+}
+.sales-store-select-control {
+  height: 22px; /* more compact */
+  padding: 2px 6px;
+  font-size: 11px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0f172a; /* 셀렉트 내부 텍스트를 검은색 계열로 변경 */
+  min-width: 110px;
 }
 
 .sales-customer-badge {
@@ -94,13 +157,13 @@
 .sales-tabs-container {
   background-color: white;
   border-bottom: 1px solid #e2e8f0;
-  padding: 0 18px; /* 25% compact */
+  padding: 0 8px; /* reduced horizontal padding */
   overflow-x: auto;
 }
 
 .sales-tabs {
   display: flex;
-  gap: 4px;
+  gap: 2px; /* tighter tabs */
   min-width: fit-content;
 }
 
@@ -147,8 +210,8 @@
 .sales-content {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 18px;
-  padding-bottom: 24px;
+  padding: 8px 10px; /* reduced padding to show more content */
+  padding-bottom: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -156,55 +219,65 @@
 /* 통합 레이아웃 */
 .sales-unified-layout {
   display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 8px;
+  grid-template-columns: 320px 1fr;
+  gap: 4px; /* tighter overall gap */
   height: 100%;
 }
 
 .sales-pane-left {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-width: 320px;
+  gap: 4px;
+  min-width: 280px;
   height: 100%;
 }
 
 /* 구역별 시각적 구분 스타일 */
 .sales-section-customer {
-  border: 2px solid #667eea;
-  border-radius: 10px;
-  padding: 12px;
+  border: 1.5px solid #667eea;
+  border-radius: 8px;
+  padding: 5px; /* slightly reduced */
   background: linear-gradient(to bottom, #f8f9ff 0%, #ffffff 100%);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 1px 6px rgba(102, 126, 234, 0.08);
 }
 
 .sales-section-purchase {
-  border: 2px solid #10b981;
-  border-radius: 10px;
+  border: 1.5px solid #10b981;
+  border-radius: 8px;
   background: linear-gradient(to bottom, #f0fdf9 0%, #ffffff 100%);
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 1px 6px rgba(16, 185, 129, 0.08);
 }
 
 .sales-section-sales {
-  border: 2px solid #ec4899;
-  border-radius: 10px;
+  border: 1.5px solid #ec4899;
+  border-radius: 8px;
   background: linear-gradient(to bottom, #fdf2f8 0%, #ffffff 100%);
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
+  box-shadow: 0 1px 6px rgba(236, 72, 153, 0.08);
 }
 
 .sales-pane-right {
   display: grid;
-  grid-template-rows: 0.3fr 0.7fr; /* 구매이력 30% / 판매등록 70% */
-  gap: 8px;
+  grid-template-rows: 0.28fr 0.72fr; /* 구매이력 28% / 판매등록 72% */
+  gap: 6px;
   min-height: 0; /* allow proper shrinking inside container */
 }
 
 .sales-pane-top, .sales-pane-bottom {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid #e5e7eb;
-  padding: 8px;
+  padding: 6px;
   min-height: 0; /* prevent overflow when container has fixed height */
+}
+
+/* Make top pane use column layout so inner grid can scroll independently */
+.sales-pane-top {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sales-pane-top .sales-section-header {
+  flex: 0 0 auto; /* header stays fixed */
 }
 
 /* Ensure bottom pane stacks content tightly */
@@ -219,12 +292,12 @@
   min-height: 0;
 }
 
-.sales-section-header {
+.sales-section-customer .sales-section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  padding: 4px 6px;
+  margin-bottom: 4px; /* even tighter */
+  padding: 2px 4px; /* reduced */
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -254,7 +327,33 @@
   background: #f3f4f6;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 3px 6px;
+  font-size: 11px;
+}
+
+/* Make inputs/selects/buttons smaller inside unified layout to increase data density */
+.sales-unified-layout input,
+.sales-unified-layout select,
+.sales-unified-layout button,
+.sales-unified-layout textarea {
+  font-size: 11px !important;
+  padding: 3px 6px !important;
+  height: 24px !important;
+}
+
+/* Specific overrides for known control classes */
+.sales-unified-layout .sales-search-input,
+.sales-unified-layout .sales-date-input,
+.sales-unified-layout .sales-qty-input,
+.sales-unified-layout .sales-discount-input,
+.sales-unified-layout .sales-barcode-input,
+.sales-unified-layout .purchase-range-select,
+.sales-unified-layout .sales-search-btn,
+.sales-unified-layout .sales-cancel-btn,
+.sales-unified-layout .sales-product-search-btn {
+  font-size: 11px !important;
+  padding: 3px 6px !important;
+  height: 24px !important;
 }
 
 /* 소제목 타이틀 바 (기본정보, 연락/멤버십) */
@@ -262,8 +361,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  padding: 4px 6px;
+  margin-bottom: 6px;
+  padding: 3px 5px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -276,6 +375,23 @@
   border-left: 3px solid #64748b; /* 기본색 (회색) */
 }
 
+/* 초기화 버튼 (기본정보 섹션 우측 상단) */
+.sales-subsection-header .sales-reset-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.sales-subsection-header .sales-reset-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
 .sales-subsection-header.basic .title {
   border-left-color: #3b82f6; /* 파랑: 기본정보 */
 }
@@ -284,33 +400,62 @@
   border-left-color: #f59e0b; /* 주황: 연락/멤버십 */
 }
 
-.sales-subsection-body {
+.sales-section-customer .sales-subsection-body {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 1px; /* even tighter */
+}
+
+/* compact search-bar controls in customer section */
+.sales-section-customer .sales-search-bar {
+  gap: 4px;
+}
+.sales-section-customer .sales-search-input {
+  height: 24px; /* smaller */
+  padding: 3px 6px;
+  font-size: 11px;
+}
+.sales-section-customer .sales-search-btn {
+  padding: 3px 6px; /* smaller */
+  font-size: 11px;
+}
+.sales-section-customer .sales-grid-container {
+  padding-top: 4px;
+}
+
+/* make labels and small controls compact */
+.sales-section-customer label {
+  font-size: 12px;
+}
+.sales-section-customer .sales-subsection-header .title {
+  font-size: 11px;
+}
+.sales-section-customer .sales-customer-badge {
+  padding: 4px 8px;
+  font-size: 12px;
 }
 
 /* 고객 아바타 스타일 */
 .customer-avatar-row {
   display: flex;
   justify-content: center;
-  padding: 12px 0;
-  margin-bottom: 8px;
+  padding: 8px 0; /* reduced */
+  margin-bottom: 6px;
   border-bottom: 1px solid #e5e7eb;
 }
 
 .customer-avatar {
-  width: 80px;
-  height: 80px;
+  width: 64px; /* smaller */
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-  transition: transform 0.2s ease;
+  border: 2px solid #667eea;
+  box-shadow: 0 3px 8px rgba(102, 126, 234, 0.16);
+  transition: transform 0.15s ease;
 }
 
 .customer-avatar:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .sales-customer-detail.compact {
@@ -394,18 +539,23 @@
 }
 
 .sales-date-input {
-  height: 28px;
-  padding: 4px 8px;
+  height: 26px; /* slightly smaller */
+  padding: 3px 8px;
   font-size: 12px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 6px;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: transparent; /* 헤더 배경과 통합 */
+  color: #0f172a; /* 컨트롤 내 텍스트는 검은색 계열로 변경 */
 }
 .sales-date-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  border-color: rgba(255,255,255,0.9);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.06);
+}
+
+/* 날짜 레이블을 흰색으로 */
+.sales-date-info label {
+  color: rgba(255,255,255,0.95);
 }
 
 /* 통합 레이아웃 - 컨트롤 컴팩트 사이징 */
@@ -502,9 +652,9 @@
 
 .sales-tab-content {
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 8px; /* reduced */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   height: 100%;
   min-height: 0; /* fill available area from parent flex container */
 }
@@ -573,6 +723,290 @@
 
 .sales-grid .ag-row:hover {
   background-color: #f8fafc !important;
+}
+
+/* ========== 구매이력 그리드 (높이/스크롤 개선) ========== */
+/* Make the purchase area header fixed and let the grid area take remaining space and scroll */
+.sales-section-purchase .sales-grid {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* grow/shrink to fill the pane */
+  min-height: 0; /* allow the grid to shrink inside the pane */
+  overflow: auto; /* enable internal scrolling for rows */
+}
+
+/* AG Grid row sizing tweaks remain but rely on the scroll container above */
+.sales-section-purchase .sales-grid .ag-row {
+  height: 30px !important; /* compact rows */
+}
+.sales-section-purchase .sales-grid .ag-cell {
+  line-height: 30px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.sales-section-purchase .sales-grid .ag-header-cell {
+  height: 34px !important;
+}
+.sales-section-purchase .sales-grid .ag-header-cell-label {
+  line-height: 34px !important;
+}
+
+/* Purchase table (native HTML) */
+.purchase-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px; /* 더 작은 폰트 */
+  table-layout: fixed;
+  border: 1px solid #e2e8f0; /* 테이블 전체 외곽선 */
+}
+.purchase-table thead th {
+  text-align: left;
+  padding: 6px 8px;
+  background: rgba(241,246,250,0.6);
+  color: #334155;
+  font-weight: 700;
+  border-bottom: 2px solid #cfdce6; /* 헤더와 바디 구분선 강화 */
+}
+
+/* Keep native table header visible while body scrolls inside the purchase section */
+.sales-section-purchase .purchase-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(255,255,255,0.95);
+}
+.purchase-table tbody td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e6eef3; /* 행 구분선 명확화 */
+  border-right: 1px solid #f1f5f9; /* 컬럼 구분선 */
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.purchase-table .goods-cell {
+  padding-right: 12px;
+}
+.purchase-table tbody tr.purchase-row:hover {
+  background-color: #f8fafc;
+}
+.purchase-table tbody tr.no-rows td {
+  text-align: center;
+  color: #64748b;
+  padding: 12px 8px;
+}
+
+/* Limit visible height and enable scroll inside purchase section */
+.sales-section-purchase .sales-grid {
+  max-height: 220px;
+  overflow: auto;
+}
+
+.purchase-range-select {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 3px 8px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 12px;
+  height: 28px;
+}
+
+/* 테두리: 구매이력 기간 컨트롤(프리셋 + 날짜 입력) 래퍼 */
+.sales-section-header.purchase {
+  border: 1px solid #667eea !important;
+  padding: 6px !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+}
+
+.sales-section-header.purchase .actions {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* 날짜 입력 및 프리셋 컨트롤에 파란 테두리와 포커스 스타일 적용 */
+.sales-section-header.purchase .actions .sales-date-input,
+.sales-section-header.purchase .actions .purchase-range-select,
+.sales-section-header.purchase .actions .sales-search-input {
+  border: 1px solid #667eea !important;
+  box-shadow: none !important;
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: #ffffff;
+}
+.sales-section-header.purchase .actions .sales-date-input:focus,
+.sales-section-header.purchase .actions .purchase-range-select:focus,
+.sales-section-header.purchase .actions .sales-search-input:focus {
+  outline: none;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12) !important;
+}
+
+/* 작은 화면에서 입력 필드가 줄어들지 않도록 최소 너비 유지 */
+.sales-section-header.purchase .actions .sales-date-input {
+  min-width: 92px;
+  height: 28px !important;
+  font-size: 12px !important;
+  padding: 3px 8px !important;
+}
+
+/* 작은 화면에서 컨트롤이 너무 커지지 않도록 최소 너비 제한 */
+.sales-section-header.purchase .actions .purchase-range-select,
+.sales-section-header.purchase .actions .sales-search-input {
+  min-width: 86px;
+}
+
+/* 강제: 구매이력(프리셋/날짜/검색/버튼) 컨트롤을 매우 작게 줄임 */
+.sales-section-header.purchase .actions .purchase-range-select,
+.sales-section-header.purchase .actions .sales-date-input,
+.sales-section-header.purchase .actions .sales-search-input,
+.sales-section-header.purchase .actions button {
+  font-size: 10px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+/* 검색 입력은 내부 텍스트가 잘리는걸 방지하면서 작게 보이게 조정 */
+.sales-section-header.purchase .actions .sales-search-input {
+  width: 360px !important; /* increased to allow longer search terms */
+  max-width: 60% !important;
+  height: 20px !important;
+  font-size: 11px !important;
+  padding: 2px 6px !important;
+  line-height: 20px !important;
+}
+
+/* 프리셋 셀렉트 최소 너비 축소 */
+.sales-section-header.purchase .actions .purchase-range-select {
+  min-width: 72px !important;
+}
+
+/* date input의 캘린더 아이콘 영역도 맞춤 */
+.sales-section-header.purchase .actions .sales-date-input::-webkit-calendar-picker-indicator {
+  height: 18px;
+}
+
+/* Ensure the calendar icon is vertically centered inside the date input */
+.sales-section-header.purchase .actions .sales-date-input {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  height: 20px !important; /* match small control size */
+  line-height: 20px !important;
+}
+
+/* 판매등록 섹션: 영수증번호 입력 스타일 */
+.sales-receipt-input {
+  border: 1px solid #f59e0b; /* yellow/orange tint */
+  border-radius: 6px;
+  padding: 4px 8px;
+  height: 28px;
+  font-size: 12px;
+  /* 약 30자(문자열) 정도를 수용하도록 ch 단위로 설정하고, 작은 화면에서는 넘치지 않게 제한 */
+  width: 30ch;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.sales-receipt-input:focus {
+  outline: none;
+  border-color: #d97706; /* darker yellow on focus */
+  box-shadow: 0 0 0 4px rgba(217,119,6,0.12);
+}
+
+.sales-section-header.purchase .actions .sales-date-input::-webkit-calendar-picker-indicator {
+  vertical-align: middle !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 16px !important;
+  width: 16px !important;
+}
+
+/* Firefox-specific tweak */
+.sales-section-header.purchase .actions .sales-date-input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* 구매이력 테이블 폰트도 더 작게 */
+.purchase-table {
+  font-size: 10px; /* 더 작게 */
+}
+
+/* 테이블 내부 셀의 오른쪽 마지막 컬럼 불필요한 경계 제거 */
+.purchase-table tbody td:last-child {
+  border-right: none;
+}
+
+/* Sales items table (match purchase history compact sizing) */
+.sales-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px; /* 동일한 작은 폰트로 맞춤 */
+  table-layout: auto; /* allow percentage widths to behave as expected */
+}
+.sales-items-table {
+  border: 1px solid #e2e8f0; /* 외곽선 추가로 구분 명확화 */
+}
+.sales-items-table thead th {
+  text-align: left;
+  padding: 6px 8px;
+  background: rgba(241,246,250,0.6);
+  color: #334155;
+  font-weight: 700;
+  border-bottom: 2px solid #cfdce6;
+}
+.sales-items-table thead th {
+  /* keep header visible when scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f1f5f9; /* solid background to avoid overlap artifacts */
+  box-shadow: 0 2px 4px rgba(2,6,23,0.04);
+}
+.sales-items-table thead th {
+  border-right: 1px solid #e6eef3; /* 컬럼 경계선 추가 */
+}
+.sales-items-table tbody td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #cbd5e1; /* 경계선 색상 진하게 조정 */
+  border-right: 1px solid #e2e8f0; /* 컬럼 간 경계선 추가 */
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sales-items-table tbody td:last-child {
+  border-right: none; /* 마지막 컬럼의 불필요한 경계 제거 */
+}
+/* 래퍼에 스크롤 가능하도록 설정 (테이블이 길어져도 레이아웃 고정) */
+.sales-items-table-wrapper {
+  /* flex로 높이 제어 - 인라인 스타일 참조 */
+}
+/* 상품명 셀은 줄바꿈 및 상세정보 허용 */
+.sales-items-table tbody td.goods-cell {
+  white-space: normal;
+}
+.sales-items-table .goods-name {
+  font-weight: 600;
+}
+.sales-items-table .goods-meta {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* 헤더 오른쪽 경계 제거 (미관) */
+.purchase-table thead th:last-child {
+  border-right: none;
 }
 
 /* ========== 빈 상태 ========== */
@@ -802,6 +1236,12 @@
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+/* 판매등록 탭 전용: 바코드/상품명 입력란을 기존 너비의 절반으로 축소 */
+.sales-section-sales .sales-barcode-input {
+  width: 50%;
+  max-width: 50%;
+}
+
 .sales-quick-inputs {
   display: flex;
   gap: 12px;
@@ -879,7 +1319,7 @@
 }
 
 .sales-summary-label {
-  font-size: 13px;
+  font-size: 7px;
   color: #64748b;
   font-weight: 500;
   display: flex;
@@ -888,7 +1328,7 @@
 }
 
 .sales-summary-value {
-  font-size: 14px;
+  font-size: 7px;
   color: #1e293b;
   font-weight: 600;
 }
@@ -917,13 +1357,13 @@
 }
 
 .sales-summary-row.total .sales-summary-label {
-  font-size: 15px;
+  font-size: 8px;
   font-weight: 700;
   color: #1e293b;
 }
 
 .total-amount {
-  font-size: 20px !important;
+  font-size: 10px !important;
   font-weight: 700 !important;
   color: #667eea !important;
 }
@@ -969,6 +1409,7 @@
 .sales-payment-btn {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
+  white-space: nowrap; /* prevent button text wrapping */
 }
 
 .sales-payment-btn:hover:not(:disabled) {
@@ -1051,30 +1492,35 @@
 
 .sales-daily-summary-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .summary-card {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  gap: 10px;
+  padding: 10px 12px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .card-icon {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 6px;
   color: white;
   flex-shrink: 0;
+}
+
+.card-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .card-content {
@@ -1085,16 +1531,61 @@
 }
 
 .card-label {
-  font-size: 11px;
+  font-size: 10px;
   color: #64748b;
   font-weight: 500;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .card-value {
-  font-size: 18px;
+  font-size: 14px;
   color: #1e293b;
   font-weight: 700;
+}
+
+/* 당일 판매 테이블 스타일 */
+.sales-daily-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  table-layout: fixed;
+  border: 1px solid #e2e8f0;
+}
+
+.sales-daily-table thead th {
+  text-align: left;
+  padding: 6px 8px;
+  background: rgba(241, 246, 250, 0.6);
+  color: #334155;
+  font-weight: 700;
+  border-bottom: 2px solid #cfdce6;
+}
+
+.sales-daily-table tbody td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e6eef3;
+  border-right: 1px solid #f1f5f9;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sales-daily-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.sales-daily-table tfoot tr.sales-daily-total-row {
+  background-color: #f8fafc;
+  border-top: 2px solid #3b82f6;
+}
+
+.sales-daily-table tfoot tr.sales-daily-total-row td {
+  padding: 8px;
+  font-weight: 600;
+  color: #1e293b;
+  background-color: #f1f5f9;
+  border-bottom: none;
 }
 
 /* ========== 결제 모달 ========== */
@@ -1589,20 +2080,23 @@
 }
 
 .sales-product-search-btn {
-  padding: 6px 12px;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
   color: white !important;
   border: none;
-  border-radius: 6px;
-  font-size: 12px;
+  border-radius: 8px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
   transition: transform 0.2s, box-shadow 0.2s;
   white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  min-width: 120px;
 }
 
 .sales-product-search-btn:hover {
@@ -1613,6 +2107,34 @@
 
 .sales-product-search-btn:active {
   transform: translateY(0);
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.sales-product-search-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+}
+
+/* 판매사원 select 스타일 및 필수(누락) 표시 */
+.sales-staff-select {
+  height: 28px;
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 6px;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.sales-staff-select.required {
+  border: 2px solid #fbbf24; /* amber/yellow */
+  box-shadow: 0 0 0 4px rgba(251,191,36,0.08);
+}
+
+.sales-staff-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
 }
 
 /* ========= Inline Sales Summary (under grid) ========= */
@@ -1687,3 +2209,154 @@
   padding: 0 12px;
   font-size: 13px;
 }
+
+/* 전표초기화 버튼 색상 (파스텔톤 하늘색) */
+.sales-summary-inline .sales-reset-btn {
+  background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%) !important;
+  color: #1e3a8a !important;
+  border: none !important;
+}
+
+.sales-summary-inline .sales-reset-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%) !important;
+  color: #1e3a8a !important;
+}
+
+/* ===== Overrides to fix button/input sizing and tighten customer area ===== */
+/* Header action buttons (상품검색, 취소) should be compact */
+.sales-section-header .actions .sales-product-search-btn,
+.sales-section-header .actions .sales-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+  gap: 6px;
+  min-width: 64px; /* reduced minimum width to be more compact */
+  flex: 0 !important; /* 글로벌 flex:1 규칙(하단 버튼 등)보다 우선 적용 */
+}
+
+/* Ensure the product-search button in sales header has enough space for icon */
+.sales-section-header.sales .actions .sales-product-search-btn {
+  min-width: 88px !important; /* ensure icon + text fit */
+  padding: 4px 8px !important;
+}
+
+/* Force SVG icon inside buttons to keep size and not collapse */
+.sales-section-header .actions .sales-product-search-btn svg {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Make product-search button inside unified layout also compact */
+.sales-unified-layout .sales-product-search-btn {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 11px;
+}
+
+/* Tighten customer detail area spacing */
+.sales-customer-details-grid {
+  gap: 4px !important;
+}
+.sales-customer-card {
+  padding: 6px !important;
+}
+.sales-customer-card .info-row {
+  padding: 4px 6px !important;
+}
+.customer-avatar-row {
+  padding: 8px 0 !important;
+  margin-bottom: 6px !important;
+}
+
+/* small helper: ensure checkbox label in search bar is compact */
+.sales-section-customer .sales-search-bar label {
+  margin-top: 2px !important;
+  line-height: 14px !important;
+}
+
+/* Right-align action buttons inside section header (상품검색, 취소 등) */
+.sales-section-header .actions {
+  margin-left: auto; /* 제목 왼쪽, 액션 오른쪽 정렬 보장 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* For purchase section: push action buttons to the right by allowing the search input to grow and take available space */
+.sales-section-header.purchase .actions .sales-search-input {
+  margin-right: auto; /* push subsequent buttons (검색, 새로고침) to the far right */
+  min-width: 120px; /* keep a reasonable input width */
+}
+
+/* For 판매등록 section: ensure 상품검색 button is the right-most button */
+.sales-section-header.sales .actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end; /* ensure all action items sit at the right edge */
+}
+.sales-section-header.sales .actions .sales-product-search-btn {
+  margin-left: 0 !important; /* cancel prior rule that pushed only the button */
+}
+
+/* end overrides */
+
+/* ===== Further compacting: tighten checkbox and grid vertical spacing ===== */
+/* Make the '타매장고객 포함' label and checkbox more compact */
+.sales-section-customer .sales-search-bar label {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  line-height: 14px !important;
+  font-size: 11px !important;
+}
+.sales-section-customer .sales-search-bar input[type="checkbox"] {
+  margin: 0 6px 0 0 !important;
+  vertical-align: middle;
+}
+
+/* Reduce gap between search-bar and grid */
+.sales-section-customer .sales-search-bar {
+  gap: 6px !important; /* already compact but ensure small */
+  margin-bottom: 4px !important;
+}
+.sales-section-customer .sales-grid-container {
+  padding-top: 2px !important;
+  margin-top: 4px !important;
+}
+
+/* Make customer detail cards and avatar row denser */
+.sales-customer-details-grid {
+  gap: 4px !important;
+}
+.customer-avatar-row {
+  padding: 6px 0 !important;
+  margin-bottom: 4px !important;
+}
+.sales-customer-card {
+  padding: 6px !important;
+}
+.sales-customer-card .info-row {
+  padding: 3px 6px !important;
+}
+
+/* AG Grid row height slightly smaller to reduce vertical space */
+.sales-unified-layout .ag-theme-alpine {
+  --ag-row-height: 24px !important;
+  --ag-list-item-height: 18px !important;
+  --ag-font-size: 11px !important;
+}
+
+/* Ensure grid container has minimal top/bottom padding */
+.sales-grid-container .ag-theme-alpine {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* end compacting overrides */

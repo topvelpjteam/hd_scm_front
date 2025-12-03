@@ -838,6 +838,7 @@ const UserManagement: React.FC = () => {
                   <select
                     value={userDetail.user_role_id || ''}
                     onChange={(e) => handleUserDetailChange('user_role_id', e.target.value ? Number(e.target.value) : null)}
+                    required
                   >
                     <option value="">롤을 선택하세요</option>
                     {roleOptions.map(option => (
@@ -933,6 +934,7 @@ const UserManagement: React.FC = () => {
                     onChange={(e) => handleUserDetailChange('user_login_id', e.target.value)}
                     placeholder="로그인 ID를 입력하세요"
                     onBlur={handleLoginIdCheck}
+                    required
                   />
                 </div>
                 <div className="form-item required">
@@ -942,6 +944,7 @@ const UserManagement: React.FC = () => {
                     value={userDetail.user_name}
                     onChange={(e) => handleUserDetailChange('user_name', e.target.value)}
                     placeholder="사용자명을 입력하세요"
+                    required
                   />
                 </div>
               </div>
@@ -955,6 +958,7 @@ const UserManagement: React.FC = () => {
                      onChange={(e) => handleUserDetailChange('user_email', e.target.value)}
                      placeholder="이메일을 입력하세요"
                      autoComplete="off"
+                    required
                    />
                  </div>
                 <div className="form-item required">
@@ -967,6 +971,7 @@ const UserManagement: React.FC = () => {
                       placeholder="비밀번호를 입력하세요"
                       autoComplete="new-password"
                       key={`password-${isNewMode ? 'new' : 'edit'}`}
+                      required
                     />
                     {/* <button
                       type="button"

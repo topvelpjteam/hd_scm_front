@@ -265,6 +265,7 @@ const ProductRegistration: React.FC = React.memo(() => {
   // 현재 로그인한 사용자의 agentId 가져오기
   const { user } = useSelector((state: RootState) => state.auth);
   const currentAgentId = user?.agentId;
+  const currentUserId = user?.userId;
   const currentUserRole = user?.roleLevel || 0;
   
   // 현재 활성 탭 정보 가져오기
@@ -668,10 +669,10 @@ const ProductRegistration: React.FC = React.memo(() => {
     try {
       console.log('💾 상품 저장 시작:', selectedProduct);
       
-      // 저장할 데이터 준비 (USER_ID 추가)
+      // 저장할 데이터 준비 (USER_ID는 로그인한 사용자의 userId, agent 필터는 SEARCH_AGENT_ID로 별도 전달)
       const saveData = {
         ...selectedProduct,
-        USER_ID: currentAgentId || 'ADMIN',
+        USER_ID: currentUserId != null ? String(currentUserId) : 'SYSTEM',
         // 원산지 필드명 매핑 (COUNTRY_OF_ORIGIN -> NATION_GBN)
         NATION_GBN: selectedProduct.COUNTRY_OF_ORIGIN || selectedProduct.NATION_GBN
       };
@@ -692,7 +693,8 @@ const ProductRegistration: React.FC = React.memo(() => {
       console.log('💾 전송할 데이터:', saveData);
       
       // ProductService를 사용하여 상품 저장
-      const result = await ProductService.saveProduct(saveData, currentAgentId || 'ADMIN');
+      // 두번째 인자: 로그인한 userId (string), 세번째 인자: agentId (선택)
+      const result = await ProductService.saveProduct(saveData, saveData.USER_ID, currentAgentId);
       
       console.log('💾 저장 결과:', result);
       
@@ -833,7 +835,8 @@ const ProductRegistration: React.FC = React.memo(() => {
 
     try {
               // USP_ZA_ProductRegistration 저장프로시저를 호출하여 상품 삭제 (종료일자 설정)
-      const result = await ProductService.deleteProduct(selectedProduct.GOODS_ID, currentAgentId || 'ADMIN');
+      const userIdForCall = currentUserId != null ? String(currentUserId) : 'SYSTEM';
+      const result = await ProductService.deleteProduct(selectedProduct.GOODS_ID, userIdForCall, currentAgentId);
       
       if (result.success) {
         // 삭제 성공 모달 표시
@@ -1600,6 +1603,7 @@ const ProductRegistration: React.FC = React.memo(() => {
                       }
                     }}
                     disabled={!isNewMode} // 신규 모드가 아닐 때 비활성화
+                    required
                   >
                     <option value="">선택하세요</option>
                     {brandOptions.length === 0 ? (

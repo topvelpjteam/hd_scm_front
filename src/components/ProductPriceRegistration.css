@@ -634,6 +634,7 @@
 }
 
 /* 상품 가격 상세 정보 폼 */
+
 .price-product-detail {
   display: flex;
   flex-direction: column;
@@ -643,6 +644,7 @@
   height: calc(100% - 50px);
   padding-bottom: 60px;
   position: relative;
+  font-size: 16px;
 }
 
 .price-detail-section {
@@ -651,6 +653,7 @@
   padding: 10px;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
 }
 
 .price-detail-section h4 {

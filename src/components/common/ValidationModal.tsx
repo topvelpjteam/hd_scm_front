@@ -16,12 +16,16 @@ export interface ValidationModalProps {
   isOpen: boolean;
   onClose: () => void;
   errors: ValidationError[];
+  title?: string;
+  mainMessage?: string;
 }
 
 const ValidationModal: React.FC<ValidationModalProps> = ({
   isOpen,
   onClose,
-  errors
+  errors,
+  title,
+  mainMessage
 }) => {
   const getInputGuide = (error: ValidationError) => {
     const guides = [];
@@ -62,7 +66,7 @@ const ValidationModal: React.FC<ValidationModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="필수 입력 항목 확인"
+      title={title || "필수 입력 항목 확인"}
       size="medium"
       className="validation-modal"
     >
@@ -72,7 +76,7 @@ const ValidationModal: React.FC<ValidationModalProps> = ({
         </div>
         
         <div className="validation-message">
-          <p className="validation-title">다음 항목들을 입력해주세요</p>
+          <p className="validation-title">{mainMessage || '다음 항목들을 입력해주세요'}</p>
           
           <div className="validation-errors">
             {errors.map((error, index) => (
