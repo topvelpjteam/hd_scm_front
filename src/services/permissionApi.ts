@@ -45,7 +45,7 @@ class PermissionApiService {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        await response.json(); // 응답 데이터 소비
         return true;
       } else {
         console.error('❌ [권한 API] 백엔드 서버 연결 실패:', response.status, response.statusText);

@@ -310,14 +310,6 @@ const ExcelPreviewModal: React.FC<ExcelPreviewModalProps> = ({
   const duplicateRows = previewData.filter(row => row.isDuplicate && !row.hasError).length;
   const selectedRows = previewData.filter(row => row.isSelected && !row.hasError).length;
 
-  // 모달 닫기 핸들러 (플래그 리셋 포함)
-  const handleModalClose = () => {
-    console.log('📊 ExcelPreviewModal 닫힘 - 플래그 리셋');
-    hasAutoCheckedRef.current = false; // 모달이 닫힐 때 플래그 리셋
-    setDuplicateCheckCompleted(false); // 중복 확인 완료 상태 리셋
-    onClose();
-  };
-
   return (
     <Modal
       isOpen={isOpen}

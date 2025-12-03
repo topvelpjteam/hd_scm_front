@@ -42,7 +42,7 @@ const CodeList: React.FC = () => {
   };
   
   // 그리드 데이터 상태 관리 - 첫 로드 시에는 빈 배열로 시작
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [, setIsInitialLoad] = useState(true);
   const savedGoodsData = state.goodsData || [];
 
   // 상품 데이터 상태
@@ -144,14 +144,6 @@ const CodeList: React.FC = () => {
     }
   }, []);
 
-  // 샘플 데이터 메모이제이션
-  const sampleCategories = useMemo(() => [
-    { value: '01', label: '의류' },
-    { value: '02', label: '신발' },
-    { value: '03', label: '가방' },
-    { value: '04', label: '액세서리' },
-    { value: '05', label: '화장품' }
-  ], []);
 
 
 

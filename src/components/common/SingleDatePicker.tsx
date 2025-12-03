@@ -49,10 +49,6 @@ const SingleDatePicker: React.FC<SingleDatePickerProps> = ({
     }
   }, [value]);
 
-  const formatDate = (date: Date): string => {
-    return date.toISOString().split('T')[0];
-  };
-
   const formatDateToString = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -182,7 +178,7 @@ const SingleDatePicker: React.FC<SingleDatePickerProps> = ({
                 console.log('🔍 이전 월 버튼 마우스 다운에서 함수 호출 시도');
                 goToPreviousMonth();
               }}
-              onMouseUp={(e) => {
+              onMouseUp={() => {
                 console.log('🔍 이전 월 버튼 마우스 업 이벤트 발생!');
               }}
             >
@@ -200,7 +196,7 @@ const SingleDatePicker: React.FC<SingleDatePickerProps> = ({
                 console.log('🔍 다음 월 버튼 마우스 다운에서 함수 호출 시도');
                 goToNextMonth();
               }}
-              onMouseUp={(e) => {
+              onMouseUp={() => {
                 console.log('🔍 다음 월 버튼 마우스 업 이벤트 발생!');
               }}
             >
@@ -219,7 +215,7 @@ const SingleDatePicker: React.FC<SingleDatePickerProps> = ({
                 console.log('🔍 오늘 버튼 마우스 다운에서 함수 호출 시도');
                 goToToday();
               }}
-              onMouseUp={(e) => {
+              onMouseUp={() => {
                 console.log('🔍 오늘 버튼 마우스 업 이벤트 발생!');
               }}
             >
@@ -256,7 +252,7 @@ const SingleDatePicker: React.FC<SingleDatePickerProps> = ({
                     console.log(`🔍 날짜 ${day} 마우스 다운에서 함수 호출 시도`);
                     handleDateClick(day);
                   }}
-                  onMouseUp={(e) => {
+                  onMouseUp={() => {
                     console.log(`🔍 날짜 ${day} 마우스 업 이벤트 발생!`);
                   }}
                 >

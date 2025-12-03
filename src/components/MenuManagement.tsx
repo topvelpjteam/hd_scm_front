@@ -10,7 +10,7 @@ import {
 } from './common';
 import { getMenuIcon } from '../utils/menuUtils';
 import { useGlobalLoading } from '../contexts/LoadingContext';
-import { convertKoreanToEnglishWithTranslate, convertKoreanToEnglish } from '../utils/koreanToEnglish';
+import { convertKoreanToEnglishWithTranslate } from '../utils/koreanToEnglish';
 import { 
   setMenuTree,
   setSelectedMenu,

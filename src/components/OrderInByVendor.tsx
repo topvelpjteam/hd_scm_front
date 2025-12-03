@@ -117,11 +117,6 @@ const OrderInByVendor: React.FC = () => {
     return dateStr;
   };
 
-  const getInRateClass = (rate: number): string => {
-    if (rate >= 100) return 'highlight';
-    return '';
-  };
-
   // 합계 계산
   const totals = useMemo(() => {
     return rowData.reduce((acc, row) => ({

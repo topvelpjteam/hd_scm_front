@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AgGridReact } from 'ag-grid-react';
+import { ColDef, GridOptions } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import CommonMultiSelect from './CommonMultiSelect';
 import { userManagementService } from '../services/userManagementService';
 import { 
-  ValidationModal, 
   ConfirmationModal, 
-  UnsavedChangesModal,
-  SuccessModal,
   type ValidationError 
 } from './common';
 import { useGlobalLoading } from '../contexts/LoadingContext';
@@ -19,20 +17,17 @@ import {
   setUserList, 
   setSelectedUser, 
   setIsNewMode, 
-  setIsLoading, 
   setCodeData, 
   updateUserDetail, 
   initializeScreen,
   resetUserDetail,
   setTotalCount,
-  setCurrentPage,
   setError,
   setPermissions,
   setHasUnsavedChanges,
   type UserData, 
   type SearchCondition,
-  type UserDetail,
-  type CommonCodeOption
+  type UserDetail
 } from '../store/userManagementSlice';
 import { RootState, AppDispatch } from '../store/store';
 import { useButtonTextPermission } from '../hooks/usePermissions';
@@ -52,14 +47,8 @@ const UserManagement: React.FC = () => {
     roleOptions,
     agentOptions,
     storeOptions,
-    isLoading,
     isNewMode,
-    hasUnsavedChanges,
-    totalCount,
-    currentPage,
-    totalPages,
-    error,
-    permissions
+    hasUnsavedChanges
   } = useSelector((state: RootState) => state.userManagement);
   
   // 현재 활성 탭 정보 가져오기
@@ -70,18 +59,16 @@ const UserManagement: React.FC = () => {
   const viewPermission = useButtonTextPermission(MENU_IDS.USER_MANAGEMENT, '조회');
   const savePermission = useButtonTextPermission(MENU_IDS.USER_MANAGEMENT, '저장');
   const deletePermission = useButtonTextPermission(MENU_IDS.USER_MANAGEMENT, '삭제');
-  const exportPermission = useButtonTextPermission(MENU_IDS.USER_MANAGEMENT, '내보내기');
-  const personalInfoPermission = useButtonTextPermission(MENU_IDS.USER_MANAGEMENT, '개인정보');
 
   // 상태 관리
-  const [showValidationModal, setShowValidationModal] = useState(false);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
-  const [confirmationMessage, setConfirmationMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [, setShowValidationModal] = useState(false);
+  const [, setShowConfirmationModal] = useState(false);
+  const [, setShowUnsavedChangesModal] = useState(false);
+  const [, setShowSuccessModal] = useState(false);
+  const [, setValidationErrors] = useState<ValidationError[]>([]);
+  const [, setConfirmationMessage] = useState('');
+  const [, setSuccessMessage] = useState('');
+  const [showPassword] = useState(false);
   const [showUnlockModal, setShowUnlockModal] = useState(false);
 
   // 그리드 선택 변경 핸들러
@@ -180,7 +167,7 @@ const UserManagement: React.FC = () => {
   }, [loadUserDetail]);
 
   // 그리드 컬럼 정의
-  const columnDefs = [
+  const columnDefs: ColDef<UserData>[] = [
     {
       headerName: '사용자ID',
       field: 'user_id',
@@ -379,8 +366,8 @@ const UserManagement: React.FC = () => {
   ];
 
   // 그리드 옵션
-  const gridOptions = {
-    rowSelection: 'single',
+  const gridOptions: GridOptions<UserData> = {
+    rowSelection: { mode: 'singleRow', enableClickSelection: true },
     onSelectionChanged: onSelectionChanged,
     onRowClicked: onRowClicked,
     onRowDoubleClicked: onRowDoubleClicked,
@@ -521,34 +508,6 @@ const UserManagement: React.FC = () => {
     setShowConfirmationModal(true);
   }, [selectedUser, deletePermission.hasPermission]);
 
-  // 삭제 확인
-  const handleDeleteConfirm = async () => {
-    if (!selectedUser) return;
-
-    try {
-      startLoading('사용자를 삭제 중입니다...');
-      
-      const success = await userManagementService.deleteUser(selectedUser.user_id, 1); // TODO: 실제 사용자 ID로 변경
-      
-      if (success) {
-        setSuccessMessage('사용자가 성공적으로 삭제되었습니다.');
-        setShowSuccessModal(true);
-        await loadUserList();
-        dispatch(setSelectedUser(null));
-        dispatch(resetUserDetail());
-      } else {
-        throw new Error('사용자 삭제에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('사용자 삭제 오류:', error);
-      setValidationErrors([{ field: 'delete', message: error instanceof Error ? error.message : '사용자 삭제에 실패했습니다.' }]);
-      setShowValidationModal(true);
-    } finally {
-      stopLoading();
-      setShowConfirmationModal(false);
-    }
-  };
-
   // 사용자 저장
   const handleSave = useCallback(async () => {
     if (!savePermission.hasPermission) {
@@ -570,7 +529,7 @@ const UserManagement: React.FC = () => {
 
       if (isNewMode) {
         // 새 사용자 등록
-        const userId = await userManagementService.createUser({
+        await userManagementService.createUser({
           ...userDetail,
           user_created_by: 1, // TODO: 실제 사용자 ID로 변경
         });
@@ -673,11 +632,6 @@ const UserManagement: React.FC = () => {
       setValidationErrors([{ field: 'user_login_id', message: '로그인 ID 중복 확인에 실패했습니다.' }]);
       setShowValidationModal(true);
     }
-  };
-
-  // 비밀번호 표시/숨김 토글
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   // 페이지 변경 핸들러 (AgGrid 내장 페이지네이션 사용으로 제거)
@@ -1136,10 +1090,10 @@ const UserManagement: React.FC = () => {
       {/* 계정 잠금 해제 확인 모달 */}
       <ConfirmationModal
         isOpen={showUnlockModal}
-        onClose={() => setShowUnlockModal(false)}
+        onCancel={() => setShowUnlockModal(false)}
         onConfirm={handleUnlockAccount}
-        message={`사용자 "${selectedUser?.userName || ''}"의 계정 잠금을 해제하시겠습니까?`}
-        type="unlock"
+        message={`사용자 "${selectedUser?.user_name || ''}"의 계정 잠금을 해제하시겠습니까?`}
+        type="reset"
       />
     </div>
   );

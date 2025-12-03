@@ -144,7 +144,7 @@ const SalesProductSearchPopup: React.FC<SalesProductSearchPopupProps> = ({ visib
   const [data, setData] = useState<PopupSearchResult[]>([]);
   const [selectedRow, setSelectedRow] = useState<PopupSearchResult | null>(null);
   const inputRef = useRef<InputRef>(null);
-  const [isNarrow, setIsNarrow] = useState<boolean>(typeof window !== 'undefined' ? window.innerWidth < 640 : false);
+  const [, setIsNarrow] = useState<boolean>(typeof window !== 'undefined' ? window.innerWidth < 640 : false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });

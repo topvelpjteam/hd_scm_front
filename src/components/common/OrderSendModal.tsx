@@ -237,7 +237,7 @@ const OrderSendModal: React.FC<OrderSendModalProps> = ({ isOpen, onClose, orderD
       // 통합 시트 총계 추가 (한 줄 위에)
       const totalQty = vendorOrders.reduce((sum, order) => sum + (order.ORDER_QTY || 0), 0);
       const totalAmount = vendorOrders.reduce((sum, order) => sum + (order.SOBIJA_TOT || 0), 0);
-      allData.push(['총계', '', '', '', '', '', totalQty, '', totalAmount]);
+      allData.push(['총계', '', '', '', '', '', totalQty.toString(), '', totalAmount.toString()]);
 
       const allSheet = XLSX.utils.aoa_to_sheet(allData);
       

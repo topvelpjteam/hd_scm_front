@@ -17,7 +17,8 @@ import {
   SuccessModal,
   type ValidationError 
 } from './common';
-import CommonAgGrid from './CommonAgGrid';
+// CommonAgGrid 미사용 - 향후 사용 예정
+// import CommonAgGrid from './CommonAgGrid';
 import { getMenuIcon } from '../utils/menuUtils';
 import { popupSearchService } from '../services/popupSearchService';
 import salesService from '../services/salesService';
@@ -29,8 +30,6 @@ import {
   setSelectedCustomer,
   setCustomerSearchCondition,
   setCustomerSearchResults,
-  setProductSearchCondition,
-  setProductSearchResults,
   addSalesItem,
   updateSalesItem,
   removeSalesItem,
@@ -64,8 +63,6 @@ const SalesRegistration: React.FC = () => {
     selectedCustomer,
     customerSearchCondition,
     customerSearchResults,
-    productSearchCondition,
-    productSearchResults,
     salesHeader,
     salesItems,
     saleSummary,
@@ -174,13 +171,6 @@ const SalesRegistration: React.FC = () => {
     const digits = String(s).replace(/[^0-9\-]/g, '');
     const num = Number(digits);
     return Number.isNaN(num) ? 0 : Math.floor(num);
-  };
-
-  // 고객구분이 백엔드에서 오지 않을 경우를 위해 클라이언트 측 폴백 라벨 제공
-  const mapCustGbnLabel = (c?: string) => {
-    if (!c) return '-';
-    const map: Record<string, string> = { A: '일반', B: '도매', C: '임직원', D: 'VIP', '9': '프리' };
-    return map[c] ?? c;
   };
 
   // NOTE: 고객구분 표시는 백엔드의 `CUST_GBN_NM`을 우선 사용합니다.
@@ -394,13 +384,10 @@ const SalesRegistration: React.FC = () => {
   // 상품검색 모달 상태
   const [showProductSearchModal, setShowProductSearchModal] = useState(false);
   const [productSearchTerm, setProductSearchTerm] = useState('');
-  const [modalProductResults, setModalProductResults] = useState<any[]>([]);
-  const [selectedProductsForAdd, setSelectedProductsForAdd] = useState<any[]>([]);
-  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [, setModalProductResults] = useState<any[]>([]);
+  const [, setSelectedProductsForAdd] = useState<any[]>([]);
+  const [, setModalPosition] = useState({ x: 0, y: 0 });
   const productSearchInputRef = useRef<HTMLInputElement>(null);
-  const productSearchGridRef = useRef<any>(null);
 
   // 모달 상태
   const [validationModal, setValidationModal] = useState<{
@@ -940,24 +927,6 @@ const SalesRegistration: React.FC = () => {
     }
   }, [authUser, processFormData, refreshConsultHistory]);
 
-  // 상담 처리결과 업데이트 (기존 - 바로 완료처리용)
-  const handleProcessConsult = useCallback(async (consultId: number, newStatus: string, procContent: string) => {
-    if (!authUser) return;
-    try {
-      await salesService.processConsult({
-        CONSULT_ID: consultId,
-        PROC_STATUS: newStatus,
-        PROC_CONTENT: procContent,
-        STAFF_ID: authUser.userId,
-        USER_ID: authUser.userId
-      });
-      refreshConsultHistory();
-    } catch (err) {
-      console.error('상담 처리 업데이트 실패:', err);
-      window.alert('처리결과 업데이트에 실패했습니다.');
-    }
-  }, [authUser, refreshConsultHistory]);
-
   // 상담 삭제
   const handleDeleteConsult = useCallback(async (consultId: number) => {
     if (!window.confirm('이 상담 내역을 삭제하시겠습니까?')) return;
@@ -1352,37 +1321,6 @@ const SalesRegistration: React.FC = () => {
     }
   }, [showProductSearchModal]);
 
-  // 드래그 핸들러
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (isDragging) {
-      requestAnimationFrame(() => {
-        const newX = e.clientX - dragOffset.x;
-        const newY = e.clientY - dragOffset.y;
-        const maxX = window.innerWidth - 800;
-        const maxY = window.innerHeight - 500;
-        setModalPosition({
-          x: Math.max(0, Math.min(newX, maxX)),
-          y: Math.max(0, Math.min(newY, maxY))
-        });
-      });
-    }
-  }, [isDragging, dragOffset]);
-
-  const handleMouseUp = useCallback(() => setIsDragging(false), []);
-
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.body.style.userSelect = 'none';
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-        document.body.style.userSelect = '';
-      };
-    }
-  }, [isDragging, handleMouseMove, handleMouseUp]);
-
   // ========== 상품검색 모달 함수 ==========
   const handleOpenProductSearch = useCallback(() => {
     // Require sale date and agent selection before opening product search
@@ -1410,116 +1348,7 @@ const SalesRegistration: React.FC = () => {
     setSelectedProductsForAdd([]);
   }, []);
 
-  const handleModalMouseDown = useCallback((e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('.sales-product-search-modal-header') && !target.closest('.sales-modal-close-btn')) {
-      e.preventDefault();
-      setIsDragging(true);
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    }
-  }, []);
-
-  const handleProductSearchInModal = useCallback(async () => {
-    try {
-      console.log('🔍 [salesRegistration] authUser 전체:', authUser);
-      console.log('🔍 [salesRegistration] authUser.agentId:', authUser?.agentId);
-      console.log('🔍 [salesRegistration] authUser.storeId:', authUser?.storeId);
-      console.log('🔍 [salesRegistration] salesHeader.AGENT_ID:', salesHeader?.AGENT_ID);
-      
-      const products = await popupSearchService.searchProductsForPopup({
-        searchText: productSearchTerm || undefined,
-        excludeEndedProducts: true,
-        storeId: salesHeader?.AGENT_ID,
-        agentId: authUser?.agentId // 로그인 사용자의 agent_id 추가
-      } as any);
-      setModalProductResults(products || []);
-    } catch (error) {
-      console.error('상품 검색 실패:', error);
-      setModalProductResults([]);
-    }
-  }, [productSearchTerm, salesHeader?.AGENT_ID, authUser]);
-
-  const handleProductSelectionChange = useCallback(() => {
-    if (productSearchGridRef.current) {
-      setSelectedProductsForAdd(productSearchGridRef.current.getSelectedRows() || []);
-    }
-  }, []);
-
-  const handleAddProductsToSales = useCallback(() => {
-    // Ensure each selected product is added as a separate row when EXP_D differs.
-    // Redux slice가 SALE_SEQU를 자동 할당하므로 0으로 전달
-    selectedProductsForAdd.forEach(product => {
-      const exp = product.EXP_D ?? product.EXPIRY_D ?? product.expiry ?? '';
-      const existing = salesItems.find((it: any) => String(it.GOODS_ID) === String(product.GOODS_ID || product.id) && String(it.EXP_D || '') === String(exp));
-      if (existing) {
-        // increment quantity for existing item with same expiry
-        dispatch(updateSalesItem({ sequ: existing.SALE_SEQU, data: { SALE_QTY: (existing.SALE_QTY || 0) + 1 } }));
-      } else {
-        const priceVal = product.CONSUMER_PRICE ?? product.consumerPrice ?? product.SALE_DANGA ?? 0;
-        const newItem: SalesItem = {
-          SALE_SEQU: 0, // Redux slice에서 자동 할당
-          GOODS_ID: product.GOODS_ID || product.id,
-          GOODS_NM: product.GOODS_NAME || product.productName || product.GOODS_NM || '',
-          BRAND_NM: product.BRAND_NAME || product.brand || product.BRAND_NM || '',
-          BAR_CODE: product.BAR_CODE || product.BARCODE || '',
-          EXP_D: exp,
-          SALE_QTY: 1,
-          SALE_DANGA: priceVal,
-          TOT_AMT: priceVal,
-          DISCOUNT_RATE: 0,
-          DISCOUNT_AMT: 0,
-          SALE_AMT: priceVal,
-          NET_TOT: priceVal,
-          NET_AMT: Math.floor(Number(priceVal) / 1.1),
-          NET_VAT: Math.floor(Number(priceVal)) - Math.floor(Number(priceVal) / 1.1),
-          MAIL_POINT: undefined as any, // slice에서 자동 계산
-          P_MAIL_AMT: product.P_MAIL_AMT ?? null,
-          P_MAIL_POINT: product.P_MAIL_POINT ?? null
-        };
-        dispatch(addSalesItem(newItem));
-      }
-    });
-    handleCloseProductSearch();
-  }, [selectedProductsForAdd, salesItems, dispatch, handleCloseProductSearch]);
-
-  const handleSearchKeyPress = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleProductSearchInModal();
-  }, [handleProductSearchInModal]);
-
   // ========== 상품 관련 함수 ==========
-  const handleProductSearch = useCallback(async () => {
-    try {
-      // TODO: 백엔드 API 호출
-      // const results = await productService.searchProducts(productSearchCondition);
-      // dispatch(setProductSearchResults(results));
-      
-      // 임시 데이터
-      const mockProducts = [
-        {
-          GOODS_ID: 10001,
-          GOODS_NM: '샤넬 No.5 향수 100ml',
-          BRAND_NM: 'CHANEL',
-          BAR_CODE: '8801234567890',
-          SALE_DANGA: 180000,
-          DISCOUNT_RATE: 0,
-          MAIL_POINT_RATE: 1.0
-        },
-        {
-          GOODS_ID: 10002,
-          GOODS_NM: '디올 쿠션 파운데이션',
-          BRAND_NM: 'DIOR',
-          BAR_CODE: '8801234567891',
-          SALE_DANGA: 85000,
-          DISCOUNT_RATE: 10,
-          MAIL_POINT_RATE: 1.5
-        }
-      ];
-      dispatch(setProductSearchResults(mockProducts));
-    } catch (error) {
-      console.error('상품 검색 실패:', error);
-    }
-  }, [productSearchCondition, dispatch]);
 
   const handleAddProductFromSearch = useCallback((product: any) => {
     // When user adds product manually, ensure we are not in receipt-loaded mode
@@ -2218,25 +2047,6 @@ const SalesRegistration: React.FC = () => {
     },
     { field: 'CUST_ID' as const, headerName: '고객코드', hide: false, width: 110 }
   ], [salesHeader]);
-
-  const productGridColumns = useMemo(() => [
-    { field: 'GOODS_ID' as any, headerName: '상품코드', width: 100 },
-    { field: 'BRAND_NM' as any, headerName: '브랜드', width: 100 },
-    { field: 'GOODS_NM' as any, headerName: '상품명', width: 250 },
-    { field: 'BAR_CODE' as any, headerName: '바코드', width: 130 },
-    { 
-      field: 'SALE_DANGA', 
-      headerName: '판매가', 
-      width: 100,
-      valueFormatter: (params: any) => params.value?.toLocaleString() || '0'
-    },
-    { 
-      field: 'DISCOUNT_RATE', 
-      headerName: '할인율', 
-      width: 80,
-      valueFormatter: (params: any) => `${params.value || 0}%`
-    }
-  ], []);
 
   // (이전에는 클라이언트에서 매핑했으나, 현재는 백엔드 `CUST_GBN_NM`을 사용합니다.)
 

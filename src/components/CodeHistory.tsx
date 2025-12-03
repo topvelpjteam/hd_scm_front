@@ -6,9 +6,7 @@ import { getMenuIcon } from '../utils/menuUtils';
 import { 
   Search, 
   Plus, 
-  Filter, 
   Download, 
-  Upload, 
   Edit, 
   Trash2, 
   Eye,
@@ -55,12 +53,11 @@ const CodeHistory: React.FC = () => {
   const exportPermission = useButtonTextPermission(MENU_IDS.INVENTORY_MANAGEMENT, '내보내기');
   
   // 탭 상태 관리 훅 사용
-  const { state, setState, setStates } = useTabState(activeTabId || '');
+  const { state, setState } = useTabState(activeTabId || '');
   
   // 상태 값들 (기본값과 함께)
   const searchTerm = state.searchTerm || '';
   const selectedChangeTypes = state.selectedChangeTypes || [];
-  const selectedDateRange = state.selectedDateRange || 'all';
   const sortBy = state.sortBy || 'changedAt';
   const selectedItems = state.selectedItems || [];
   const selectAll = state.selectAll || false;

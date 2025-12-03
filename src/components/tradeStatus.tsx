@@ -34,12 +34,12 @@ import {
   selectModalStates,
 } from '../store/tradeStatusSlice';
 
-// 타입 정의
+// 타입 정의 - 슬라이스의 TradeCancelParams와 일치
 interface TradeCancelParams {
-  tradeD: string;
-  tradeSequ: number;
+  orderD: string;
+  orderSequ: number;
   cancelReason: string;
-  cancelDetail: string;
+  cancelDetail?: string;
   userId: string;
 }
 
@@ -116,8 +116,8 @@ const TradeStatus: React.FC = () => {
   const [collapsedCards, setCollapsedCards] = useState<Set<string>>(new Set());
   const [allCollapsed, setAllCollapsed] = useState(true);
   const [cancelForm, setCancelForm] = useState<TradeCancelParams>({
-    tradeD: '',
-    tradeSequ: 0,
+    orderD: '',
+    orderSequ: 0,
     cancelReason: '',
     cancelDetail: '',
     userId: '',

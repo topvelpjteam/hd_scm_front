@@ -5,9 +5,7 @@ import {
   Download, 
   Upload, 
   Search, 
-  Filter, 
   RefreshCw, 
-  Settings,
   Eye,
   Edit,
   Trash2,
@@ -76,7 +74,6 @@ const AgGridWrapper: React.FC<AgGridWrapperProps> = ({
   rowData,
   columnDefs,
 //  menuId,
-  enableMultiSelect = true,
   enableExcelExport = true,
   enableExcelImport = true,
   enableSearch = true,
@@ -84,10 +81,7 @@ const AgGridWrapper: React.FC<AgGridWrapperProps> = ({
   enablePagination = true,
   enableSorting = true,
   enableResizing = true,
-  enableColumnMenu = true,
   enableRowSelection = true,
-  enableRowGrouping = true,
-  enableColumnPinning = true,
   height = '500px',
   width = '100%',
   theme = 'alpine',
@@ -315,14 +309,6 @@ const AgGridWrapper: React.FC<AgGridWrapperProps> = ({
     if (gridApiRef.current) {
       gridApiRef.current.deselectAll();
     }
-  }, []);
-
-  // 선택된 행 가져오기
-  const getSelectedRows = useCallback(() => {
-    if (gridApiRef.current) {
-      return gridApiRef.current.getSelectedRows();
-    }
-    return [];
   }, []);
 
   return (

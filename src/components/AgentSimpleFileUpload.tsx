@@ -5,15 +5,6 @@ interface AgentSimpleFileUploadProps {
   onDataParsed: (data: ExcelDataRow[]) => void;
 }
 
-interface UserBrandsResponse {
-  success: boolean;
-  brands: string[];
-  isAdmin: boolean;
-  roleLevel: number;
-  agentId?: string;
-  message: string;
-}
-
 export const useAgentSimpleFileUpload = ({ onDataParsed }: AgentSimpleFileUploadProps) => {
   const handleFileUpload = useCallback(async (file: File) => {
     console.log('📤 거래처 간단한 파일 업로드 시작:', file.name);

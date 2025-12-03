@@ -31,7 +31,7 @@ const mapPopupResultToSelectedGood = (item: PopupSearchResult): SelectedGood => 
   goodsId: String(item.GOODS_ID),
   goodsNm: item.GOODS_NM || item.GOODS_ID_BRAND || String(item.GOODS_ID),
   brandNm: item.brand || item.BRAND_NM || item.BRAND_GBN_NM || item.GOODS_ID_BRAND,
-  goodsGbnNm: item.GOODS_GBN_NM || item.category,
+  goodsGbnNm: item.GOODS_GBN_NM,
 });
 
 const AgentStockProductModal: React.FC<AgentStockProductModalProps> = ({

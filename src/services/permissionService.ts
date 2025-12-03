@@ -36,8 +36,6 @@ export interface UserInfo {
 }
 
 class PermissionService {
-  private baseUrl = '/api/permissions';
-
   /**
    * 사용자의 특정 메뉴 권한 조회
    * @param userId 사용자 ID

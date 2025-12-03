@@ -6,8 +6,7 @@
 import { createSlice, createAsyncThunk, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { 
   TradeListItem, 
-  TradeListSearchParams,
-  TradeListResponse
+  TradeListSearchParams
 } from '../services/tradeStatusService';
 import * as tradeStatusService from '../services/tradeStatusService';
 

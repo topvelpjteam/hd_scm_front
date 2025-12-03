@@ -143,7 +143,7 @@ const agentRegistrationSlice = createSlice({
       state.isInitialized = false;
     },
     // 전체 상태 복원
-    restoreState: (state, action: PayloadAction<AgentRegistrationState>) => {
+    restoreState: (_state, action: PayloadAction<AgentRegistrationState>) => {
       return action.payload;
     },
     // 화면 초기화

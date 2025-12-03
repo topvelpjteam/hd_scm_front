@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { 
-  BarChart3, 
   TrendingUp, 
   TrendingDown,
   Activity,
@@ -9,14 +8,7 @@ import {
   Award,
   Brain,
   Eye,
-  Layers,
-  PieChart,
-  LineChart,
-  Scatter,
-  MapPin,
   Users,
-  Calendar,
-  Clock,
   Filter,
   Download,
   RefreshCw,

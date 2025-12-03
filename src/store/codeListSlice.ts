@@ -65,7 +65,7 @@ const codeListSlice = createSlice({
     },
     
     // 상태 초기화
-    resetCodeListState: (state) => {
+    resetCodeListState: () => {
       return initialState;
     }
   },

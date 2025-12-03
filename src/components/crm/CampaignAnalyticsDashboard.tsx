@@ -4,13 +4,11 @@ import {
   MessageSquare, 
   Phone, 
   TrendingUp, 
-  Users, 
   Target,
   Clock,
   CheckCircle,
   AlertCircle,
-  BarChart3,
-  PieChart
+  BarChart3
 } from 'lucide-react';
 import './CampaignAnalyticsDashboard.css';
 

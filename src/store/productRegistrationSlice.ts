@@ -204,7 +204,7 @@ const productRegistrationSlice = createSlice({
     },
     
     // 전체 상태 복원
-    restoreState: (state, action: PayloadAction<ProductRegistrationState>) => {
+    restoreState: (_state, action: PayloadAction<ProductRegistrationState>) => {
       return action.payload;
     },
 

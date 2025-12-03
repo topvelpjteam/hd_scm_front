@@ -6,23 +6,16 @@ import {
   Star, 
   ShoppingCart, 
   BarChart3,
-  PieChart,
-  Calendar,
-  Target,
-  Award,
   Zap,
   Droplets,
   Utensils,
   Pill,
   Circle,
   ShoppingBag,
-  Sparkles,
-  BookOpen,
   Plus,
   Edit,
   AlertTriangle,
   Minus,
-  Gift,
   ArrowUpRight,
   ArrowDownRight,
   Activity
@@ -502,7 +495,7 @@ const ProductAnalysisDashboard: React.FC = () => {
       <div className="products-section">
         <h2>상품별 성과 요약</h2>
         <div className="products-grid">
-          {productSummaries.map((product, index) => (
+          {productSummaries.map((product) => (
             <div key={product.id} className="product-card">
               <div className="product-header">
                 <div className="product-icon" style={{ backgroundColor: product.color }}>

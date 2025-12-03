@@ -4,18 +4,13 @@ import {
   ShoppingBag, 
   Monitor, 
   Smartphone, 
-  TrendingUp, 
-  Target,
-  BarChart3,
-  PieChart,
   ArrowUpRight,
   ArrowDownRight,
   Users,
   Package,
-  CreditCard,
-  MapPin,
   Globe,
-  Headphones
+  Headphones,
+  BarChart3
 } from 'lucide-react';
 import './ChannelAnalyticsDashboard.css';
 
@@ -319,7 +314,7 @@ const ChannelAnalyticsDashboard: React.FC = () => {
       <div className="channel-details">
         <h2>채널별 상세 분석</h2>
         <div className="channel-cards">
-          {channelData.map((channel, index) => (
+          {channelData.map((channel) => (
             <div key={channel.id} className="channel-card">
               <div className="channel-header">
                 <div className="channel-icon" style={{ backgroundColor: channel.color }}>

@@ -3,15 +3,11 @@ import {
   Users, 
   UserPlus, 
   Share2, 
-  Gift, 
   TrendingUp, 
   Target,
   Award,
   Calendar,
-  BarChart3,
-  PieChart,
   ArrowUpRight,
-  ArrowDownRight,
   Star
 } from 'lucide-react';
 import './ReferralAnalyticsDashboard.css';

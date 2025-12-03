@@ -141,21 +141,6 @@ class MenuManagementService {
   }
 
   /**
-   * 권한 정보를 XML로 변환 (MSSQL 2008 호환)
-   */
-  private convertPermissionsToXml(permissions: PermissionData[]): string {
-    if (!permissions || permissions.length === 0) {
-      return '';
-    }
-
-    const permissionElements = permissions.map(permission => 
-      `<permission role_id="${permission.role_id}" view_permission="${permission.view_permission}" save_permission="${permission.save_permission}" delete_permission="${permission.delete_permission}" export_permission="${permission.export_permission}" personal_info_permission="${permission.personal_info_permission}"/>`
-    ).join('');
-
-    return `<permissions>${permissionElements}</permissions>`;
-  }
-
-  /**
    * 메뉴 트리 구조 조회
    */
   async getMenuTree(): Promise<MenuData[]> {
@@ -472,7 +457,7 @@ class MenuManagementService {
    */
   async updateMenuParent(menuId: number, newParentId: number): Promise<{ success: boolean; message?: string }> {
     try {
-      const response = await this.request<{ affected_rows: number }>(`/menu/${menuId}/parent`, {
+      await this.request<{ affected_rows: number }>(`/menu/${menuId}/parent`, {
         method: 'PUT',
         body: JSON.stringify({ menu_parent_id: newParentId }),
       });
@@ -492,7 +477,7 @@ class MenuManagementService {
    */
   async updateMenuOrder(menuId: number, targetMenuId: number, position: 'before' | 'after'): Promise<{ success: boolean; message?: string }> {
     try {
-      const response = await this.request<{ affected_rows: number }>(`/menu/${menuId}/order`, {
+      await this.request<{ affected_rows: number }>(`/menu/${menuId}/order`, {
         method: 'PUT',
         body: JSON.stringify({ 
           target_menu_id: targetMenuId,

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { 
   TrendingUp, 
-  TrendingDown, 
   AlertTriangle, 
   CheckCircle, 
   Target, 
   Users, 
-  DollarSign, 
   ShoppingCart,
   BarChart3,
-  PieChart,
   Activity,
   Clock,
   ArrowUp,

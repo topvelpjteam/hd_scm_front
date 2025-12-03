@@ -189,7 +189,7 @@ export const useAllMenuPermissions = () => {
  * @param menuName 메뉴명
  * @returns 버튼별 권한 체크 결과
  */
-export const useButtonPermissions = (menuId: number, menuName?: string) => {
+export const useButtonPermissions = (menuId: number, _menuName?: string) => {
   const { allPermissions, loading, error } = useAllMenuPermissions();
   
   // allPermissions에서 해당 메뉴의 권한 찾기

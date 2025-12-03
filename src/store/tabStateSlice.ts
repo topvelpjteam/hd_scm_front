@@ -46,7 +46,7 @@ const tabStateSlice = createSlice({
     },
     
     // 모든 탭 상태 초기화
-    resetAllTabStates: (state) => {
+    resetAllTabStates: () => {
       return {};
     }
   },

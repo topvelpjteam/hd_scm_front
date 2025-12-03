@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Wifi, Zap, Clock, Info, Search, Save, Trash2, Download, RefreshCw } from 'lucide-react';
+import { Clock, Info } from 'lucide-react';
 import '../styles/Footer.css';
 
 const Footer: React.FC = () => {
@@ -34,33 +34,6 @@ const Footer: React.FC = () => {
     const day = date.getDate().toString().padStart(2, '0');
     
     return `${year}. ${month}. ${day}.`;
-  };
-
-  // 버튼 클릭 핸들러들
-  const handleSearch = () => {
-    console.log('조회 버튼 클릭');
-    // 조회 기능 구현
-  };
-
-  const handleSave = () => {
-    console.log('저장 버튼 클릭');
-    // 저장 기능 구현
-  };
-
-  const handleDelete = () => {
-    console.log('삭제 버튼 클릭');
-    // 삭제 기능 구현
-  };
-
-  const handleExport = () => {
-    console.log('내보내기 버튼 클릭');
-    // 내보내기 기능 구현
-  };
-
-  const handleRefresh = () => {
-    console.log('새로고침 버튼 클릭');
-    // 새로고침 기능 구현
-    window.location.reload();
   };
 
   return (

@@ -78,20 +78,6 @@ const OrderDocumentPopup: React.FC<OrderDocumentPopupProps> = ({ isOpen, order, 
       const popupContent = document.querySelector('.odp-popup');
       
       if (popupContent) {
-        // 발주 헤더 정보 추출
-        const orderHeader = popupContent.querySelector('.odp-order-header');
-        const companyInfo = popupContent.querySelector('.odp-company-info');
-        const summary = popupContent.querySelector('.odp-summary');
-        const productList = popupContent.querySelector('.odp-product-list');
-        const signatureSection = popupContent.querySelector('.odp-signature-section');
-        
-        // 헤더 정보를 문자열로 변환
-        const headerHTML = orderHeader ? orderHeader.outerHTML : '';
-        const companyHTML = companyInfo ? companyInfo.outerHTML : '';
-        const summaryHTML = summary ? summary.outerHTML : '';
-        const productHTML = productList ? productList.outerHTML : '';
-        const signatureHTML = signatureSection ? signatureSection.outerHTML : '';
-        
         // 발주번호와 벤더명 추출
         const orderNo = order.SLIP_NO || '';
         const vendorName = order.VENDOR_NM || '';

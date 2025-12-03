@@ -16,7 +16,6 @@ import EmailPasswordModal from './common/EmailPasswordModal';
 // Redux 관련
 import {
   searchOrderList,
-  getOrderStatistics,
   getCancelReasons,
   cancelOrder,
   setSearchParams,
@@ -24,7 +23,6 @@ import {
   setPageSize,
   setSelectedOrders,
   setShowCancelModal,
-  setShowStatisticsModal,
   clearError,
   saveState,
 } from '../store/orderListManagementSlice';
@@ -1118,12 +1116,6 @@ const OrderListManagement: React.FC = () => {
   //   // 인쇄 로직 구현
   //   console.log('인쇄:', order);
   // };
-  
-  // 엑셀 다운로드
-  const handleExcelDownload = () => {
-    // 엑셀 다운로드 로직 구현
-    console.log('엑셀 다운로드');
-  };
   
   // const handleShowStatistics = () => {
   //   // 통계 모달을 열기 전에 최신 통계 데이터를 다시 로드

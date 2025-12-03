@@ -1,7 +1,5 @@
 import { apiClient } from './apiClient';
 
-const API_BASE = '/api/sales'; // 백엔드 컨트롤러에 맞춰 조정하세요
-
 export interface CustSearchParams {
   SALE_D?: string;
   AGENT_ID: number | string;

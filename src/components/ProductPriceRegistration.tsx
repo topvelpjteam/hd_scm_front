@@ -358,19 +358,7 @@ const ProductPriceRegistration: React.FC = React.memo(() => {
     const handleExcelPreviewCancel = () => {
       setExcelPreviewModal({ isOpen: false, data: [] });
     };
-  // 날짜 범위 기본값 설정 (최근 30일)
-  const getDefaultDateRange = () => {
-    const today = new Date();
-    const thirtyDaysAgo = new Date(today);
-    thirtyDaysAgo.setDate(today.getDate() - 30);
-    
-    return {
-      from: thirtyDaysAgo.toISOString().split('T')[0],
-      to: today.toISOString().split('T')[0]
-    };
-  };
 
-  const defaultDateRange = getDefaultDateRange();
   // 검색 조건 상태 (초기 적용일자 빈값)
   const [searchCondition, setSearchCondition] = useState<SearchCondition>({
     brandIds: [],
